@@ -1,0 +1,53 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace dotNETAcademyServer.Model
+{
+    public class DbInitialiser
+    {
+        public static void Initialize(DatabaseContext context)
+        {
+            //Create the db if not yet exists
+            context.Database.EnsureCreated();
+
+            //Are there already books present ?
+            if (context.Cursussen.Count() == 0)
+            {
+                Cursus[] cursussen =
+                {
+                    new Cursus()
+                    {
+                        Titel = "dotNET cursus",
+                        Type = ".NET",
+                        Prijs = 15.45
+                    },
+                    new Cursus()
+                    {
+                        Titel = "Angular cursus",
+                        Type = "Web Development",
+                        Prijs = 21.45
+                    }
+                };
+                Traject[] trajecten =
+                {
+                    new Traject()
+                    {
+                        Cursussen = cursussen,
+                        Titel = "Complete Full Stack Traject"
+                    }
+                };
+                foreach (Cursus cursus in cursussen)
+                {
+                    context.Cursussen.Add(cursus);
+                }
+                foreach (Traject traject in trajecten)
+                {
+                    context.Trajecten.Add(traject);
+                }
+                context.SaveChanges();
+            }
+        }
+    }
+}

@@ -13,6 +13,8 @@ namespace dotNETAcademyServer.Model
         [Required]
         public double Prijs { get; set; }
         public string Type { get; set; }
+        [MaxLength(120)]
+        public string Beschrijving { get; set; }
         [Required]
         public string Titel { get; set; }
 

@@ -1,7 +1,11 @@
+$fontFamilyTitels: 'Rubik', sans-serif;
+$fontFamilyRegular: 'Karla', sans-serif;
+
 body{
-    background-color:lightblue;
+    background-color:#39B4E3;
+    font-family: $fontFamilyRegular;
 }
-h1{
+h1, h2, h3, h4, h5, h6{
     font-weight: bold;
-    font-family: Rubik;
+    font-family: $fontFamilyTitels;
 }

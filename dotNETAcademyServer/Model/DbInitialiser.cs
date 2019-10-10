@@ -21,13 +21,15 @@ namespace dotNETAcademyServer.Model
                     {
                         Titel = "dotNET cursus",
                         Type = ".NET",
-                        Prijs = 15.45
+                        Prijs = 15.45,
+                        Beschrijving = "Some example text some example text. John Doe is an architect and engineer. John Doe is an architect and engineer."
                     },
                     new Cursus()
                     {
                         Titel = "Angular cursus",
                         Type = "Web Development",
-                        Prijs = 21.45
+                        Prijs = 21.45,
+                        Beschrijving = "Some example text some example text. John Doe is an architect and engineer. John Doe is an architect and engineer."
                     }
                 };
                 Traject[] trajecten =
@@ -35,7 +37,9 @@ namespace dotNETAcademyServer.Model
                     new Traject()
                     {
                         Cursussen = cursussen,
-                        Titel = "Complete Full Stack Traject"
+                        Titel = "Complete Full Stack Traject",
+                        Type = "Full Stack",
+                        Beschrijving = "Some example text some example text. John Doe is an architect and engineer. John Doe is an architect and engineer."
                     }
                 };
                 foreach (Cursus cursus in cursussen)

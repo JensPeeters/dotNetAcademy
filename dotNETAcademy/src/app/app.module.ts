@@ -7,9 +7,11 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 import { HomeComponent } from './home/home.component';
 import { CursussenlijstComponent } from './cursussenlijst/cursussenlijst.component';
 import { TrajectenlijstComponent } from './trajectenlijst/trajectenlijst.component';
-import { CursusComponent } from './cursussenlijst/cursus/cursus.component';
-import { TrajectComponent } from './trajectenlijst/traject/traject.component';
+import { ProductComponent } from './product/product.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { ProductenService } from './common/producten.service';
+
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -19,15 +21,15 @@ import { NotFoundComponent } from './not-found/not-found.component';
     HomeComponent,
     CursussenlijstComponent,
     TrajectenlijstComponent,
-    CursusComponent,
-    TrajectComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    ProductComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [ProductenService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

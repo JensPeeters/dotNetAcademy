@@ -76,6 +76,12 @@ namespace dotNETAcademyServer.Controllers
 
             return query.Include(a => a.Cursussen).ToList();
         }
+        [Route("{id}")]
+        [HttpGet]
+        public ActionResult<Traject> GetTraject(int id)
+        {
+            return context.Trajecten.FirstOrDefault(a => a.TrajectId == id);
+        }
 
         [HttpPost]
         public ActionResult<Traject> AddTraject([FromBody] Traject traject)
@@ -86,6 +92,19 @@ namespace dotNETAcademyServer.Controllers
             context.Trajecten.Add(traject);
             context.SaveChanges();
             return Created("", traject);
+        }
+
+        [Route("{id}")]
+        [HttpDelete]
+        public ActionResult<Traject> DeleteThroughURL(int id)
+        {
+            var traject = context.Trajecten.Include(a => a.Cursussen).FirstOrDefault(a => a.TrajectId == id);
+
+            if (traject == null)
+                return NotFound();
+            context.Trajecten.Remove(traject);
+            context.SaveChanges();
+            return NoContent();
         }
     }
 }

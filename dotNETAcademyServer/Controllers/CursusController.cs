@@ -76,6 +76,14 @@ namespace dotNETAcademyServer.Controllers
             return query.ToList();
         }
 
+        [Route("{id}")]
+        [HttpGet]
+        public ActionResult<Cursus> GetCursus(int id)
+        {
+            return context.Cursussen.FirstOrDefault(a => a.CursusID == id);
+        }
+
+
         [HttpPost]
         public ActionResult<Cursus> AddCursus([FromBody] Cursus cursus)
         {
@@ -85,6 +93,19 @@ namespace dotNETAcademyServer.Controllers
             context.Cursussen.Add(cursus);
             context.SaveChanges();
             return Created("", cursus);
+        }
+
+        [Route("{id}")]
+        [HttpDelete]
+        public ActionResult<Cursus> DeleteThroughURL(int id)
+        {
+            var cursus = context.Cursussen.Find(id);
+            if (cursus == null)
+                return NotFound();
+
+            context.Cursussen.Remove(cursus);
+            context.SaveChanges();
+            return NoContent();
         }
     }
 }

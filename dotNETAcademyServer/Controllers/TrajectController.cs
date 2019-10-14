@@ -74,7 +74,7 @@ namespace dotNETAcademyServer.Controllers
             query = query.Skip(page * pageSize);
             query = query.Take(pageSize);
 
-            return query.ToList();
+            return query.Include(a => a.Cursussen).ToList();
         }
 
         [HttpPost]

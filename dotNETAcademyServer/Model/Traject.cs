@@ -13,10 +13,12 @@ namespace dotNETAcademyServer.Model
         public int TrajectId { get; set; }
         [Required]
         public string Titel { get; set; }
+
         public string Type { get; set; }
         [MaxLength(120)]
         public string Beschrijving { get; set; }
-        public string FotoCard { get; set; }
+        public string LangeBeschrijving { get; set; }
+        public string FotoURLCard { get; set; }
         public ICollection<Cursus> Cursussen { get; set; }
         [Required]
         public double Prijs

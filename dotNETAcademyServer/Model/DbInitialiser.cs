@@ -21,13 +21,15 @@ namespace dotNETAcademyServer.Model
                     {
                         Titel = "dotNET cursus",
                         Type = ".NET",
-                        Prijs = 15.45
+                        Prijs = 15.45,
+                        ImageCard = "https://via.placeholder.com/450x350.png/09f/fff?text=Foto van een product"
                     },
                     new Cursus()
                     {
                         Titel = "Angular cursus",
                         Type = "Web Development",
-                        Prijs = 21.45
+                        Prijs = 21.45,
+                        ImageCard = "https://via.placeholder.com/450x350.png/09f/fff?text=Foto van een product"
                     }
                 };
                 Traject[] trajecten =

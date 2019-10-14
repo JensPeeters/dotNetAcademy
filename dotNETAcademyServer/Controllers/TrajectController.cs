@@ -25,5 +25,16 @@ namespace dotNETAcademyServer.Controllers
         {
             return context.Trajecten.Include(b => b.Cursussen).ToList();
         }
+
+        [HttpPost]
+        public ActionResult<Traject> AddTraject([FromBody] Traject traject)
+        {
+            var tempTraject = context.Trajecten.FirstOrDefault(o => o.Titel == traject.Titel);
+            if (tempTraject != null)
+                return NoContent();
+            context.Trajecten.Add(traject);
+            context.SaveChanges();
+            return Created("", traject);
+        }
     }
 }

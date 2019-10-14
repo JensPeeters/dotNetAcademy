@@ -25,6 +25,15 @@ namespace dotNETAcademyServer.Controllers
             return context.Cursussen.ToList();
         }
 
-       
+        [HttpPost]
+        public ActionResult<Cursus> AddCursus([FromBody] Cursus cursus)
+        {
+            var tempCursus = context.Cursussen.FirstOrDefault(o => o.Titel == cursus.Titel);
+            if (tempCursus != null)
+                return NoContent();
+            context.Cursussen.Add(cursus);
+            context.SaveChanges();
+            return Created("", cursus);
+        }
     }
 }

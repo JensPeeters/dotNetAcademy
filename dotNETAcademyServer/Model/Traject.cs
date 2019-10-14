@@ -13,6 +13,7 @@ namespace dotNETAcademyServer.Model
         public int TrajectId { get; set; }
         [Required]
         public string Titel { get; set; }
+        public string Type { get; set; }
 
         public ICollection<Cursus> Cursussen { get; set; }
         [Required]

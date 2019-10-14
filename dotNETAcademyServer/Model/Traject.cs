@@ -16,6 +16,7 @@ namespace dotNETAcademyServer.Model
         public string Type { get; set; }
         [MaxLength(120)]
         public string Beschrijving { get; set; }
+        public string FotoCard { get; set; }
         public ICollection<Cursus> Cursussen { get; set; }
         [Required]
         public double Prijs

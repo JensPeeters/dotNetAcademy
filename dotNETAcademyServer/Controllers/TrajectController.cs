@@ -21,9 +21,71 @@ namespace dotNETAcademyServer.Controllers
         }
 
         [HttpGet]
-        public List<Traject> GetTrajects()
+        public List<Traject> GetTrajecten(string type, string titel,
+                                                 string sortBy, string direction = "asc",
+                                                 int pageSize = 16, int page = 0)
         {
-            return context.Trajecten.Include(b => b.Cursussen).ToList();
+            IQueryable<Traject> query = context.Trajecten;
+            if (!string.IsNullOrEmpty(type))
+                query = query.Where(b => b.Type == type);
+
+            if (!string.IsNullOrEmpty(titel))
+                query = query.Where(b => b.Titel == titel);
+
+            if (string.IsNullOrEmpty(sortBy))
+                sortBy = "id";
+
+            switch (sortBy.ToLower())
+            {
+                case "id":
+                    if (direction == "asc")
+                        query = query.OrderBy(b => b.TrajectId);
+                    else if (direction == "desc")
+                        query = query.OrderByDescending(b => b.TrajectId);
+                    break;
+                case "prijs":
+                    if (direction == "asc")
+                        query = query.OrderBy(b => b.Prijs);
+                    else if (direction == "desc")
+                        query = query.OrderByDescending(b => b.Prijs);
+                    break;
+                case "titel":
+                    if (direction == "asc")
+                        query = query.OrderBy(b => b.Titel);
+                    else if (direction == "desc")
+                        query = query.OrderByDescending(b => b.Titel);
+                    break;
+                case "type":
+                    if (direction == "asc")
+                        query = query.OrderBy(b => b.Type);
+                    else if (direction == "desc")
+                        query = query.OrderByDescending(b => b.Type);
+                    break;
+                default:
+                    if (direction == "asc")
+                        query = query.OrderBy(b => b.TrajectId);
+                    else if (direction == "desc")
+                        query = query.OrderByDescending(b => b.TrajectId);
+                    break;
+            }
+            if (pageSize > 16)
+                pageSize = 16;
+
+            query = query.Skip(page * pageSize);
+            query = query.Take(pageSize);
+
+            return query.ToList();
+        }
+
+        [HttpPost]
+        public ActionResult<Traject> AddTraject([FromBody] Traject traject)
+        {
+            var tempTraject = context.Trajecten.FirstOrDefault(o => o.Titel == traject.Titel);
+            if (tempTraject != null)
+                return NoContent();
+            context.Trajecten.Add(traject);
+            context.SaveChanges();
+            return Created("", traject);
         }
     }
 }

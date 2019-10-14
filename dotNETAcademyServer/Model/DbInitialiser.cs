@@ -23,6 +23,7 @@ namespace dotNETAcademyServer.Model
                         Type = ".NET",
                         Prijs = 15.45,
                         Beschrijving = "Some example text some example text. John Doe is an architect and engineer. John Doe is an architect and engineer."
+                        ImageCard = "https://via.placeholder.com/450x350.png/09f/fff?text=Foto van een product"
                     },
                     new Cursus()
                     {
@@ -30,6 +31,7 @@ namespace dotNETAcademyServer.Model
                         Type = "Web Development",
                         Prijs = 21.45,
                         Beschrijving = "Some example text some example text. John Doe is an architect and engineer. John Doe is an architect and engineer."
+                        ImageCard = "https://via.placeholder.com/450x350.png/09f/fff?text=Foto van een product"
                     }
                 };
                 Traject[] trajecten =
@@ -39,7 +41,8 @@ namespace dotNETAcademyServer.Model
                         Cursussen = cursussen,
                         Titel = "Complete Full Stack Traject",
                         Type = "Full Stack",
-                        Beschrijving = "Some example text some example text. John Doe is an architect and engineer. John Doe is an architect and engineer."
+                        Beschrijving = "Some example text some example text. John Doe is an architect and engineer. John Doe is an architect and engineer.",
+                        FotoCard = "https://via.placeholder.com/450x350.png/09f/fff?text=Foto van een product"
                     }
                 };
                 foreach (Cursus cursus in cursussen)

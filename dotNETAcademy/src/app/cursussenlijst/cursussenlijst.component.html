@@ -1,4 +1,26 @@
 <body>
+    <div class="dropdown">
+        <div>
+            <b>Type:</b>&nbsp;
+            <select class="custom-select custom-select-sm" [(ngModel)]="type" (ngModelChange)="GetType()">
+                <option value="{{item}}" *ngFor="let item of types">{{item}}</option>
+            </select>
+        </div>&nbsp;&nbsp;&nbsp;
+        <div>
+            <b>Sorteren op:</b>&nbsp;
+            <select class="custom-select custom-select-sm" [(ngModel)]="sortBy" (ngModelChange)="Sort()">
+                <option value="{{item}}" *ngFor="let item of sortItems">{{item}}</option>
+            </select>
+            
+        </div>&nbsp;&nbsp;&nbsp;
+        <div>
+            <b>Rangschikking:</b>&nbsp;
+            <button class="btn btn-light" (click)="ChangeDirection()">
+                <i *ngIf="direction=='asc'" class="fas fa-sort-alpha-down" ></i>  
+                <i *ngIf="direction=='desc'" class="fas fa-sort-alpha-down-alt"></i>
+            </button>
+        </div>
+    </div>
     <section>
         <app-product *ngFor="let cursus of products" [product]="cursus"></app-product>
     </section>         

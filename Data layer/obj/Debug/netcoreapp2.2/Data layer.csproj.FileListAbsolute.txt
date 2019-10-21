@@ -1,0 +1,14 @@
+C:\Users\Gebruiker\Documents\GitHub\cloud-app-2019-2020-dotnetacademy-1\Data layer\obj\Debug\netcoreapp2.2\Data layer.csproj.CoreCompileInputs.cache
+C:\Users\Gebruiker\Documents\GitHub\cloud-app-2019-2020-dotnetacademy-1\Data layer\obj\Debug\netcoreapp2.2\Data layer.AssemblyInfoInputs.cache
+C:\Users\Gebruiker\Documents\GitHub\cloud-app-2019-2020-dotnetacademy-1\Data layer\obj\Debug\netcoreapp2.2\Data layer.AssemblyInfo.cs
+C:\Users\Gebruiker\Documents\GitHub\cloud-app-2019-2020-dotnetacademy-1\Data layer\bin\Debug\netcoreapp2.2\Data layer.deps.json
+C:\Users\Gebruiker\Documents\GitHub\cloud-app-2019-2020-dotnetacademy-1\Data layer\bin\Debug\netcoreapp2.2\Data layer.dll
+C:\Users\Gebruiker\Documents\GitHub\cloud-app-2019-2020-dotnetacademy-1\Data layer\bin\Debug\netcoreapp2.2\Data layer.pdb
+C:\Users\Gebruiker\Documents\GitHub\cloud-app-2019-2020-dotnetacademy-1\Data layer\bin\Debug\netcoreapp2.2\Microsoft.EntityFrameworkCore.dll
+C:\Users\Gebruiker\Documents\GitHub\cloud-app-2019-2020-dotnetacademy-1\Data layer\bin\Debug\netcoreapp2.2\Newtonsoft.Json.dll
+C:\Users\Gebruiker\Documents\GitHub\cloud-app-2019-2020-dotnetacademy-1\Data layer\bin\Debug\netcoreapp2.2\Microsoft.EntityFrameworkCore.xml
+C:\Users\Gebruiker\Documents\GitHub\cloud-app-2019-2020-dotnetacademy-1\Data layer\bin\Debug\netcoreapp2.2\Newtonsoft.Json.xml
+C:\Users\Gebruiker\Documents\GitHub\cloud-app-2019-2020-dotnetacademy-1\Data layer\obj\Debug\netcoreapp2.2\Data layer.csproj.CopyComplete
+C:\Users\Gebruiker\Documents\GitHub\cloud-app-2019-2020-dotnetacademy-1\Data layer\obj\Debug\netcoreapp2.2\Data layer.dll
+C:\Users\Gebruiker\Documents\GitHub\cloud-app-2019-2020-dotnetacademy-1\Data layer\obj\Debug\netcoreapp2.2\Data layer.pdb
+C:\Users\Gebruiker\Documents\GitHub\cloud-app-2019-2020-dotnetacademy-1\Data layer\obj\Debug\netcoreapp2.2\Data layer.csprojAssemblyReference.cache

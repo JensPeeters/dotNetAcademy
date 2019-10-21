@@ -1,0 +1,14 @@
+C:\Users\Gebruiker\Documents\GitHub\cloud-app-2019-2020-dotnetacademy-1\Business layer\obj\Debug\netcoreapp2.2\Business layer.csproj.CoreCompileInputs.cache
+C:\Users\Gebruiker\Documents\GitHub\cloud-app-2019-2020-dotnetacademy-1\Business layer\obj\Debug\netcoreapp2.2\Business layer.AssemblyInfoInputs.cache
+C:\Users\Gebruiker\Documents\GitHub\cloud-app-2019-2020-dotnetacademy-1\Business layer\obj\Debug\netcoreapp2.2\Business layer.AssemblyInfo.cs
+C:\Users\Gebruiker\Documents\GitHub\cloud-app-2019-2020-dotnetacademy-1\Business layer\bin\Debug\netcoreapp2.2\Business layer.deps.json
+C:\Users\Gebruiker\Documents\GitHub\cloud-app-2019-2020-dotnetacademy-1\Business layer\bin\Debug\netcoreapp2.2\Business layer.dll
+C:\Users\Gebruiker\Documents\GitHub\cloud-app-2019-2020-dotnetacademy-1\Business layer\bin\Debug\netcoreapp2.2\Business layer.pdb
+C:\Users\Gebruiker\Documents\GitHub\cloud-app-2019-2020-dotnetacademy-1\Business layer\bin\Debug\netcoreapp2.2\Data layer.dll
+C:\Users\Gebruiker\Documents\GitHub\cloud-app-2019-2020-dotnetacademy-1\Business layer\bin\Debug\netcoreapp2.2\Newtonsoft.Json.dll
+C:\Users\Gebruiker\Documents\GitHub\cloud-app-2019-2020-dotnetacademy-1\Business layer\bin\Debug\netcoreapp2.2\Data layer.pdb
+C:\Users\Gebruiker\Documents\GitHub\cloud-app-2019-2020-dotnetacademy-1\Business layer\bin\Debug\netcoreapp2.2\Newtonsoft.Json.xml
+C:\Users\Gebruiker\Documents\GitHub\cloud-app-2019-2020-dotnetacademy-1\Business layer\obj\Debug\netcoreapp2.2\Business layer.csprojAssemblyReference.cache
+C:\Users\Gebruiker\Documents\GitHub\cloud-app-2019-2020-dotnetacademy-1\Business layer\obj\Debug\netcoreapp2.2\Business layer.csproj.CopyComplete
+C:\Users\Gebruiker\Documents\GitHub\cloud-app-2019-2020-dotnetacademy-1\Business layer\obj\Debug\netcoreapp2.2\Business layer.dll
+C:\Users\Gebruiker\Documents\GitHub\cloud-app-2019-2020-dotnetacademy-1\Business layer\obj\Debug\netcoreapp2.2\Business layer.pdb

@@ -1,5 +1,5 @@
 <section>
-    <div class="card">
+    <div class="card" *ngIf="product">
         <img class="card-img-top" [src]="product.fotoURLCard" alt="Card image" style="width:100%">
         <div class="card-body">
             <h6>Type: {{product.type}}</h6>

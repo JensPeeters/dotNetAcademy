@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CursussenlijstComponent } from './cursussenlijst.component';
+import { ProductComponent } from '../product/product.component';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('CursussenlijstComponent', () => {
   let component: CursussenlijstComponent;
@@ -8,7 +11,8 @@ describe('CursussenlijstComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CursussenlijstComponent ]
+      imports: [FormsModule, HttpClientModule],
+      declarations: [ CursussenlijstComponent, ProductComponent ]
     })
     .compileComponents();
   }));

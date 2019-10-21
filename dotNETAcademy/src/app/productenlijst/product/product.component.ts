@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Cursus, Traject } from '../common/producten.service';
 
 @Component({
   selector: 'app-product',

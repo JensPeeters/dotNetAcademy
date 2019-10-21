@@ -14,6 +14,9 @@ export class ProductenService {
   sortBy: string = "";
   direction: string = "asc";
 
+  cursusTypes: string[] = ["Aanbevolen",".NET","Web"];
+  TrajectTypes: string[] = ["Aanbevolen","Full Stack","Visual Studio","Angular"];
+
   public GetCursussen(filter?: string){
     return this.http
     .get<Cursus[]>(`${this.domain}/cursus?${filter}&pageSize=${this.pageSize}&sortBy=${this.sortBy}&direction=${this.direction}&pageNumber=${this.pageNumber}`)

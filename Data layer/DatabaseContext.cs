@@ -1,10 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Data_layer.Model;
+using Microsoft.EntityFrameworkCore;
 
-namespace dotNETAcademyServer.Model
+namespace Data_layer
 {
     public class DatabaseContext : DbContext
     {
@@ -15,5 +12,8 @@ namespace dotNETAcademyServer.Model
         }
         public DbSet<Cursus> Cursussen { get; set; }
         public DbSet<Traject> Trajecten { get; set; }
+
+        public DbSet<Winkelwagen> Winkelwagens { get; set; }
+        public DbSet<Klant> Klanten { get; set; }
     }
 }

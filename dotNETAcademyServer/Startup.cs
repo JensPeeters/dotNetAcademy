@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using dotNETAcademyServer.Model;
+using Business_layer;
+using Data_layer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -33,6 +34,10 @@ namespace dotNETAcademyServer
                     Configuration.GetConnectionString("DefaultConnection")
                 )
             );
+            //Dependency injection configuration
+            services.AddScoped<TrajectFacade>();
+            services.AddScoped<CursusFacade>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

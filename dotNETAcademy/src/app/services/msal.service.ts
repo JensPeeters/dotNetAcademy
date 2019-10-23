@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import * as Msal from 'msal';
 
 @Injectable()
@@ -8,14 +7,14 @@ export class MsalService {
     B2CTodoAccessTokenKey = 'b2c.access.token';
 
     tenantConfig = {
-        domain: 'https://EasyRes.b2clogin.com/tfp/',
-        tenant: 'EasyRes.onmicrosoft.com',
+        domain: 'https://dotnetacademy.b2clogin.com/tfp/',
+        tenant: 'dotnetacademy.onmicrosoft.com',
         // Replace this with your client id
-        clientID: '83ed179d-fbb5-41a1-8574-339c976f11c2',
+        clientID: '4c8ac317-e97b-45ce-93fd-e9e6775cfded',
         signInPolicy: 'B2C_1_signin',
         signUpPolicy: 'B2C_1_signup',
         redirectUri: 'http://localhost:4200',
-        b2cScopes: ['https://EasyRes.onmicrosoft.com/access-api/user_impersonation']
+        b2cScopes: ['https://dotnetacademy.onmicrosoft.com/access-api/user_impersonation']
     };
 
     // Configure the authority for Azure AD B2C
@@ -79,7 +78,9 @@ export class MsalService {
     }
 
     getUser() {
-      return this.clientApplication.getUser();
+        console.log(this.clientApplication.getUser());
+        console.log(this.getUser().idToken['emails'][0]);
+        return this.clientApplication.getUser();
     }
 
     getUserFirstName() {

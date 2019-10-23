@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MsalService } from '../services/msal.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -8,14 +9,39 @@ import { Router } from '@angular/router';
 })
 export class ToolbarComponent implements OnInit {
 
-  constructor(private router: Router) { }
-    searchParam: string = "";
+  constructor(private router: Router, private msalService: MsalService) { }
+    searchParam: string = '';
 
   ngOnInit() {
   }
 
-  Search(){
+  Search() {
     this.router.navigateByUrl(`producten/zoekresultaten/${this.searchParam}`);
+  }
+
+  userfirstname() {
+    return this.msalService.getUserFirstName();
+  }
+
+  useremail() {
+    let useremail = this.msalService.getUserEmail();
+    return useremail;
+  }
+
+  login() {
+    this.msalService.login();
+  }
+
+  signup() {
+    this.msalService.signup();
+  }
+
+  logout() {
+    this.msalService.logout();
+  }
+
+  isUserLoggedIn() {
+    return this.msalService.isLoggedIn();
   }
 
 }

@@ -12,6 +12,7 @@ import { ProductenService } from './common/producten.service';
 
 import { HttpClientModule } from '@angular/common/http';
 import { ProductenlijstComponent } from './productenlijst/productenlijst.component';
+import { MsalService }  from './services/msal.service';
 
 
 @NgModule({
@@ -29,7 +30,10 @@ import { ProductenlijstComponent } from './productenlijst/productenlijst.compone
     HttpClientModule,
     FormsModule
   ],
-  providers: [ProductenService],
+  providers: [
+    ProductenService,
+    MsalService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

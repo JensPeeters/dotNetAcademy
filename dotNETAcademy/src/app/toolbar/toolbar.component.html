@@ -21,6 +21,20 @@
               <button (click)="Search()" class="btn btn-warning my-2 my-sm-0" type="submit">Zoeken</button>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fas fa-shopping-cart"></i>
             </form>
+
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                  <div class="center" *ngIf="!isUserLoggedIn()">
+                      <button class="btn btn-secondary" (click)="login()">Login</button>
+                      <button class="btn btn-secondary" (click)="signup()">Sign Up</button>
+                    </div>
+                  
+                    <div class="center" *ngIf="isUserLoggedIn()">
+                      <p>Welkom {{userfirstname()}}</p>
+                      <button class="btn btn-danger" (click)="logout()">Logout</button>
+                    </div>
+              </li>
+            </ul>   
           </div>
     </nav>
     

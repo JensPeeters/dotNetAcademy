@@ -1,0 +1,46 @@
+<body>
+    <div class="dropdown">
+        <div>
+            <b>Type:</b>&nbsp;
+            <select class="custom-select custom-select-sm" [(ngModel)]="type" (ngModelChange)="GetType()">
+                <option value="{{item}}" *ngFor="let item of types">{{item}}</option>
+            </select>
+        </div>&nbsp;&nbsp;&nbsp;
+        <div>
+            <b>Sorteren op:</b>&nbsp;
+            <select class="custom-select custom-select-sm" [(ngModel)]="sortBy" (ngModelChange)="Sort()">
+                <option value="{{item}}" *ngFor="let item of sortItems">{{item}}</option>
+            </select>
+            
+        </div>&nbsp;&nbsp;&nbsp;
+        <div>
+            <b>Rangschikking:</b>&nbsp;
+            <button class="btn btn-light" (click)="ChangeDirection()">
+                <i *ngIf="direction=='asc'" class="fas fa-sort-alpha-down" ></i>  
+                <i *ngIf="direction=='desc'" class="fas fa-sort-alpha-down-alt"></i>
+            </button>
+        </div>
+    </div>
+    <section *ngIf="cursussen">
+        <div class="listview" *ngIf="currentRoute!='zoekresultaten'"><app-product *ngFor="let product of cursussen" [product]="product"></app-product></div>
+        <div *ngIf="currentRoute=='zoekresultaten'">
+            <button class="btn btnResults" type="button" data-toggle="collapse" data-target="#collapseCursussen" aria-expanded="false" aria-controls="collapseCursussen" (click)="collapsedcursussen = !collapsedcursussen">
+                <h4>Cursusresultaten voor "{{searchParam}}": <i *ngIf="collapsedcursussen" class="fas fa-caret-square-up"></i> <i *ngIf="!collapsedcursussen" class="fas fa-caret-square-down"></i></h4>
+            </button>
+            <div *ngIf="!collapsedcursussen" class="collapse show listview" id="collapseCursussen">
+                <app-product *ngFor="let product of cursussen" [product]="product"></app-product>
+            </div>
+        </div>
+    </section>
+    <section *ngIf="trajecten">
+        <div class="listview" *ngIf="currentRoute!='zoekresultaten'"><app-product  *ngFor="let product of trajecten" [product]="product"></app-product></div>
+        <div *ngIf="currentRoute=='zoekresultaten'">
+            <button class="btn btnResults" type="button" data-toggle="collapse" data-target="#collapseTrajecten" aria-expanded="false" aria-controls="collapseTrajecten" (click)="collapsedctrajecten = !collapsedctrajecten">
+                <h4>Trajectresultaten voor "{{searchParam}}": <i *ngIf="collapsedctrajecten" class="fas fa-caret-square-up"></i> <i *ngIf="!collapsedctrajecten" class="fas fa-caret-square-down"></i></h4>
+            </button>
+            <div *ngIf="!collapsedctrajecten" class="collapse show listview" id="collapseTrajecten">
+                <app-product *ngFor="let product of trajecten" [product]="product"></app-product>
+            </div>
+        </div>
+    </section>   
+</body>

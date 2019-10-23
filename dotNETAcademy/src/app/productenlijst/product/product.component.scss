@@ -1,0 +1,24 @@
+p{
+    text-align: justify;
+}
+.float-left{
+    font-size: large;
+}
+.card{
+    border: 0;
+    width: 85vw;
+}
+section{
+    div{
+        margin: 5px;
+        margin-top: 25px;
+    }
+}
+img{
+    height: 200px;
+}
+@media only screen and (min-width: 450px){
+    .card{
+        width: 300px;
+    }
+}

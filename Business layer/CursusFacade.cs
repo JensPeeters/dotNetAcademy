@@ -22,10 +22,10 @@ namespace Business_layer
         {
             IQueryable<Cursus> query = context.Cursussen;
             if (!string.IsNullOrEmpty(type))
-                query = query.Where(b => b.Type == type);
+                query = query.Where(b => b.Type.ToLower().Contains(type.ToLower().Trim()));
 
             if (!string.IsNullOrEmpty(titel))
-                query = query.Where(b => b.Titel == titel);
+                query = query.Where(b => b.Titel.ToLower().Contains(titel.ToLower().Trim()));
 
             if (string.IsNullOrEmpty(sortBy))
                 sortBy = "id";

@@ -1,9 +1,7 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using dotNETAcademyServer.Model;
-using Microsoft.AspNetCore.Http;
+using Business_layer;
+using Data_layer.Model;
 using Microsoft.AspNetCore.Mvc;
 
 namespace dotNETAcademyServer.Controllers
@@ -12,79 +10,52 @@ namespace dotNETAcademyServer.Controllers
     [ApiController]
     public class CursusController : ControllerBase
     {
-        DatabaseContext context;
+        private readonly CursusFacade facade;
 
-        public CursusController(DatabaseContext ctx)
+        public CursusController(CursusFacade facade)
         {
-            this.context = ctx;
+            this.facade = facade;
         }
 
         [HttpGet]
-        public List<Cursus> GetCourses(string type, string titel,
+        public List<Cursus> GetCursussen(string type, string titel,
                                                  string sortBy, string direction = "asc",
                                                  int pageSize = 16, int page = 0)
         {
-            IQueryable<Cursus> query = context.Cursussen;
-            if (!string.IsNullOrEmpty(type))
-                query = query.Where(b => b.Type.ToLower().Contains(type.ToLower().Trim()));
+            return facade.GetCursussen(type, titel, sortBy, direction, pageSize, page);
+        }
 
-            if (!string.IsNullOrEmpty(titel))
-                query = query.Where(b => b.Titel.ToLower().Contains(titel.ToLower().Trim()));
-
-            if (string.IsNullOrEmpty(sortBy))
-                sortBy = "id";
-
-            switch (sortBy.ToLower())
-            {
-                case "id":
-                    if (direction == "asc")
-                        query = query.OrderBy(b => b.CursusID);
-                    else if (direction == "desc")
-                        query = query.OrderByDescending(b => b.CursusID);
-                    break;
-                case "prijs":
-                    if (direction == "asc")
-                        query = query.OrderBy(b => b.Prijs);
-                    else if (direction == "desc")
-                        query = query.OrderByDescending(b => b.Prijs);
-                    break;
-                case "titel":
-                    if (direction == "asc")
-                        query = query.OrderBy(b => b.Titel);
-                    else if (direction == "desc")
-                        query = query.OrderByDescending(b => b.Titel);
-                    break;
-                case "type":
-                    if (direction == "asc")
-                        query = query.OrderBy(b => b.Type);
-                    else if (direction == "desc")
-                        query = query.OrderByDescending(b => b.Type);
-                    break;
-                default:
-                    if (direction == "asc")
-                        query = query.OrderBy(b => b.CursusID);
-                    else if (direction == "desc")
-                        query = query.OrderByDescending(b => b.CursusID);
-                    break;
-            }
-            if (pageSize > 16)
-                pageSize = 16;
-
-            query = query.Skip(page * pageSize);
-            query = query.Take(pageSize);
-
-            return query.ToList();
+        [Route("{id}")]
+        [HttpGet]
+        public Cursus GetCursus(int id)
+        {
+            return facade.GetCursus(id);
         }
 
         [HttpPost]
         public ActionResult<Cursus> AddCursus([FromBody] Cursus cursus)
         {
-            var tempCursus = context.Cursussen.FirstOrDefault(o => o.Titel == cursus.Titel);
-            if (tempCursus != null)
+            var createdCursus = facade.AddCursus(cursus);
+            if (createdCursus == null)
                 return NoContent();
-            context.Cursussen.Add(cursus);
-            context.SaveChanges();
-            return Created("", cursus);
+            return Created("", createdCursus);
+        }
+
+        [Route("{id}")]
+        [HttpDelete]
+        public ActionResult<Cursus> DeleteCursus(int id)
+        {
+            var deletedCursus = facade.DeleteCursus(id);
+            if (deletedCursus == null)
+                return NotFound();
+            return NoContent();
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult<Cursus> UpdateCursus([FromBody]Cursus cursus)
+        {
+            var updatedCursus = facade.UpdateCursus(cursus);
+            return Created("", updatedCursus);
         }
     }
 }

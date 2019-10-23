@@ -1,0 +1,43 @@
+body{
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    width: 80%;
+    margin-bottom: 25px;
+}
+.dropdown{
+    margin-top: 10px !important;
+}
+select{
+    width: auto;
+}
+.listview{
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(250px, 350px));
+    justify-content: center;
+    align-items: center;
+}
+section{
+    div{
+        text-align: center;
+    }
+}
+.btnResults{
+    margin: auto;
+    margin-top: 15px;
+    text-align: center;
+}
+app-product{
+    justify-self: center;
+}
+@media only screen and (min-width: 720px){
+    .dropdown{
+        margin: auto;
+        .btn{
+            height: 31px;
+        }
+        div{ 
+            display:inline;
+        }
+    }
+}

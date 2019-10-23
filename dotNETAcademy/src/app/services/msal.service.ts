@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
+
 import * as Msal from 'msal';
 
+declare var bootbox: '';
 @Injectable()
 export class MsalService {
 
@@ -9,7 +11,7 @@ export class MsalService {
     tenantConfig = {
         domain: 'https://dotnetacademy.b2clogin.com/tfp/',
         tenant: 'dotnetacademy.onmicrosoft.com',
-        // Replace this with your client id
+        // Replace this with your client id 
         clientID: '4c8ac317-e97b-45ce-93fd-e9e6775cfded',
         signInPolicy: 'B2C_1_signin',
         signUpPolicy: 'B2C_1_signup',
@@ -55,7 +57,7 @@ export class MsalService {
                         }, function (error: any) {
                             console.log('error: ', error);
                         });
-                });
+                })
         }, function (error: any) {
             console.log('error: ', error);
         });
@@ -73,14 +75,12 @@ export class MsalService {
         return this.clientApplication.getUser() != null;
     }
 
-    getUserEmail(): string {
+    getUserEmail(): string{
        return this.getUser().idToken['emails'][0];
     }
 
-    getUser() {
-        console.log(this.clientApplication.getUser());
-        console.log(this.getUser().idToken['emails'][0]);
-        return this.clientApplication.getUser();
+    getUser(){
+      return this.clientApplication.getUser();
     }
 
     getUserFirstName() {

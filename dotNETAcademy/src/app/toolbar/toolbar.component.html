@@ -22,16 +22,19 @@
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fas fa-shopping-cart"></i>
             </form>
 
-            <div class="center" *ngIf="!isUserLoggedIn()">
-              <button (click)="login()">Login</button>
-              <button (click)="signup()">Sign Up</button>
-            </div>
-          
-            <div class="center" *ngIf="isUserLoggedIn()">
-              <h1>Welcome</h1>
-              <h4> {{userfirstname()}}</h4>
-              <button (click)="logout()">Logout</button>
-            </div>
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                  <div class="center" *ngIf="!isUserLoggedIn()">
+                      <button class="btn btn-secondary" (click)="login()">Login</button>
+                      <button class="btn btn-secondary" (click)="signup()">Sign Up</button>
+                    </div>
+                  
+                    <div class="center" *ngIf="isUserLoggedIn()">
+                      <p>Welkom {{userfirstname()}}</p>
+                      <button class="btn btn-danger" (click)="logout()">Logout</button>
+                    </div>
+              </li>
+            </ul>   
           </div>
     </nav>
     

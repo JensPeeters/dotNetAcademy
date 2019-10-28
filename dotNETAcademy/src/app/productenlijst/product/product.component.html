@@ -6,7 +6,7 @@
             <h4 class="card-title">{{product.titel}}</h4>
             <p class="card-text">{{product.beschrijving}}</p>
             <p class="float-left"><i class="fas fa-tags fa-rotate-90"></i>&nbsp;<strong>€ {{product.prijs}}&nbsp;&nbsp;&nbsp;</strong></p>
-            <a href="/cursussen" class="float-right">Meer info >></a>
+            <a [routerLink]="['/product',product.categorie,product.id,product.titel]" class="float-right">Meer info >></a>
         </div>
     </div>
 </section>

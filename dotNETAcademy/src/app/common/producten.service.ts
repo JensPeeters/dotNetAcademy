@@ -27,6 +27,17 @@ export class ProductenService {
     .get<Traject[]>(`${this.domain}/traject?${filter}&pageSize=${this.pageSize}&sortBy=${this.sortBy}&direction=${this.direction}&pageNumber=${this.pageNumber}`)
     .toPromise();
   }
+
+  GetCursusById(id: number){
+    return this.http
+    .get<Cursus>(`${this.domain}/cursus/${id}`)
+    .toPromise()
+  }
+  GetTrajectById(id: number){
+    return this.http
+    .get<Traject>(`${this.domain}/traject/${id}`)
+    .toPromise();
+  }
 }
 
 export interface Cursus{
@@ -37,6 +48,7 @@ export interface Cursus{
   beschrijving: string;
   langeBeschrijving: string;
   titel: string;
+  categorie: string;
 }
 
 export interface Traject{
@@ -48,4 +60,5 @@ export interface Traject{
   fotoURLCard: string;
   cursussen: Cursus[];
   prijs: number;
+  categorie: string;
 }

@@ -13,6 +13,7 @@ import { ProductenService } from './common/producten.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ProductenlijstComponent } from './productenlijst/productenlijst.component';
 import { MsalService }  from './services/msal.service';
+import { ProductInfoComponent } from './product-info/product-info.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { MsalService }  from './services/msal.service';
     HomeComponent,
     NotFoundComponent,
     ProductComponent,
-    ProductenlijstComponent
+    ProductenlijstComponent,
+    ProductInfoComponent
   ],
   imports: [
     BrowserModule,

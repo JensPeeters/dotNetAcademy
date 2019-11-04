@@ -21,6 +21,8 @@ export class ProductenlijstComponent implements OnInit {
   sortBy: string = "Aanbevolen";
   direction: string = "asc"
   searchParam: string = "";
+  collapsedCursussen: boolean = false;
+  collapsedTrajecten: boolean = false;
 
   ngOnInit() {
     // this.route.paramMap.subscribe(params =>{
@@ -86,5 +88,10 @@ export class ProductenlijstComponent implements OnInit {
     this.productService.direction = this.direction;
     this.GetProducts();
   }
-
+  Changecollapsedcursussen(){
+    this.collapsedCursussen != this.collapsedCursussen;
+  }
+  Changecollapsedctrajecten(){
+    this.collapsedTrajecten != this.collapsedTrajecten;
+  }
 }

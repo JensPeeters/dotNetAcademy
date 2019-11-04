@@ -23,6 +23,7 @@ namespace Data_layer
                         Type = ".NET",
                         Prijs = 15.45,
                         Beschrijving = "Some example text some ...",
+                        LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                         FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg"
                     },
                     new Cursus()
@@ -31,6 +32,7 @@ namespace Data_layer
                         Type = ".NET",
                         Prijs = 45.45,
                         Beschrijving = "Some example text some ...",
+                        LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                         FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg"
                     },
                     new Cursus()
@@ -39,6 +41,7 @@ namespace Data_layer
                         Type = "Web Development",
                         Prijs = 19.35,
                         Beschrijving = "Some example text some ...",
+                        LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                         FotoURLCard = "https://ionicframework.com/blog/wp-content/uploads/2019/02/react-beta.png"
                     },
                     new Cursus()
@@ -47,6 +50,7 @@ namespace Data_layer
                         Type = "Web Development",
                         Prijs = 21.45,
                         Beschrijving = "Some example text some ...",
+                        LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                         FotoURLCard = "https://miro.medium.com/max/750/1*8hD4eYuELoWAbQLNnjQ4mA.jpeg"
                     },
                     new Cursus()
@@ -55,6 +59,7 @@ namespace Data_layer
                         Type = "Web Development",
                         Prijs = 36.50,
                         Beschrijving = "Some example text some ...",
+                        LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                         FotoURLCard = "https://ionicframework.com/blog/wp-content/uploads/2019/02/react-beta.png"
                     },
                     new Cursus()
@@ -63,6 +68,7 @@ namespace Data_layer
                         Type = "Web Development",
                         Prijs = 10.25,
                         Beschrijving = "Some example text some ...",
+                        LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                         FotoURLCard = "https://miro.medium.com/max/1200/1*-PlqbnwqjqJi_EVmrhmuDQ.jpeg"
                     }
                 };
@@ -75,7 +81,7 @@ namespace Data_layer
                     new Cursus()
                     {
                         Titel = "dotNET cursus",
-                        LangeBeschrijving ="",
+                        LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                         Type = ".NET",
                         Prijs = 15.45,
                         Beschrijving = "Some example text some example text.",
@@ -85,7 +91,7 @@ namespace Data_layer
                     {
                         Titel = "Angular cursus",
                         Type = "Web Development",
-                        LangeBeschrijving ="",
+                        LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                         Prijs = 21.45,
                         Beschrijving = "Some example text some example text.",
                         FotoURLCard = "https://via.placeholder.com/450x350.png/09f/fff?text=Foto van een product"
@@ -93,7 +99,7 @@ namespace Data_layer
                 },
                         Titel = "Complete Full Stack Traject",
                         Type = "Full Stack",
-                        LangeBeschrijving ="",
+                        LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                         Prijs = 50,
                         Beschrijving = "Some example text some example text.",
                         FotoURLCard = "https://via.placeholder.com/450x350.png/09f/fff?text=Foto van een product"
@@ -105,7 +111,7 @@ namespace Data_layer
                     new Cursus()
                     {
                         Titel = "dotNET cursus",
-                        LangeBeschrijving ="",
+                        LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                         Type = ".NET",
                         Prijs = 15.45,
                         Beschrijving = "Some example text some example text.",
@@ -115,7 +121,7 @@ namespace Data_layer
                     {
                         Titel = "Angular cursus",
                         Type = "Web Development",
-                        LangeBeschrijving ="",
+                        LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                         Prijs = 21.45,
                         Beschrijving = "Some example text some example text.",
                         FotoURLCard = "https://via.placeholder.com/450x350.png/09f/fff?text=Foto van een product"
@@ -123,7 +129,7 @@ namespace Data_layer
                 },
                         Titel = "Complete Full Stack Traject",
                         Type = "Full Stack",
-                        LangeBeschrijving ="",
+                        LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                         Prijs = 50,
                         Beschrijving = "Some example text some example text.",
                         FotoURLCard = "https://via.placeholder.com/450x350.png/09f/fff?text=Foto van een product"
@@ -135,7 +141,7 @@ namespace Data_layer
                     new Cursus()
                     {
                         Titel = "dotNET cursus",
-                        LangeBeschrijving ="",
+                        LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                         Type = ".NET",
                         Prijs = 15.45,
                         Beschrijving = "Some example text some example text.",
@@ -145,7 +151,7 @@ namespace Data_layer
                     {
                         Titel = "Angular cursus",
                         Type = "Web Development",
-                        LangeBeschrijving ="",
+                        LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                         Prijs = 21.45,
                         Beschrijving = "Some example text some example text.",
                         FotoURLCard = "https://via.placeholder.com/450x350.png/09f/fff?text=Foto van een product"
@@ -153,7 +159,7 @@ namespace Data_layer
                 },
                         Titel = "Complete Full Stack Traject",
                         Type = "Full Stack",
-                        LangeBeschrijving ="",
+                        LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                         Prijs = 50,
                         Beschrijving = "Some example text some example text.",
                         FotoURLCard = "https://via.placeholder.com/450x350.png/09f/fff?text=Foto van een product"

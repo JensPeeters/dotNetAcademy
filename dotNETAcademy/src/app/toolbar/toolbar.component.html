@@ -13,15 +13,16 @@
                 <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/producten/cursussen']">Cursussen</a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/producten/trajecten']">Trajecten</a>
-                </li>
+                <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/producten/trajecten']">Trajecten</a>
+              </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
               <input class="form-control mr-sm-2" placeholder="Zoek een product" aria-label="Search" [(ngModel)]="searchParam" name="search">
               <button (click)="Search()" class="btn btn-warning my-2 my-sm-0" type="submit">Zoeken</button>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fas fa-shopping-cart"></i>
             </form>
-
+            <li class="navbar-nav nav-item">
+              <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/home']"><i class="fas fa-shopping-cart"></i></a>
+            </li>
             <ul class="navbar-nav">
               <li class="nav-item">
                   <div class="center" *ngIf="!isUserLoggedIn()">

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Business_layer;
+using Data_layer.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,36 +13,24 @@ namespace dotNETAcademyServer.Controllers
     [ApiController]
     public class WinkelwagenController : ControllerBase
     {
-        // GET: api/Winkelwagen
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly WinkelwagenFacade facade;
+
+        public WinkelwagenController(WinkelwagenFacade facade)
         {
-            return new string[] { "value1", "value2" };
+            this.facade = facade;
         }
 
-        // GET: api/Winkelwagen/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST: api/Winkelwagen
+        [Route("{bagId}/product/{type}/{prodId}/{count}")]
         [HttpPost]
-        public void Post([FromBody] string value)
+        public Winkelwagen AddProduct(int bagId, int prodId, int count, string type)
         {
+            return facade.AddProduct(bagId, prodId, count, type);
         }
 
-        // PUT: api/Winkelwagen/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [Route("{id}")]
+        public Winkelwagen GetBagForCustomer(int id)
         {
-        }
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            return facade.GetBagForCustomer(id);
         }
     }
 }

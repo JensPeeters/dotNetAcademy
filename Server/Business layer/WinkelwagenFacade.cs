@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Business_layer
 {
-    class WinkelwagenFacade
+    public class WinkelwagenFacade
     {
         private readonly DatabaseContext context;
         private readonly ICostCalculator calculator;
@@ -36,24 +36,25 @@ namespace Business_layer
         /// <returns></returns>
         public Winkelwagen GetBagForCustomer(int custId)
         {
-            var customer = context.Klanten
+            var klant = context.Klanten
                 .Include(d => d.Winkelwagens)
                 .ThenInclude(b => b.Producten)
                 .ThenInclude(i => i.Product)
+                .ThenInclude(d => (d as Traject).Cursussen)
                 .SingleOrDefault(d => d.Id == custId);
 
-            if (customer.Winkelwagens == null || customer.Winkelwagens.Count == 0)
+            if (klant.Winkelwagens == null || klant.Winkelwagens.Count == 0)
             {
-                var bag = new Winkelwagen()
+                var winkelwagen = new Winkelwagen()
                 {
                     Datum = DateTime.Now
                 };
-                customer.Winkelwagens.Add(bag);
+                klant.Winkelwagens.Add(winkelwagen);
                 context.SaveChanges();
             }
-            return customer.Winkelwagens
+            return klant.Winkelwagens
                 .OrderByDescending(d => d.Datum)
-                .FirstOrDefault();
+                .FirstOrDefault(); ;
         }
 
 
@@ -63,8 +64,9 @@ namespace Business_layer
         /// <param name="Id">ID van het mandje</param>
         /// <param name="prodId">ID van het product</param>
         /// <param name="count">Aantal exemplaren van het betreffende product</param>
+        /// <param name="type">Soort type van product</param>
         /// <returns></returns>
-        public Winkelwagen AddProduct(int Id, int prodId, int count)
+        public Winkelwagen AddProduct(int Id, int prodId, int count,string type)
         {
             var winkelwagen = context.Winkelwagens
                 .FirstOrDefault(d => d.Id == Id);
@@ -80,12 +82,17 @@ namespace Business_layer
                     }
                 }
                 //not found, create new:
-                var product2 = new WinkelwagenItem()
+                var product2 = new WinkelwagenItem();
+                if (type == "Traject")
                 {
-
-                    Product = context.Trajecten.Find(prodId),
-                    Aantal = count
-                };
+                    product2.Product = context.Trajecten.Find(prodId);
+                    product2.Aantal = count;
+                }
+                else if (type == "Cursus")
+                {
+                    product2.Product = context.Cursussen.Find(prodId);
+                    product2.Aantal = count;
+                }
                 winkelwagen.Producten.Add(product2);
                 return winkelwagen;
             }
@@ -96,5 +103,7 @@ namespace Business_layer
                 context.SaveChanges();
             }
         }
+
+
     }
 }

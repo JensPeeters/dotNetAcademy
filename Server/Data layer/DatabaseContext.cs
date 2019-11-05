@@ -10,10 +10,10 @@ namespace Data_layer
         {
 
         }
-        public DbSet<Cursus> Cursussen { get; set; }
-        public DbSet<Traject> Trajecten { get; set; }
+        public virtual DbSet<Cursus> Cursussen { get; set; }
+        public virtual DbSet<Traject> Trajecten { get; set; }
 
-        public DbSet<Winkelwagen> Winkelwagens { get; set; }
-        public DbSet<Klant> Klanten { get; set; }
+        public virtual DbSet<Winkelwagen> Winkelwagens { get; set; }
+        public virtual DbSet<Klant> Klanten { get; set; }
     }
 }

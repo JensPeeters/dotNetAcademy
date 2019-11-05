@@ -159,6 +159,49 @@ namespace Data_layer
                         FotoURLCard = "https://via.placeholder.com/450x350.png/09f/fff?text=Foto van een product"
                     }
                 };
+
+                Klant[] klanten =
+                {
+                    new Klant()
+                    {
+                        AzureId = "aaa"
+                    }
+                };
+
+                Winkelwagen[] winkelwagens =
+                {
+                    new Winkelwagen()
+                    {
+                        Klant = klanten[0],
+                        Producten = new List<WinkelwagenItem>()
+                        {
+                            new WinkelwagenItem()
+                            {
+                                Aantal = 2,
+                                Product = trajecten[0]
+                            },
+                            new WinkelwagenItem()
+                            {
+                                Aantal = 3,
+                                Product = cursussen[0]
+                            },
+                            new WinkelwagenItem()
+                            {
+                                Aantal = 1,
+                                Product = cursussen[1]
+                            }
+                        },
+                        Datum = new DateTime()
+                    }
+                };
+                foreach (Winkelwagen winkelwagen in winkelwagens)
+                {
+                    context.Winkelwagens.Add(winkelwagen);
+                }
+                foreach (Klant klant in klanten)
+                {
+                    context.Klanten.Add(klant);
+                }
                 foreach (Cursus cursus in cursussen)
                 {
                     context.Cursussen.Add(cursus);

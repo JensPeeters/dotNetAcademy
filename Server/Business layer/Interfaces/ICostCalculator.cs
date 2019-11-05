@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Business_layer.Interfaces
 {
-    interface ICostCalculator
+    public interface ICostCalculator
     {
         double CalculateCost(Winkelwagen winkelwagen);
     }

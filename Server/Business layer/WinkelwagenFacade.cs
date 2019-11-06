@@ -34,14 +34,16 @@ namespace Business_layer
         /// </summary>
         /// <param name="custId"></param>
         /// <returns></returns>
-        public Winkelwagen GetBagForCustomer(int custId)
+        public Winkelwagen GetBagForCustomer(string custId)
         {
             var klant = context.Klanten
                 .Include(d => d.Winkelwagens)
                 .ThenInclude(b => b.Producten)
                 .ThenInclude(i => i.Product)
                 .ThenInclude(d => (d as Traject).Cursussen)
-                .SingleOrDefault(d => d.Id == custId);
+                .SingleOrDefault(d => d.AzureId == custId);
+            if (klant == null)
+                return null;
 
             if (klant.Winkelwagens == null || klant.Winkelwagens.Count == 0)
             {

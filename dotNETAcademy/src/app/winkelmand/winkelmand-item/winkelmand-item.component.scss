@@ -1,0 +1,46 @@
+.card{
+    width: 100% !important;
+    box-shadow: 0px 5px 5px grey;
+    margin-bottom: 25px;
+}
+img{
+    height: 200px;
+    margin: auto;
+}
+input{
+    margin-left: 5px;
+    vertical-align: middle;
+    margin-right: 5px;
+    height: 38px;
+    width: 50px;
+    text-align: center;
+}
+.btn-danger{
+    width: 100% !important;
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+.aantal-producten{
+    text-align: center;
+}
+.beschrijving{
+    text-align: center;
+    margin-top: 10px;
+}
+.card-body{
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+}
+@media only screen and (max-width: 990px){
+    .card-body{
+        grid-template-columns: 100%;
+    }
+}
+@media only screen and (max-width: 400px){
+    img{
+        height: 125px;
+    }
+}

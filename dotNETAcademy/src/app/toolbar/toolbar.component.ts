@@ -11,14 +11,20 @@ import { WinkelmandService } from '../common/winkelmand.service';
 export class ToolbarComponent implements OnInit {
 
   constructor(private router: Router, private msalService: MsalService,
-    private mandService: WinkelmandService) { }
+    private winkelmandService: WinkelmandService) { }
   searchParam: string = '';
   aantalItems: number = 0;
+  UserId: string;
   ngOnInit() {
-
-    this.mandService.GetWinkelmand("aaa").subscribe(res => {
-
+    if(this.msalService.isLoggedIn()){
+      this.GetUserObjectId();
+    }
+    this.winkelmandService.GetWinkelmand(this.UserId).subscribe(res => {
+        this.aantalItems = res.producten.length;
     })
+  }
+  GetUserObjectId(){
+    this.UserId = this.msalService.getUserObjectId();
   }
 
   Search() {

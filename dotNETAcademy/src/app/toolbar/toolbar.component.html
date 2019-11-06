@@ -22,7 +22,8 @@
             </form>
             <li class="navbar-nav nav-item">
               <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/winkelmand']"><i class="fas fa-2x fa-shopping-cart"></i>
-                <span>{{aantalItems}}</span></a>
+                <span *ngIf="aantalItems < 10" class="item-counter">{{aantalItems}}</span>
+                <span *ngIf="aantalItems > 9" class="item-counter">9+</span></a>
             </li>
             <ul class="navbar-nav">
               <li class="nav-item">

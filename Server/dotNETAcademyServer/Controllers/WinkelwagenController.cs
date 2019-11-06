@@ -28,7 +28,7 @@ namespace dotNETAcademyServer.Controllers
         }
 
         [Route("{id}")]
-        public Winkelwagen GetBagForCustomer(int id)
+        public Winkelwagen GetBagForCustomer(string id)
         {
             return facade.GetBagForCustomer(id);
         }

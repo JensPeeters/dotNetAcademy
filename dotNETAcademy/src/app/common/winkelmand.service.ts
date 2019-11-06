@@ -11,7 +11,7 @@ export class WinkelmandService {
   constructor(private http: HttpClient) { }
 
   GetWinkelmand(UserId: string) {
-    return this.http.get<IWinkelmand>(`${this.domain}/winkelmand/${UserId}`);
+    return this.http.get<IWinkelmand>(`${this.domain}/winkelwagen/${UserId}`);
   }
 }
 

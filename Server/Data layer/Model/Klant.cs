@@ -13,5 +13,7 @@ namespace Data_layer.Model
         public string AzureId { get; set; }
         [JsonIgnore]
         public ICollection<Winkelwagen> Winkelwagens { get; set; }
+        [JsonIgnore]
+        public ICollection<Bestelling> Bestellingen { get; set; }
     }
 }

@@ -200,6 +200,43 @@ namespace Data_layer
                         Datum = new DateTime()
                     }
                 };
+                Bestelling[] bestellingen =
+                {
+                    new Bestelling()
+                    {
+                        Klant = klanten[0],
+                        Datum = DateTime.Now,
+                        TotaalPrijs = 100,
+                        Producten = new List<Product>()
+                        {
+                            cursussen[0],cursussen[1],trajecten[0]
+                        }
+                    },
+                    new Bestelling()
+                    {
+                        Klant = klanten[0],
+                        Datum = DateTime.Now,
+                        TotaalPrijs = 100,
+                        Producten = new List<Product>()
+                        {
+                            cursussen[2],cursussen[3]
+                        }
+                    },
+                    new Bestelling()
+                    {
+                        Klant = klanten[0],
+                        Datum = DateTime.Now,
+                        TotaalPrijs = 100,
+                        Producten = new List<Product>()
+                        {
+                            cursussen[4],cursussen[5]
+                        }
+                    }
+                };
+                foreach (Bestelling bestelling in bestellingen)
+                {
+                    context.Bestellingen.Add(bestelling);
+                }
                 foreach (Winkelwagen winkelwagen in winkelwagens)
                 {
                     context.Winkelwagens.Add(winkelwagen);

@@ -39,6 +39,7 @@ namespace dotNETAcademyServer
             services.AddScoped<TrajectFacade>();
             services.AddScoped<CursusFacade>();
             services.AddScoped<WinkelwagenFacade>();
+            services.AddScoped<BestellingFacade>();
             services.AddScoped<ICostCalculator, CostCalculator>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

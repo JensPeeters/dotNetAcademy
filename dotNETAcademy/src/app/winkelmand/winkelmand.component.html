@@ -1,0 +1,12 @@
+<div *ngIf="Winkelmand" class="container">
+  <div class="card">
+    <div class="card-body">
+      <h1 class="card-title">Winkelwagen</h1>
+      <hr>
+      <app-winkelmand-item *ngFor="let product of Winkelmand.producten" (childEvent)="Herbereken($event)" [product]="product"></app-winkelmand-item>
+      <hr>
+      <h3>Totaalprijs : {{Totaalprijs | currency:' € '}}</h3>
+      <button class="btn btn-primary">Ga verder met bestellen</button>
+    </div>
+  </div>
+</div>

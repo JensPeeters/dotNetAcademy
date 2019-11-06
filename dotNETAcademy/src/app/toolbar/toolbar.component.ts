@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MsalService } from '../services/msal.service';
+import { WinkelmandService } from '../common/winkelmand.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -9,10 +10,21 @@ import { MsalService } from '../services/msal.service';
 })
 export class ToolbarComponent implements OnInit {
 
-  constructor(private router: Router, private msalService: MsalService) { }
-    searchParam: string = '';
-
+  constructor(private router: Router, private msalService: MsalService,
+    private winkelmandService: WinkelmandService) { }
+  searchParam: string = '';
+  aantalItems: number = 0;
+  UserId: string;
   ngOnInit() {
+    if(this.msalService.isLoggedIn()){
+      this.GetUserObjectId();
+    }
+    this.winkelmandService.GetWinkelmand(this.UserId).subscribe(res => {
+        this.aantalItems = res.producten.length;
+    })
+  }
+  GetUserObjectId(){
+    this.UserId = this.msalService.getUserObjectId();
   }
 
   Search() {

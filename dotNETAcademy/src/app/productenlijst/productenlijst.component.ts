@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductenService, Traject, Cursus } from '../services/producten.service';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-productenlijst',
@@ -23,12 +24,14 @@ export class ProductenlijstComponent implements OnInit {
   searchParam: string = "";
   collapsedCursussen: boolean = false;
   collapsedTrajecten: boolean = false;
+  subscription: Subscription;
 
   ngOnInit() {
     // this.route.paramMap.subscribe(params =>{
     //   this.currentRoute = params.get('currentRoute'); 
     // })
-    this.route.params.subscribe(routeParams => {
+    this.subscription = this.route.params
+    .subscribe(routeParams => {
       this.currentRoute = routeParams.currentRoute;
       this.cursussen = [];
       this.trajecten = [];
@@ -44,6 +47,9 @@ export class ProductenlijstComponent implements OnInit {
       }
       this.GetProducts();
     });
+  }
+  ngOnDestroy(){
+    this.subscription.unsubscribe(); //pipe kan niet gebruikt (refrehed de objecten niet wanneer je van cursussen naar trajecten gaat)
   }
 
   async GetProducts(){

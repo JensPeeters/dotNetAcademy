@@ -1,4 +1,4 @@
-body{
+main{
     display: flex;
     flex-direction: column;
     margin: auto;
@@ -12,10 +12,11 @@ select{
     width: auto;
 }
 .listview{
-    display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(250px, 350px));
     justify-content: center;
     align-items: center;
+}
+.col{
+    flex-grow: 0;
 }
 section{
     div{
@@ -27,9 +28,6 @@ section{
     margin-top: 15px;
     text-align: center;
 }
-app-product{
-    justify-self: center;
-}
 @media only screen and (min-width: 720px){
     .dropdown{
         margin: auto;
@@ -39,5 +37,17 @@ app-product{
         div{ 
             display:inline;
         }
+    }
+    main{
+        width: 90%;
+    }
+}
+@media only screen and (max-width: 720px){    
+    .col{
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .dropdown{
+        margin: auto;
     }
 }

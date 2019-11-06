@@ -86,4 +86,8 @@ export class MsalService {
     getUserFirstName() {
         return this.getUser().idToken['given_name'];
     }
+
+    getUserObjectId() {
+        return this.getUser().idToken['oid'];
+    }
 }

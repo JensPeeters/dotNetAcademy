@@ -13,6 +13,8 @@ import { ProductenService } from './common/producten.service';
 import { HttpClientModule } from '@angular/common/http';
 import { ProductenlijstComponent } from './productenlijst/productenlijst.component';
 import { MsalService }  from './services/msal.service';
+import { WinkelmandComponent } from './winkelmand/winkelmand.component';
+import { WinkelmandItemComponent } from './winkelmand/winkelmand-item/winkelmand-item.component';
 import { ProductInfoComponent } from './product-info/product-info.component';
 
 
@@ -24,6 +26,8 @@ import { ProductInfoComponent } from './product-info/product-info.component';
     NotFoundComponent,
     ProductComponent,
     ProductenlijstComponent,
+    WinkelmandComponent,
+    WinkelmandItemComponent,
     ProductInfoComponent
   ],
   imports: [

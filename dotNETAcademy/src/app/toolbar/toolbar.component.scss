@@ -2,9 +2,26 @@ img{
     width: 50px;
     height: 50px;
 }
+nav{
+    box-shadow: 0px 5px 5px grey;
+    margin-bottom: 15px;
+}
 p{
     display: inline;
     margin-left: 10px;
+}
+.item-counter{
+    background-color: red;
+    color: white;
+    border-radius: 15px;
+    width: 24px;
+    font-weight: bold;
+    font-size: 16px;
+    position: absolute;
+    margin-left: -35px;
+    margin-top: -10px;
+    font-family: Roboto;
+    text-align: center;
 }
 button{
     font-size: 16px;
@@ -13,5 +30,6 @@ button{
 }
 .fa-shopping-cart{
     color: black;
-    margin-left: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
 }

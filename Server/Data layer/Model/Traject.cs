@@ -16,6 +16,6 @@ namespace Data_layer.Model
             this.Categorie = "Traject";
         }
         public ICollection<Cursus> Cursussen { get; set; }
-        public override int ID { get; set; }
+        //public override int ID { get; set; }
     }
 }

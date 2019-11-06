@@ -1,0 +1,25 @@
+<div class="card" style="width: 18rem;" *ngIf="product">
+  <div class="card-body">
+    <img [src]="product.product.fotoURLCard" alt="">
+    <div class="beschrijving">
+      <h5 class="card-title">{{product.product.titel}}</h5>
+      <h6 class="card-subtitle mb-2 text-muted">Categorie : {{product.product.categorie}}</h6>
+      <h6 class="card-subtitle mb-2 text-muted">Prijs : {{product.product.prijs | currency : ' € '}}</h6>
+      <p>{{product.product.beschrijving}}</p>
+      <a [routerLink]="['/product',product.product.categorie,product.product.id,product.product.titel]"
+        class="card-link">Meer info >></a><br><br>
+    </div>
+    <div>
+      <div class="aantal-producten">
+        <p>Aantal :
+          <button class="btn btn-primary" (click)=NeemAf(product.aantal)>-</button>
+          <input type="number" [(ngModel)]="product.aantal">
+          <button class="btn btn-primary" (click)=VoegToe(product.aantal)>+</button>
+        </p>
+      </div>
+      <div>
+        <button class="btn btn-danger">Verwijder product</button>
+      </div>
+    </div>
+  </div>
+</div>

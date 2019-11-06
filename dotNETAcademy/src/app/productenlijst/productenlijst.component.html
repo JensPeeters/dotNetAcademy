@@ -27,19 +27,19 @@
             <button class="btn btnResults" type="button" data-toggle="collapse" data-target="#collapseCursussen" aria-expanded="false" aria-controls="collapseCursussen" (click)="Changecollapsedcursussen()">
                 <h4>Cursusresultaten voor "{{searchParam}}": <i *ngIf="collapsedCursussen" class="fas fa-caret-square-up"></i> <i *ngIf="!collapsedCursussen" class="fas fa-caret-square-down"></i></h4>
             </button>
-            <div *ngIf="!collapsedCursussen" class="collapse show listview" id="collapseCursussen">
-                <app-product *ngFor="let product of cursussen" [product]="product"></app-product>
+            <div *ngIf="!collapsedCursussen" class="collapse show listview row" id="collapseCursussen">
+                <app-product class="col" *ngFor="let product of cursussen" [product]="product"></app-product>
             </div>
         </div>
     </section>
     <section *ngIf="trajecten">
-        <div class="listview" *ngIf="currentRoute!='zoekresultaten'"><app-product  *ngFor="let product of trajecten" [product]="product"></app-product></div>
+        <div class="listview row" *ngIf="currentRoute!='zoekresultaten'"><app-product class="col" *ngFor="let product of trajecten" [product]="product"></app-product></div>
         <div *ngIf="currentRoute=='zoekresultaten'">
             <button class="btn btnResults" type="button" data-toggle="collapse" data-target="#collapseTrajecten" aria-expanded="false" aria-controls="collapseTrajecten" (click)="Changecollapsedctrajecten()">
                 <h4>Trajectresultaten voor "{{searchParam}}": <i *ngIf="collapsedTrajecten" class="fas fa-caret-square-up"></i> <i *ngIf="!collapsedTrajecten" class="fas fa-caret-square-down"></i></h4>
             </button>
-            <div *ngIf="!collapsedTrajecten" class="collapse show listview" id="collapseTrajecten">
-                <app-product *ngFor="let product of trajecten" [product]="product"></app-product>
+            <div *ngIf="!collapsedTrajecten" class="collapse show listview row" id="collapseTrajecten">
+                <app-product class="col" *ngFor="let product of trajecten" [product]="product"></app-product>
             </div>
         </div>
     </section>   

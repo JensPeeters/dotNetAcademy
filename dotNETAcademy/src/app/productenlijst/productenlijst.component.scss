@@ -14,7 +14,6 @@ select{
 .listview{
     justify-content: center;
     align-items: center;
-    
 }
 .col{
     flex-grow: 0;
@@ -28,9 +27,6 @@ section{
     margin: auto;
     margin-top: 15px;
     text-align: center;
-}
-app-product{
-    justify-self: center;
 }
 @media only screen and (min-width: 720px){
     .dropdown{

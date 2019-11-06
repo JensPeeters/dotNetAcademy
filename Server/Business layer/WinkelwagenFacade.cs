@@ -54,7 +54,7 @@ namespace Business_layer
             }
             return klant.Winkelwagens
                 .OrderByDescending(d => d.Datum)
-                .FirstOrDefault(); ;
+                .FirstOrDefault();
         }
 
 

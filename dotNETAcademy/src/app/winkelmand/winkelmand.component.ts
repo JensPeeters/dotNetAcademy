@@ -32,7 +32,7 @@ export class WinkelmandComponent implements OnInit {
        }
      }
   }
-  Herbereken(){
+  Herbereken(event){
     this.BerekenTotaalprijs();
   }
 

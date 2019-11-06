@@ -1,12 +1,12 @@
 <main>
     <div class="dropdown">
-        <div class="mr-3">
+        <div class="mr-3 mb-2">
             <b class="mr-2">Type:</b>
             <select class="custom-select custom-select-sm" [(ngModel)]="type" (ngModelChange)="GetType()">
                 <option value="{{item}}" *ngFor="let item of types">{{item}}</option>
             </select>
         </div>
-        <div class="mr-3">
+        <div class="mr-3 mb-2">
             <b class="mr-2">Sorteren op:</b>
             <select class="custom-select custom-select-sm" [(ngModel)]="sortBy" (ngModelChange)="Sort()">
                 <option value="{{item}}" *ngFor="let item of sortItems">{{item}}</option>
@@ -22,7 +22,7 @@
         </div>
     </div>
     <section *ngIf="cursussen">
-        <div class="listview" *ngIf="currentRoute!='zoekresultaten'"><app-product *ngFor="let product of cursussen" [product]="product"></app-product></div>
+        <div class="listview row" *ngIf="currentRoute!='zoekresultaten'"><app-product class="col" *ngFor="let product of cursussen" [product]="product"></app-product></div>
         <div *ngIf="currentRoute=='zoekresultaten'">
             <button class="btn btnResults" type="button" data-toggle="collapse" data-target="#collapseCursussen" aria-expanded="false" aria-controls="collapseCursussen" (click)="Changecollapsedcursussen()">
                 <h4>Cursusresultaten voor "{{searchParam}}": <i *ngIf="collapsedCursussen" class="fas fa-caret-square-up"></i> <i *ngIf="!collapsedCursussen" class="fas fa-caret-square-down"></i></h4>

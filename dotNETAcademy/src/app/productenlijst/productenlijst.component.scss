@@ -12,10 +12,12 @@ select{
     width: auto;
 }
 .listview{
-    display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(250px, 350px));
     justify-content: center;
     align-items: center;
+    
+}
+.col{
+    flex-grow: 0;
 }
 section{
     div{
@@ -39,5 +41,11 @@ app-product{
         div{ 
             display:inline;
         }
+    }
+}
+@media only screen and (max-width: 720px){    
+    .col{
+        padding-left: 0;
+        padding-right: 0;
     }
 }

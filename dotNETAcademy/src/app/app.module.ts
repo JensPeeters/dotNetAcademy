@@ -15,6 +15,7 @@ import { ProductenlijstComponent } from './productenlijst/productenlijst.compone
 import { MsalService }  from './services/msal.service';
 import { WinkelmandComponent } from './winkelmand/winkelmand.component';
 import { WinkelmandItemComponent } from './winkelmand/winkelmand-item/winkelmand-item.component';
+import { ProductInfoComponent } from './product-info/product-info.component';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { WinkelmandItemComponent } from './winkelmand/winkelmand-item/winkelmand
     ProductenlijstComponent,
     WinkelmandComponent,
     WinkelmandItemComponent
+    ProductInfoComponent
   ],
   imports: [
     BrowserModule,

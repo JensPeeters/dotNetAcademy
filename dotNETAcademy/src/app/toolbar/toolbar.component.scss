@@ -6,12 +6,17 @@ nav{
     box-shadow: 0px 5px 5px grey;
     margin-bottom: 15px;
 }
-.fa-shopping-cart{
-    margin-left: 20px;
-    margin-right: 20px;
+p{
+    display: inline;
+    margin-left: 10px;
 }
 button{
     font-size: 16px;
     font-weight: bold;
     margin-left: 10px;
+}
+.fa-shopping-cart{
+    color: black;
+    margin-left: 20px;
+    margin-right: 20px;
 }

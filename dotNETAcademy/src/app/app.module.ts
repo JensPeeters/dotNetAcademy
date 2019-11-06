@@ -27,7 +27,7 @@ import { ProductInfoComponent } from './product-info/product-info.component';
     ProductComponent,
     ProductenlijstComponent,
     WinkelmandComponent,
-    WinkelmandItemComponent
+    WinkelmandItemComponent,
     ProductInfoComponent
   ],
   imports: [

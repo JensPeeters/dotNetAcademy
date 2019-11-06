@@ -6,14 +6,13 @@ import { HttpClient } from '@angular/common/http';
 })
 export class WinkelmandService {
 
-  domain:string = "https://localhost:44334/api";
+  domain: string = "https://localhost:44334/api";
 
   constructor(private http: HttpClient) { }
 
-  GetWinkelmand(UserId : string){
-      this.http.get<IWinkelmand>(`${this.domain}/winkelmand/${UserId}`);
+  GetWinkelmand(UserId: string) {
+    return this.http.get<IWinkelmand>(`${this.domain}/winkelmand/${UserId}`);
   }
-
 }
 
 export interface IKlant {

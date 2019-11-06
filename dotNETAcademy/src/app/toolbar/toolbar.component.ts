@@ -11,12 +11,12 @@ import { WinkelmandService } from '../common/winkelmand.service';
 export class ToolbarComponent implements OnInit {
 
   constructor(private router: Router, private msalService: MsalService,
-    private mandService : WinkelmandService) { }
-    searchParam: string = '';
-
+    private mandService: WinkelmandService) { }
+  searchParam: string = '';
+  aantalItems: number = 0;
   ngOnInit() {
-    
-    this.mandService.GetWinkelmand().subscribe( res => {
+
+    this.mandService.GetWinkelmand("aaa").subscribe(res => {
 
     })
   }

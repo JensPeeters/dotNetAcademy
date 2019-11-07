@@ -8,6 +8,7 @@ export class ProductenService {
 
   constructor(private http: HttpClient) { }
 
+  //domain:string = "https://localhost:44334/api";
   domain: string = 'https://dotnetacademy-api.azurewebsites.net/api';
   pageSize: number = 16;
   pageNumber: number = 0;

@@ -33,3 +33,43 @@ button{
     margin-left: 20px;
     margin-right: 20px;
 }
+.dropdown-menu{
+    width: fit-content;
+}
+.dropdown-toggle{
+    cursor: pointer;
+}
+input{
+    width: 90%;
+    padding: 5px;
+    border : none;
+    border-radius: 5px;
+    height: 100%;
+}
+.input-search{
+    height: 35px;
+    border-radius: 5px;
+    border: 1px solid grey;
+}
+.fa-search{
+    cursor: pointer;
+}
+.searchIcon{
+    display: none;
+}
+@media only screen and (max-width: 900px){
+    .searchButton{
+        display: none;
+    }
+    .searchIcon{
+        display: inline-block;
+    }
+}
+@media only screen and (max-width: 768px){
+    .searchButton{
+        display: inline-block;
+    }
+    .searchIcon{
+        display: none;
+    }
+}

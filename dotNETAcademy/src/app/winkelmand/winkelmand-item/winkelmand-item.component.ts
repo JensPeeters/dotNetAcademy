@@ -15,11 +15,11 @@ export class WinkelmandItemComponent implements OnInit {
   Herbereken() {
     this.childEvent.emit();
   }
-  VoegToe(aantal: number) {
+  VoegToe() {
     this.product.aantal++;
     this.Herbereken();
   }
-  NeemAf(aantal: number) {
+  NeemAf() {
     if (this.product.aantal > 0) {
       this.product.aantal--;
       this.Herbereken();

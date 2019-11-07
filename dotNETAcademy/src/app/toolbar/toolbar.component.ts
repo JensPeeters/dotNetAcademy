@@ -19,7 +19,9 @@ export class ToolbarComponent implements OnInit {
     if(this.msalService.isLoggedIn()){
       this.GetUserObjectId();
     }
+    
     this.winkelmandService.GetWinkelmand(this.UserId).subscribe(res => {
+      if(res)
         this.aantalItems = res.producten.length;
     })
   }

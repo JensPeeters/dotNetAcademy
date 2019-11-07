@@ -15,5 +15,6 @@ namespace Data_layer
 
         public virtual DbSet<Winkelwagen> Winkelwagens { get; set; }
         public virtual DbSet<Klant> Klanten { get; set; }
+        public virtual DbSet<Bestelling> Bestellingen { get; set; }
     }
 }

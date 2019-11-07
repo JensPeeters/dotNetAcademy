@@ -6,7 +6,8 @@ import { HttpClient } from '@angular/common/http';
 })
 export class WinkelmandService {
 
-  domain: string = "https://localhost:44334/api";
+  //domain: string = "https://localhost:44334/api";
+  domain: string = 'https://dotnetacademy-api.azurewebsites.net/api';
 
   constructor(private http: HttpClient) { }
 

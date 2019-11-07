@@ -11,6 +11,7 @@ img{
 h5{
     margin: auto;
     margin-left: 0;
+    min-height: 30px;
 }
 .verticalLine{
     border-left: 1px solid gray;
@@ -24,7 +25,7 @@ h5{
         width: 100%;
     }
     .d-flex{
-        flex-wrap: wrap
+        flex-wrap: wrap;
     }
     img{
         max-width: 75px;

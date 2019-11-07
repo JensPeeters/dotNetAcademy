@@ -7,7 +7,8 @@ import { IProducten, IKlant } from '../common/winkelmand.service';
 })
 export class BestellingenService {
 
-  domain: string = "https://localhost:44334/api";
+  //domain: string = "https://localhost:44334/api";
+  domain: string = 'https://dotnetacademy-api.azurewebsites.net/api';
 
   constructor(private http: HttpClient) { }
 

@@ -1,0 +1,37 @@
+.card{
+    border: 0;
+    width: 100%;
+    margin: auto;
+    box-shadow: 0px 5px 5px grey;
+    margin-bottom: 25px;
+}
+img{
+    max-width: 125px;
+}
+h5{
+    margin: auto;
+    margin-left: 0;
+}
+.verticalLine{
+    border-left: 1px solid gray;
+}
+
+@media only screen and (max-width: 550px){
+    h5{
+       font-size: 14px;
+    }
+    .fullWidth{
+        width: 100%;
+    }
+    .d-flex{
+        flex-wrap: wrap
+    }
+    img{
+        max-width: 75px;
+        margin-right: 10px !important;
+    }
+    .verticalLine{
+        border-left: 0;
+        margin: 0 !important;
+    }
+}

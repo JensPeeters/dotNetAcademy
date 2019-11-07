@@ -16,6 +16,9 @@ import { MsalService }  from './services/msal.service';
 import { WinkelmandComponent } from './winkelmand/winkelmand.component';
 import { WinkelmandItemComponent } from './winkelmand/winkelmand-item/winkelmand-item.component';
 import { ProductInfoComponent } from './product-info/product-info.component';
+import { BestellingenComponent } from './bestellingen/bestellingen.component';
+import { BestellingComponent } from './bestellingen/bestelling/bestelling.component';
+import { BestellingenService } from './services/bestellingen.service';
 
 
 @NgModule({
@@ -28,7 +31,9 @@ import { ProductInfoComponent } from './product-info/product-info.component';
     ProductenlijstComponent,
     WinkelmandComponent,
     WinkelmandItemComponent,
-    ProductInfoComponent
+    ProductInfoComponent,
+    BestellingenComponent,
+    BestellingComponent
   ],
   imports: [
     BrowserModule,
@@ -38,6 +43,7 @@ import { ProductInfoComponent } from './product-info/product-info.component';
   ],
   providers: [
     ProductenService,
+    BestellingenService,
     MsalService
   ],
   bootstrap: [AppComponent]

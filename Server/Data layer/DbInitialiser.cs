@@ -171,6 +171,10 @@ namespace Data_layer
                     new Klant()
                     {
                         AzureId = "aaa"
+                    },
+                    new Klant()
+                    {
+                        AzureId = "b3ce667f-2829-481a-8ebb-f6bea8cde84b"
                     }
                 };
 
@@ -204,7 +208,7 @@ namespace Data_layer
                 {
                     new Bestelling()
                     {
-                        Klant = klanten[0],
+                        Klant = klanten[1],
                         Datum = DateTime.Now,
                         TotaalPrijs = 100,
                         Producten = new List<Product>()
@@ -214,7 +218,7 @@ namespace Data_layer
                     },
                     new Bestelling()
                     {
-                        Klant = klanten[0],
+                        Klant = klanten[1],
                         Datum = DateTime.Now,
                         TotaalPrijs = 100,
                         Producten = new List<Product>()
@@ -224,7 +228,7 @@ namespace Data_layer
                     },
                     new Bestelling()
                     {
-                        Klant = klanten[0],
+                        Klant = klanten[1],
                         Datum = DateTime.Now,
                         TotaalPrijs = 100,
                         Producten = new List<Product>()

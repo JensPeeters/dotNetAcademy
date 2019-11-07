@@ -1,0 +1,9 @@
+<div *ngIf="Bestellingen" class="container mb-5">
+    <div class="card">
+        <div class="card-body">
+            <h1 class="card-title">Mijn Bestellingen</h1>
+            <app-bestelling class="col" *ngFor="let bestelling of Bestellingen" [bestelling]="bestelling"></app-bestelling>
+            <h3></h3>
+        </div>
+    </div>
+</div>

@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BestellingenComponent } from './bestellingen.component';
+import { BestellingComponent } from './bestelling/bestelling.component';
+import { RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
+import { MsalService } from '../services/msal.service';
 
 describe('BestellingenComponent', () => {
   let component: BestellingenComponent;
@@ -8,7 +12,9 @@ describe('BestellingenComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BestellingenComponent ]
+      declarations: [ BestellingenComponent, BestellingComponent ],
+      imports: [RouterModule.forRoot([]), HttpClientModule],
+      providers: [MsalService]
     })
     .compileComponents();
   }));

@@ -12,36 +12,36 @@ export class ProductenService {
   domain: string = 'https://dotnetacademy-api.azurewebsites.net/api';
   pageSize: number = 16;
   pageNumber: number = 0;
-  sortBy: string = "";
-  direction: string = "asc";
+  sortBy: string = '';
+  direction: string = 'asc';
 
-  cursusTypes: string[] = ["Aanbevolen",".NET","Web"];
-  TrajectTypes: string[] = ["Aanbevolen","Full Stack","Visual Studio","Angular"];
+  cursusTypes: string[] = ['Aanbevolen', '.NET', 'Web'];
+  TrajectTypes: string[] = ['Aanbevolen', 'Full Stack', 'Visual Studio', 'Angular'];
 
-  public GetCursussen(filter?: string){
+  public GetCursussen(filter?: string) {
     return this.http
     .get<Cursus[]>(`${this.domain}/cursus?${filter}&pageSize=${this.pageSize}&sortBy=${this.sortBy}&direction=${this.direction}&pageNumber=${this.pageNumber}`)
     .toPromise();
   }
-  public GetTrajecten(filter?: string){
+  public GetTrajecten(filter?: string) {
     return this.http
     .get<Traject[]>(`${this.domain}/traject?${filter}&pageSize=${this.pageSize}&sortBy=${this.sortBy}&direction=${this.direction}&pageNumber=${this.pageNumber}`)
     .toPromise();
   }
 
-  GetCursusById(id: number){
+  GetCursusById(id: number) {
     return this.http
     .get<Cursus>(`${this.domain}/cursus/${id}`)
-    .toPromise()
+    .toPromise();
   }
-  GetTrajectById(id: number){
+  GetTrajectById(id: number) {
     return this.http
     .get<Traject>(`${this.domain}/traject/${id}`)
     .toPromise();
   }
 }
 
-export interface Cursus{
+export interface Cursus {
   cursusID: number;
   prijs: number;
   fotoURLCard: string;
@@ -52,7 +52,7 @@ export interface Cursus{
   categorie: string;
 }
 
-export interface Traject{
+export interface Traject {
   trajectId: number;
   titel: string;
   type: string;

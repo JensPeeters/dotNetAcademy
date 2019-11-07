@@ -8,7 +8,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 import { HomeComponent } from './home/home.component';
 import { ProductComponent } from './productenlijst/product/product.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { ProductenService } from './common/producten.service';
+import { ProductenService } from './services/producten.service';
 
 import { HttpClientModule } from '@angular/common/http';
 import { ProductenlijstComponent } from './productenlijst/productenlijst.component';

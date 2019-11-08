@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MsalService } from '../services/msal.service';
-import { WinkelmandService } from '../common/winkelmand.service';
+import { WinkelmandService } from '../services/winkelmand.service';
 
 @Component({
   selector: 'app-toolbar',

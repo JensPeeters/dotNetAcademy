@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29306.81
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dotNETAcademyServer", "dotNETAcademyServer.csproj", "{B10C8E04-03D6-4F7A-A122-A2CDCDAF2727}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dotNETAcademyServer", "dotNETAcademyServer\dotNETAcademyServer.csproj", "{B10C8E04-03D6-4F7A-A122-A2CDCDAF2727}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data layer", "..\Data layer\Data layer.csproj", "{713309B0-4982-4717-B963-1F3C94B683E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data layer", "Data layer\Data layer.csproj", "{713309B0-4982-4717-B963-1F3C94B683E4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business layer", "..\Business layer\Business layer.csproj", "{19CD6A7F-0BC6-49C5-BE4E-08298D39726F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business layer", "Business layer\Business layer.csproj", "{19CD6A7F-0BC6-49C5-BE4E-08298D39726F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

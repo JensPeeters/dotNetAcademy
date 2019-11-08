@@ -1,12 +1,25 @@
 <section>
-    <div class="card" *ngIf="product">
-        <img class="card-img-top" [src]="product.fotoURLCard" alt="Card image" style="width:100%">
-        <div class="card-body">
-            <h6>Type: {{product.type}}</h6>
-            <h4 class="card-title">{{product.titel}}</h4>
-            <p class="card-text">{{product.beschrijving}}</p>
-            <p class="float-left"><i class="fas fa-tags fa-rotate-90 mr-2"></i><strong>€ {{product.prijs}}</strong></p>
-            <a [routerLink]="['/product',product.categorie,product.id,product.titel]" class="float-right">Meer info >></a>
+  <div class="card" *ngIf="product">
+
+    <img class="card-img-top" [src]="product.fotoURLCard" alt="Card image" style="width:100%">
+    <div class="card-body">
+      <h6>Type: {{product.type}}</h6>
+      <h4 class="card-title">{{product.titel}}</h4>
+      <p class="card-text">{{product.beschrijving}}</p>
+      <div class="grid-cart">
+        <div class="float-left">
+          <i class="fas fa-tags fa-rotate-90 mr-2"></i>
+          <strong>{{product.prijs | currency:' € '}} </strong>
         </div>
+        <a class="btn btn-warning add-to-cart" (click)="AddToCart(product)" >
+          <i class="fas fa-plus"></i>
+          <i class="fas fa-shopping-cart"></i>
+        </a>
+      </div>
+      <div class="more-info" >
+            <a [routerLink]="['/product',product.categorie,product.id,product.titel]">Meer info >></a>
+      </div>
+      
     </div>
+  </div>
 </section>

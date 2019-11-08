@@ -42,21 +42,37 @@ namespace Business_layer
                 .ThenInclude(i => i.Product)
                 .ThenInclude(d => (d as Traject).Cursussen)
                 .SingleOrDefault(d => d.AzureId == custId);
+
             if (klant == null)
-                return null;
+            {
+                klant = new Klant()
+                {
+                    AzureId = custId,
+                    Winkelwagens = new List<Winkelwagen>()
+                };
+                context.Klanten.Add(klant);
+                //SaveContext();
+            }
 
             if (klant.Winkelwagens == null || klant.Winkelwagens.Count == 0)
             {
                 var winkelwagen = new Winkelwagen()
                 {
-                    Datum = DateTime.Now
+                    Datum = DateTime.Now,
+                    Producten = new List<WinkelwagenItem>()
+
                 };
                 klant.Winkelwagens.Add(winkelwagen);
-                context.SaveChanges();
+                SaveContext();
             }
             return klant.Winkelwagens
                 .OrderByDescending(d => d.Datum)
                 .FirstOrDefault();
+        }
+
+        private void SaveContext()
+        {
+            context.SaveChanges();
         }
 
 
@@ -71,13 +87,18 @@ namespace Business_layer
         public Winkelwagen AddProduct(string userId, int prodId, int count,string type)
         {
             var winkelwagen = context.Winkelwagens
+                .Include(a => a.Producten)
+                .ThenInclude(a => a.Product)
                 .FirstOrDefault(d => d.Klant.AzureId == userId);
             if(winkelwagen == null)
             {
-                var klant = context.Klanten.FirstOrDefault(a => a.AzureId == userId);
+                var klant = context.Klanten
+                    .Include(a => a.Winkelwagens)
+                    .FirstOrDefault(a => a.AzureId == userId);
                 winkelwagen = new Winkelwagen()
                 {
-                    Datum = new DateTime()
+                    Datum = new DateTime(),
+                    Producten = new List<WinkelwagenItem>()
                 };
                 klant.Winkelwagens.Add(winkelwagen);
             }
@@ -86,7 +107,7 @@ namespace Business_layer
             {
                 foreach (var product in winkelwagen.Producten)
                 {
-                    if (product.Id == prodId)
+                    if (product.Product.ID == prodId)
                     {
                         product.Aantal += count;
                         return winkelwagen;
@@ -111,7 +132,7 @@ namespace Business_layer
             {
                 //Herberekenen van de totaal prijs
                 winkelwagen.TotaalPrijs = calculator.CalculateCost(winkelwagen);
-                context.SaveChanges();
+                SaveContext();
             }
         }
 

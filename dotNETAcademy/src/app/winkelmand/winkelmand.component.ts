@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { WinkelmandService, IWinkelmand } from '../common/winkelmand.service';
+import { WinkelmandService, IWinkelmand } from '../services/winkelmand.service';
 import { MsalService } from '../services/msal.service';
 
 @Component({

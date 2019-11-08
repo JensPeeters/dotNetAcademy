@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IProducten, IKlant } from '../common/winkelmand.service';
+import { IProducten, IKlant } from './winkelmand.service';
 
 @Injectable({
   providedIn: 'root'

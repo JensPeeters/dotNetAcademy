@@ -5,6 +5,7 @@
 }
 img{
     height: 200px;
+    max-width: 250px;
     margin: auto;
 }
 input{
@@ -34,7 +35,7 @@ input[type=number]::-webkit-outer-spin-button {
     display: grid;
     grid-template-columns: 33% 33% 33%;
 }
-@media only screen and (max-width: 990px){
+@media only screen and (max-width: 1000px){
     .card-body{
         grid-template-columns: 100%;
     }
@@ -42,5 +43,6 @@ input[type=number]::-webkit-outer-spin-button {
 @media only screen and (max-width: 400px){
     img{
         height: 125px;
+        
     }
 }

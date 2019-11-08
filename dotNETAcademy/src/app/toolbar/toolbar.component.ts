@@ -24,10 +24,10 @@ export class ToolbarComponent implements OnInit {
   ngOnInit() {
     if (this.msalService.isLoggedIn()) {
       this.GetUserObjectId();
+      this.winkelmandService.GetWinkelmand(this.UserId).subscribe( mand => {
+        this.winkelmandService.ChangeAantal(mand.producten.length.toString());
+      })
     }
-    this.winkelmandService.GetWinkelmand(this.UserId).subscribe( mand => {
-      this.winkelmandService.ChangeAantal(mand.producten.length.toString());
-    })
   }
   GetUserObjectId() {
     this.UserId = this.msalService.getUserObjectId();

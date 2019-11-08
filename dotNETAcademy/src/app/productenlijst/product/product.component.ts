@@ -16,7 +16,8 @@ export class ProductComponent implements OnInit {
      }
 
   ngOnInit() {
-    this.GetUserId();
+    if(this.msalServ.isLoggedIn())
+      this.GetUserId();
   }
   GetUserId(){
     this.UserId = this.msalServ.getUserObjectId();

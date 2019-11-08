@@ -63,16 +63,25 @@ namespace Business_layer
         /// <summary>
         /// Voeg een product toe in een mandje en bereken de totaalprijs.
         /// </summary>
-        /// <param name="Id">ID van het mandje</param>
+        /// <param name="userId">ID van de gebruiker</param>
         /// <param name="prodId">ID van het product</param>
         /// <param name="count">Aantal exemplaren van het betreffende product</param>
         /// <param name="type">Soort type van product</param>
         /// <returns></returns>
-        public Winkelwagen AddProduct(int Id, int prodId, int count,string type)
+        public Winkelwagen AddProduct(string userId, int prodId, int count,string type)
         {
             var winkelwagen = context.Winkelwagens
-                .FirstOrDefault(d => d.Id == Id);
-
+                .FirstOrDefault(d => d.Klant.AzureId == userId);
+            if(winkelwagen == null)
+            {
+                var klant = context.Klanten.FirstOrDefault(a => a.AzureId == userId);
+                winkelwagen = new Winkelwagen()
+                {
+                    Datum = new DateTime()
+                };
+                klant.Winkelwagens.Add(winkelwagen);
+            }
+                
             try
             {
                 foreach (var product in winkelwagen.Producten)

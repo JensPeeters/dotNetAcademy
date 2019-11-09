@@ -32,6 +32,9 @@ export class WinkelmandComponent implements OnInit {
        }
      }
   }
+  HerlaadWinkelmand(event){
+    this.GetWinkelmandUser();
+  }
   Herbereken(event){
     this.BerekenTotaalprijs();
   }
@@ -39,6 +42,7 @@ export class WinkelmandComponent implements OnInit {
   private GetWinkelmandUser() {
     this.winkelmandService.GetWinkelmand(this.UserId).subscribe(res => {
       this.Winkelmand = res;
+      this.winkelmandService.ChangeAantal(res.producten.length.toString());
       this.BerekenTotaalprijs();
     });
   }

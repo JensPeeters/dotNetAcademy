@@ -42,42 +42,61 @@ namespace Business_layer
                 .ThenInclude(i => i.Product)
                 .ThenInclude(d => (d as Traject).Cursussen)
                 .SingleOrDefault(d => d.AzureId == custId);
+
             if (klant == null)
-                return null;
+            {
+                klant = new Klant()
+                {
+                    AzureId = custId,
+                    Winkelwagens = new List<Winkelwagen>()
+                };
+                context.Klanten.Add(klant);
+                //SaveContext();
+            }
 
             if (klant.Winkelwagens == null || klant.Winkelwagens.Count == 0)
             {
                 var winkelwagen = new Winkelwagen()
                 {
-                    Datum = DateTime.Now
+                    Datum = DateTime.Now,
+                    Producten = new List<WinkelwagenItem>()
+
                 };
                 klant.Winkelwagens.Add(winkelwagen);
-                context.SaveChanges();
+                SaveContext();
             }
             return klant.Winkelwagens
                 .OrderByDescending(d => d.Datum)
                 .FirstOrDefault();
         }
 
+        private void SaveContext()
+        {
+            context.SaveChanges();
+        }
+
 
         /// <summary>
         /// Voeg een product toe in een mandje en bereken de totaalprijs.
         /// </summary>
-        /// <param name="Id">ID van het mandje</param>
+        /// <param name="userId">ID van de gebruiker</param>
         /// <param name="prodId">ID van het product</param>
         /// <param name="count">Aantal exemplaren van het betreffende product</param>
         /// <param name="type">Soort type van product</param>
         /// <returns></returns>
-        public Winkelwagen AddProduct(int Id, int prodId, int count,string type)
+        public Winkelwagen AddProduct(string userId, int prodId, int count,string type)
         {
             var winkelwagen = context.Winkelwagens
-                .FirstOrDefault(d => d.Id == Id);
+                .Include(a => a.Producten)
+                .ThenInclude(a => a.Product)
+                .FirstOrDefault(d => d.Klant.AzureId == userId);
+            winkelwagen = CheckIfWinkelwagenExists(userId, winkelwagen);
 
             try
             {
                 foreach (var product in winkelwagen.Producten)
                 {
-                    if (product.Id == prodId)
+                    if (product.Product.ID == prodId)
                     {
                         product.Aantal += count;
                         return winkelwagen;
@@ -102,10 +121,53 @@ namespace Business_layer
             {
                 //Herberekenen van de totaal prijs
                 winkelwagen.TotaalPrijs = calculator.CalculateCost(winkelwagen);
-                context.SaveChanges();
+                SaveContext();
             }
         }
 
+        /// <summary>
+        /// Voeg een product toe in een mandje en bereken de totaalprijs.
+        /// </summary>
+        /// <param name="userId">ID van de gebruiker</param>
+        /// <param name="prodId">ID van het product</param>
+        /// <returns></returns>
+        public Winkelwagen DeleteProduct(string userId, int prodId)
+        {
+            var winkelwagen = context.Winkelwagens
+                .Include(a => a.Producten)
+                .ThenInclude(a => a.Product)
+                .FirstOrDefault(d => d.Klant.AzureId == userId);
+            winkelwagen = CheckIfWinkelwagenExists(userId, winkelwagen);
+            try
+            {
+                var winkelwagenItem = winkelwagen.Producten.FirstOrDefault(a => a.Id == prodId);
+                winkelwagen.Producten.Remove(winkelwagenItem);
+                return winkelwagen;
+            }
+            finally
+            {
+                //Herberekenen van de totaal prijs
+                winkelwagen.TotaalPrijs = calculator.CalculateCost(winkelwagen);
+                SaveContext();
+            }
+        }
 
+        private Winkelwagen CheckIfWinkelwagenExists(string userId, Winkelwagen winkelwagen)
+        {
+            if (winkelwagen == null)
+            {
+                var klant = context.Klanten
+                    .Include(a => a.Winkelwagens)
+                    .FirstOrDefault(a => a.AzureId == userId);
+                winkelwagen = new Winkelwagen()
+                {
+                    Datum = new DateTime(),
+                    Producten = new List<WinkelwagenItem>()
+                };
+                klant.Winkelwagens.Add(winkelwagen);
+            }
+
+            return winkelwagen;
+        }
     }
 }

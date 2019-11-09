@@ -24,6 +24,10 @@ export class WinkelmandService {
     return this.http.get<IWinkelmand>(`${this.domain}/winkelwagen/${UserId}`);
   }
 
+  DeleteFromWinkelmand(UserId: string, ProdId: number){
+    return this.http.delete<IWinkelmand>(`${this.domain}/winkelwagen/${UserId}/product/${ProdId}`);
+  }
+
   AddToWinkelmand(UserId: string, Type: string, ProdId: number, Aantal: number){
     return this.http.post<IWinkelmand>(`${this.domain}/winkelwagen/${UserId}/product/${Type}/${ProdId}/${Aantal}`,null);
   }

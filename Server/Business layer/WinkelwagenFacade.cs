@@ -130,8 +130,42 @@ namespace Business_layer
         /// </summary>
         /// <param name="userId">ID van de gebruiker</param>
         /// <param name="prodId">ID van het product</param>
+        /// <param name="count">Aantal exemplaren van het betreffende product</param>
         /// <returns></returns>
-        public Winkelwagen DeleteProduct(string userId, int prodId)
+        public Winkelwagen UpdateProductAantal(string userId, int prodId, int count)
+        {
+            var winkelwagen = context.Winkelwagens
+                .Include(a => a.Producten)
+                .ThenInclude(a => a.Product)
+                .FirstOrDefault(d => d.Klant.AzureId == userId);
+            winkelwagen = CheckIfWinkelwagenExists(userId, winkelwagen);
+            try
+            {
+                foreach (var product in winkelwagen.Producten)
+                {
+                    if (product.Product.ID == prodId)
+                    {
+                        product.Aantal = count;
+                        return winkelwagen;
+                    }
+                }
+                return winkelwagen;
+            }
+            finally
+            {
+                //Herberekenen van de totaal prijs
+                winkelwagen.TotaalPrijs = calculator.CalculateCost(winkelwagen);
+                SaveContext();
+            }
+        }
+
+            /// <summary>
+            /// Voeg een product toe in een mandje en bereken de totaalprijs.
+            /// </summary>
+            /// <param name="userId">ID van de gebruiker</param>
+            /// <param name="prodId">ID van het product</param>
+            /// <returns></returns>
+            public Winkelwagen DeleteProduct(string userId, int prodId)
         {
             var winkelwagen = context.Winkelwagens
                 .Include(a => a.Producten)

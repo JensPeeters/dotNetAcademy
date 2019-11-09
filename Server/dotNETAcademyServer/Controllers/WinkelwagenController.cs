@@ -34,6 +34,13 @@ namespace dotNETAcademyServer.Controllers
             return facade.DeleteProduct(userId, prodId);
         }
 
+        [Route("{userId}/product/{prodId}/{count}")]
+        [HttpPut]
+        public Winkelwagen UpdateProductAantal(string userId, int prodId, int count)
+        {
+            return facade.UpdateProductAantal(userId, prodId, count);
+        }
+
         [Route("{id}")]
         public Winkelwagen GetBagForCustomer(string id)
         {

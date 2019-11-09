@@ -10,6 +10,7 @@ import { MsalService } from 'src/app/services/msal.service';
 export class WinkelmandItemComponent implements OnInit {
   @Input() product;
   @Output() childEvent = new EventEmitter();
+  @Output() updateEvent = new EventEmitter();
   UserId: string;
 
   constructor(private winkelmandService: WinkelmandService,
@@ -29,21 +30,29 @@ export class WinkelmandItemComponent implements OnInit {
   }
   VoegToe() {
     this.product.aantal++;
+    this.winkelmandService.AddToWinkelmand(this.UserId, this.product.product.categorie, this.product.product.id, 1).subscribe();
     this.Herbereken();
   }
   VerwijderProduct() {
-    this.winkelmandService.DeleteFromWinkelmand(this.UserId, this.product.id).subscribe( winkelmand => {
-        this.HerlaadWinkelmand();
+    this.winkelmandService.DeleteFromWinkelmand(this.UserId, this.product.id).subscribe(winkelmand => {
+      this.HerlaadWinkelmand();
     });
   }
 
-  HerlaadWinkelmand(){
-    this.childEvent.emit();
+  HerlaadWinkelmand() {
+    this.updateEvent.emit();
+  }
+
+  UpdateAantal() {
+    this.winkelmandService.UpdateAantalProduct(this.UserId, this.product.product.id, this.product.aantal).subscribe(res => {
+      this.Herbereken();
+    });
   }
 
   NeemAf() {
     if (this.product.aantal > 0) {
       this.product.aantal--;
+      this.winkelmandService.AddToWinkelmand(this.UserId, this.product.product.categorie, this.product.product.id, -1).subscribe();
       this.Herbereken();
     }
   }

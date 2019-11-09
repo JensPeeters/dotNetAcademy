@@ -7,8 +7,8 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class WinkelmandService {
 
-  domain: string = "https://localhost:44334/api";
-  //domain: string = 'https://dotnetacademy-api.azurewebsites.net/api';
+  //domain: string = "https://localhost:44334/api";
+  domain: string = 'https://dotnetacademy-api.azurewebsites.net/api';
   private messageSource = new BehaviorSubject('0');
   aantalItems = this.messageSource.asObservable();
 

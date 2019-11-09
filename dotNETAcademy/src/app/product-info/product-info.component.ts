@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ProductenService } from '../services/producten.service';
 import { ActivatedRoute } from '@angular/router';
 import {Location} from '@angular/common';
+import { MsalService } from '../services/msal.service';
+import { WinkelmandService, IProduct } from '../services/winkelmand.service';
 
 @Component({
   selector: 'app-product-info',
@@ -10,9 +12,12 @@ import {Location} from '@angular/common';
 })
 export class ProductInfoComponent implements OnInit {
 
-  constructor(private productService: ProductenService, private route: ActivatedRoute, private location: Location) { }
+  constructor(private productService: ProductenService, private route: ActivatedRoute,
+     private location: Location, private msalService : MsalService,
+     private winkelmandService : WinkelmandService) { }
   currentRoute: string;
   productId: number;
+  UserId: string;
   product;
 
   ngOnInit() {
@@ -25,6 +30,12 @@ export class ProductInfoComponent implements OnInit {
       else if (this.currentRoute == "Traject")
         this.GetTraject()
     })
+    if(this.msalService.isLoggedIn())
+      this.GetUserId();
+
+  }
+  GetUserId(){
+    this.UserId = this.msalService.getUserObjectId();
   }
 
   async GetCursus(){
@@ -33,6 +44,12 @@ export class ProductInfoComponent implements OnInit {
 
   async GetTraject(){
     this.product = await this.productService.GetTrajectById(this.productId);
+  }
+  
+  AddToCart(product : IProduct){
+    this.winkelmandService.AddToWinkelmand(this.UserId,product.categorie,product.id,1).subscribe( res => {
+      this.winkelmandService.ChangeAantal(res.producten.length.toString());
+    });
   }
 
   goBack(){

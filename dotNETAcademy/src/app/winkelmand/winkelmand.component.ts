@@ -8,7 +8,6 @@ import { MsalService } from '../services/msal.service';
   styleUrls: ['./winkelmand.component.scss']
 })
 export class WinkelmandComponent implements OnInit {
-  Totaalprijs : number = 0;
   Winkelmand : IWinkelmand;
   UserId : string;
   constructor(private winkelmandService: WinkelmandService,
@@ -25,11 +24,12 @@ export class WinkelmandComponent implements OnInit {
   }
 
   BerekenTotaalprijs(){
-    this.Totaalprijs = 0;
+    let Totaalprijs = 0;
      if(this.Winkelmand){
        for (let product of this.Winkelmand.producten){
-         this.Totaalprijs += product.aantal * product.product.prijs;
+         Totaalprijs += product.aantal * product.product.prijs;
        }
+       this.Winkelmand.totaalPrijs = Totaalprijs;
      }
   }
   HerlaadWinkelmand(event){

@@ -20,6 +20,7 @@ namespace Business_layer
             var klant = context.Klanten
                 .Include(d => d.Bestellingen)
                 .ThenInclude(b => b.Producten)
+                .ThenInclude(i => i.Product)
                 .SingleOrDefault(d => d.AzureId == custId);
 
             if (klant == null)

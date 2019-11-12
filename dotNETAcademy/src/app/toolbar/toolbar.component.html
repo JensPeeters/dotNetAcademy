@@ -43,7 +43,7 @@
                       </div>
                       
                       <div class="dropdown-menu" aria-labelledby="dropdownMenuUser">
-                        <button class="dropdown-item ml-0" type="button">Mijn account</button>
+                        <button class="dropdown-item ml-0" type="button" [routerLink]="['/profiel']">Mijn account</button>
                         <button class="dropdown-item ml-0" type="button" [routerLink]="['/bestellingen']">Mijn bestellingen</button>
                         <div class="dropdown-divider"></div>
                         <button class="dropdown-item ml-0" (click)="logout()">Logout</button>

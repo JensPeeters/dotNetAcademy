@@ -1,25 +1,24 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProductInfoComponent } from './product-info.component';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ProfielComponent } from './profiel.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MsalService } from '../services/msal.service';
 
-describe('ProductInfoComponent', () => {
-  let component: ProductInfoComponent;
-  let fixture: ComponentFixture<ProductInfoComponent>;
+describe('ProfielComponent', () => {
+  let component: ProfielComponent;
+  let fixture: ComponentFixture<ProfielComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports : [ RouterTestingModule, HttpClientModule ],
-      declarations: [ ProductInfoComponent ],
-      providers : [ MsalService ]
+      imports: [HttpClientModule],
+      declarations: [ ProfielComponent ],
+      providers: [MsalService]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ProductInfoComponent);
+    fixture = TestBed.createComponent(ProfielComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

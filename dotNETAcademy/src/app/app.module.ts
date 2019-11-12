@@ -12,13 +12,15 @@ import { ProductenService } from './services/producten.service';
 
 import { HttpClientModule } from '@angular/common/http';
 import { ProductenlijstComponent } from './productenlijst/productenlijst.component';
-import { MsalService }  from './services/msal.service';
+import { MsalService } from './services/msal.service';
 import { WinkelmandComponent } from './winkelmand/winkelmand.component';
 import { WinkelmandItemComponent } from './winkelmand/winkelmand-item/winkelmand-item.component';
 import { ProductInfoComponent } from './product-info/product-info.component';
 import { BestellingenComponent } from './bestellingen/bestellingen.component';
 import { BestellingComponent } from './bestellingen/bestelling/bestelling.component';
 import { BestellingenService } from './services/bestellingen.service';
+import { ProfielComponent } from './profiel/profiel.component';
+import { MsalGuard } from './guard/msal.guard';
 
 
 @NgModule({
@@ -33,7 +35,8 @@ import { BestellingenService } from './services/bestellingen.service';
     WinkelmandItemComponent,
     ProductInfoComponent,
     BestellingenComponent,
-    BestellingComponent
+    BestellingComponent,
+    ProfielComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +47,8 @@ import { BestellingenService } from './services/bestellingen.service';
   providers: [
     ProductenService,
     BestellingenService,
-    MsalService
+    MsalService,
+    MsalGuard
   ],
   bootstrap: [AppComponent]
 })

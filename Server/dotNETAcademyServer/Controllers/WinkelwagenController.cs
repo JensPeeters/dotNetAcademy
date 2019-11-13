@@ -20,11 +20,25 @@ namespace dotNETAcademyServer.Controllers
             this.facade = facade;
         }
 
-        [Route("{bagId}/product/{type}/{prodId}/{count}")]
+        [Route("{userId}/product/{type}/{prodId}/{count}")]
         [HttpPost]
-        public Winkelwagen AddProduct(int bagId, int prodId, int count, string type)
+        public Winkelwagen AddProduct(string userId, int prodId, int count, string type)
         {
-            return facade.AddProduct(bagId, prodId, count, type);
+            return facade.AddProduct(userId, prodId, count, type);
+        }
+
+        [Route("{userId}/product/{prodId}")]
+        [HttpDelete]
+        public Winkelwagen DeleteProduct(string userId, int prodId)
+        {
+            return facade.DeleteProduct(userId, prodId);
+        }
+
+        [Route("{userId}/product/{prodId}/{count}")]
+        [HttpPut]
+        public Winkelwagen UpdateProductAantal(string userId, int prodId, int count)
+        {
+            return facade.UpdateProductAantal(userId, prodId, count);
         }
 
         [Route("{id}")]

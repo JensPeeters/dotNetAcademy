@@ -13,12 +13,12 @@
       <div class="aantal-producten">
         <p>Aantal :
           <button class="btn btn-primary" (click)=NeemAf()>-</button>
-          <input type="number" [(ngModel)]="product.aantal">
+          <input type="number" [(ngModel)]="product.aantal" (ngModelChange)="UpdateAantal()">
           <button class="btn btn-primary" (click)=VoegToe()>+</button>
         </p>
       </div>
       <div>
-        <button class="btn btn-danger">Verwijder product</button>
+        <button (click)="VerwijderProduct()" class="btn btn-danger">Verwijder product</button>
       </div>
     </div>
   </div>

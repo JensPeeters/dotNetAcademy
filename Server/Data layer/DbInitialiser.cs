@@ -211,9 +211,23 @@ namespace Data_layer
                         Klant = klanten[1],
                         Datum = DateTime.Now,
                         TotaalPrijs = 100,
-                        Producten = new List<Product>()
+                        Producten = new List<BestellingItem>()
                         {
-                            cursussen[0],cursussen[1],trajecten[0]
+                            new BestellingItem()
+                            {
+                                Aantal = 1,
+                                Product = cursussen[0]
+                            },
+                            new BestellingItem()
+                            {
+                                Aantal = 2,
+                                Product = cursussen[1]
+                            },
+                            new BestellingItem()
+                            {
+                                Aantal = 1,
+                                Product = trajecten[0]
+                            }
                         }
                     },
                     new Bestelling()
@@ -221,9 +235,18 @@ namespace Data_layer
                         Klant = klanten[1],
                         Datum = DateTime.Now,
                         TotaalPrijs = 100,
-                        Producten = new List<Product>()
+                        Producten = new List<BestellingItem>()
                         {
-                            cursussen[2],cursussen[3]
+                            new BestellingItem()
+                            {
+                                Aantal = 1,
+                                Product = cursussen[2]
+                            },
+                            new BestellingItem()
+                            {
+                                Aantal = 1,
+                                Product = cursussen[3]
+                            }
                         }
                     },
                     new Bestelling()
@@ -231,9 +254,18 @@ namespace Data_layer
                         Klant = klanten[1],
                         Datum = DateTime.Now,
                         TotaalPrijs = 100,
-                        Producten = new List<Product>()
+                        Producten = new List<BestellingItem>()
                         {
-                            cursussen[4],cursussen[5]
+                            new BestellingItem()
+                            {
+                                Aantal = 1,
+                                Product = cursussen[4]
+                            },
+                            new BestellingItem()
+                            {
+                                Aantal = 1,
+                                Product = cursussen[5]
+                            }
                         }
                     }
                 };

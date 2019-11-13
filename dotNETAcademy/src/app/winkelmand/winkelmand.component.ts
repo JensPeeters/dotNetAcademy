@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { WinkelmandService, IWinkelmand } from '../common/winkelmand.service';
+import { WinkelmandService, IWinkelmand } from '../services/winkelmand.service';
 import { MsalService } from '../services/msal.service';
 
 @Component({
@@ -8,7 +8,6 @@ import { MsalService } from '../services/msal.service';
   styleUrls: ['./winkelmand.component.scss']
 })
 export class WinkelmandComponent implements OnInit {
-  Totaalprijs : number = 0;
   Winkelmand : IWinkelmand;
   UserId : string;
   constructor(private winkelmandService: WinkelmandService,
@@ -25,12 +24,16 @@ export class WinkelmandComponent implements OnInit {
   }
 
   BerekenTotaalprijs(){
-    this.Totaalprijs = 0;
+    let Totaalprijs = 0;
      if(this.Winkelmand){
        for (let product of this.Winkelmand.producten){
-         this.Totaalprijs += product.aantal * product.product.prijs;
+         Totaalprijs += product.aantal * product.product.prijs;
        }
+       this.Winkelmand.totaalPrijs = Totaalprijs;
      }
+  }
+  HerlaadWinkelmand(event){
+    this.GetWinkelmandUser();
   }
   Herbereken(event){
     this.BerekenTotaalprijs();
@@ -39,6 +42,7 @@ export class WinkelmandComponent implements OnInit {
   private GetWinkelmandUser() {
     this.winkelmandService.GetWinkelmand(this.UserId).subscribe(res => {
       this.Winkelmand = res;
+      this.winkelmandService.ChangeAantal(res.producten.length.toString());
       this.BerekenTotaalprijs();
     });
   }

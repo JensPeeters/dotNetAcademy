@@ -7,10 +7,12 @@
             Bestellingsnummer: {{bestelling.id}}
         </p>
         <div *ngFor="let product of bestelling.producten">
-            <div class="d-flex">
-                <img class="mr-4" [src]="product.fotoURLCard" alt="productFoto">
-                <h5 class="d-flex align-content-around flex-wrap">{{product.titel}}</h5>
-                <a [routerLink]="['/product',product.categorie,product.id,product.titel]" class="d-flex ml-auto align-content-around flex-wrap mr-4">Meer info >></a>
+            <div class="d-flex" >
+                <div class="imageScaler">
+                    <img class="mr-4" [src]="product.product.fotoURLCard" alt="productFoto">
+                </div>
+                <h5 class="d-flex align-content-around flex-wrap">{{product.aantal}} x {{product.product.titel}}</h5>
+                <a [routerLink]="['/product',product.product.categorie,product.product.id,product.product.titel]" class="d-flex ml-auto align-content-around flex-wrap mr-4">Meer info >></a>
             </div>
             <hr/>
         </div>

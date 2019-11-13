@@ -1,12 +1,26 @@
 p{
     text-align: justify;
 }
-.float-left{
-    font-size: large;
-}
 .card{
     border: 0;
     width: 85vw;
+}
+.float-left{
+    text-align: start;
+    margin-top: 5px !important;
+    width: 60%;
+}
+.btn-warning{
+    width: 100%;
+    justify-self: end;
+    cursor: pointer;
+}
+.more-info{
+    margin-top: 20px !important;
+}
+.grid-cart{
+    display: grid;
+    grid-template-columns: 70% 30%;
 }
 section{
     div{

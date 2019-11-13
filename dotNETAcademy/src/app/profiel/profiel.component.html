@@ -1,0 +1,30 @@
+<div class="card" *ngIf="isUserLoggedIn()">
+    <div class="heading">
+        <h3>Profiel</h3>
+    </div>
+    <div class="main">
+        <div class="group">
+            <div class="namegrid">
+                <div class="controls">
+                    <p class="identifier"><i class="fa fa-user"></i> Voornaam:</p>
+                    <p class="info">{{userfirstname()}}</p>
+                </div>
+                <div class="controls">
+                    <p class="identifier"><i class="fa fa-user"></i> Achternaam:</p>
+                    <p class="info">{{userfamilyname()}}</p>
+                </div>
+            </div>
+            <div class="controls">
+                <p class="identifier"><i class="fa fa-at"></i> E-mailadres:</p>
+                <p class="info">{{useremail()}}</p>
+            </div>
+            <!--<div class="controls">
+                <p class="identifier"><i class="fa fa-mobile"></i> Telefoonnummer:</p>
+                <p class="info">{{useremail()}}</p>
+            </div>-->
+            <div class="row justify-content-center">
+                <button class="btn btn-danger" (click)="editprofile()">Wijzig info</button>
+            </div>
+        </div>
+    </div>
+</div>

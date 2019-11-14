@@ -31,7 +31,7 @@ namespace dotNETAcademyServer.Controllers
         {
             var cursus = facade.GetCursus(id);
             if (cursus == null)
-                return NotFound();
+                return NotFound($"Cursus met id:{id} bestaat niet.");
             return cursus;
         }
 
@@ -50,7 +50,7 @@ namespace dotNETAcademyServer.Controllers
         {
             var deletedCursus = facade.DeleteCursus(id);
             if (deletedCursus == null)
-                return NotFound();
+                return NotFound($"Cursus met id:{id} bestaat niet.");
             return NoContent();
         }
 

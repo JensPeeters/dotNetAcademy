@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Business_layer;
 using Business_layer.Interfaces;
 using Data_layer;
+using Data_layer.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -40,6 +41,10 @@ namespace dotNETAcademyServer
             services.AddScoped<CursusFacade>();
             services.AddScoped<WinkelwagenFacade>();
             services.AddScoped<BestellingFacade>();
+            services.AddScoped<WinkelwagenRepository>();
+            services.AddScoped<BestellingRepository>();
+            services.AddScoped<CursusRepository>();
+            services.AddScoped<TrajectRepository>();
             services.AddScoped<ICostCalculator, CostCalculator>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

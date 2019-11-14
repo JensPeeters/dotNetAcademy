@@ -34,7 +34,7 @@ namespace dotNETAcademyServer.Controllers
         {
             var traject = facade.GetTraject(id);
             if (traject == null)
-                return NotFound();
+                return NotFound($"Traject met id:{id} bestaat niet.");
             return traject;
         }
 
@@ -53,7 +53,7 @@ namespace dotNETAcademyServer.Controllers
         {
             var deletedTraject = facade.DeleteTraject(id);
             if (deletedTraject == null)
-                return NotFound();
+                return NotFound($"Traject met id:{id} bestaat niet.");
             return NoContent();
         }
 

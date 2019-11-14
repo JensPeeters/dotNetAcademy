@@ -65,9 +65,6 @@ namespace Business_layer
                         query = query.OrderByDescending(b => b.ID);
                     break;
             }
-            if (pageSize > 16)
-                pageSize = 16;
-
             query = query.Skip(page * pageSize);
             query = query.Take(pageSize);
 
@@ -115,7 +112,14 @@ namespace Business_layer
                 return null;
             var createdTraject = ConvertCreateUpdateDTOToTraject(traject);
             context.Trajecten.Add(createdTraject);
-            SaveChanges();
+            try
+            {
+                SaveChanges();
+            }
+            catch
+            {
+
+            }
             return ConvertTrajectToDTO(createdTraject);
         }
 

@@ -64,9 +64,6 @@ namespace Business_layer
                         query = query.OrderByDescending(b => b.ID);
                     break;
             }
-            if (pageSize > 16)
-                pageSize = 16;
-
             query = query.Skip(page * pageSize);
             query = query.Take(pageSize);
 

@@ -151,6 +151,9 @@ namespace Business_layer
 
         public TrajectDTO UpdateTraject(TrajectCreateUpdateDTO traject, int id)
         {
+            var existingTraject = context.Trajecten.FirstOrDefault(a => a.ID == id);
+            if (existingTraject == null)
+                return null;
             var updatedTraject = ConvertCreateUpdateDTOToTraject(traject);
             updatedTraject.ID = id;
             context.Trajecten.Update(updatedTraject);

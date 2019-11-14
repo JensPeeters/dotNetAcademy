@@ -40,7 +40,7 @@ namespace dotNETAcademyServer.Controllers
         {
             var createdCursus = facade.AddCursus(cursus);
             if (createdCursus == null)
-                return NotFound("Cursus met die titel bestaat al.");
+                return Conflict("Cursus met die titel bestaat al.");
             return Created("", createdCursus);
         }
 
@@ -58,7 +58,9 @@ namespace dotNETAcademyServer.Controllers
         public ActionResult<CursusCreateUpdateDTO> UpdateCursus([FromBody]CursusCreateUpdateDTO cursus, int id)
         {
             var updatedCursus = facade.UpdateCursus(cursus, id);
-            return Created("", updatedCursus);
+            if (updatedCursus == null)
+                return Conflict($"Cursus met id:{id} bestaal al.");
+            return Ok(updatedCursus);
         }
     }
 }

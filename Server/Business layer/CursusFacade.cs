@@ -149,6 +149,9 @@ namespace Business_layer
 
         public CursusDTO UpdateCursus(CursusCreateUpdateDTO cursus, int id)
         {
+            var existingCursus = context.Cursussen.FirstOrDefault(a => a.ID == id);
+            if (existingCursus == null)
+                return null;
             var updatedCursus = ConvertCreateUpdateDTOToCursus(cursus);
             updatedCursus.ID = id;
             context.Cursussen.Update(updatedCursus);

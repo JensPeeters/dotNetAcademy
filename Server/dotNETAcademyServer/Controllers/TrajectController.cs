@@ -43,7 +43,7 @@ namespace dotNETAcademyServer.Controllers
         {
             var createdTraject = facade.AddTraject(traject);
             if (createdTraject == null)
-                return NoContent();
+                return Conflict("Traject met die titel bestaat al.");
             return Created("", createdTraject);
         }
 
@@ -61,7 +61,9 @@ namespace dotNETAcademyServer.Controllers
         public ActionResult<TrajectDTO> UpdateTraject([FromBody]TrajectCreateUpdateDTO traject, int id)
         {
             var updatedTraject = facade.UpdateTraject(traject, id);
-            return Created("", updatedTraject);
+            if (updatedTraject == null)
+                return Conflict($"Traject met id:{id} bestaal al.");
+            return Ok(updatedTraject);
         }
     }
 }

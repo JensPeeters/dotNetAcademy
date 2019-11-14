@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Business_layer;
-using Data_layer.Model;
+using Business_layer.DTO;
 
 namespace dotNETAcademyServer.Controllers
 {
@@ -21,7 +21,7 @@ namespace dotNETAcademyServer.Controllers
 
         [Route("{custId}")]
         [HttpGet]
-        public List<Bestelling> GetBestellingen(string custId)
+        public List<BestellingDTO> GetBestellingen(string custId)
         {
             return facade.GetBestellingen(custId);
         }

@@ -1,5 +1,7 @@
-﻿using Data_layer;
+﻿using Business_layer.DTO;
+using Data_layer;
 using Data_layer.Model;
+using Data_layer.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,23 +12,28 @@ namespace Business_layer
 {
     public class BestellingFacade
     {
-        private readonly DatabaseContext context;
-        public BestellingFacade(DatabaseContext context)
+        private readonly BestellingRepository repository;
+
+        public BestellingFacade(BestellingRepository repository)
         {
-            this.context = context;
+            this.repository = repository;
         }
-        public List<Bestelling> GetBestellingen(string custId)
+        public List<BestellingDTO> GetBestellingen(string custId)
         {
-            var klant = context.Klanten
-                .Include(d => d.Bestellingen)
-                .ThenInclude(b => b.Producten)
-                .ThenInclude(i => i.Product)
-                .SingleOrDefault(d => d.AzureId == custId);
-
-            if (klant == null)
-                return null;
-
-            return klant.Bestellingen.OrderByDescending(d => d.Datum).ToList();
+            var bestellingen = new List<BestellingDTO>();
+            foreach (var bestelling in repository.GetBestellingen(custId))
+            {
+                bestellingen.Add(
+                    new BestellingDTO()
+                    {
+                        Datum = bestelling.Datum,
+                        Id = bestelling.Id,
+                        Klant = bestelling.Klant,
+                        Producten = bestelling.Producten,
+                        TotaalPrijs = bestelling.TotaalPrijs
+                    });
+            }
+            return bestellingen;
         }
     }
 }

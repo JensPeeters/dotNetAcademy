@@ -62,7 +62,7 @@ namespace dotNETAcademyServer.Controllers
         {
             var updatedTraject = facade.UpdateTraject(traject, id);
             if (updatedTraject == null)
-                return Conflict($"Traject met id:{id} bestaal al.");
+                return Conflict($"Traject met id:{id} bestaal niet.");
             return Ok(updatedTraject);
         }
     }

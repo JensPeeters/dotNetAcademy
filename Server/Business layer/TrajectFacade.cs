@@ -1,4 +1,5 @@
-﻿using Data_layer;
+﻿using Business_layer.DTO;
+using Data_layer;
 using Data_layer.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -17,7 +18,7 @@ namespace Business_layer
             this.context = context;
         }
 
-        public List<Traject> GetTrajecten(string type, string titel,
+        public List<TrajectDTO> GetTrajecten(string type, string titel,
                                                  string sortBy, string direction = "asc",
                                                  int pageSize = 16, int page = 0)
         {
@@ -70,41 +71,87 @@ namespace Business_layer
             query = query.Skip(page * pageSize);
             query = query.Take(pageSize);
 
-            return query.ToList();
+            var trajecten = new List<TrajectDTO>();
+            foreach (var traject in query.ToList())
+            {
+                trajecten.Add(ConvertTrajectToDTO(traject));
+            }
+            return trajecten;
         }
 
-        public Traject GetTraject(int id)
+        private static TrajectDTO ConvertTrajectToDTO(Traject traject)
         {
-            return context.Trajecten.Include(a => a.Cursussen).FirstOrDefault(a => a.ID == id);
+            return new TrajectDTO()
+            {
+                Beschrijving = traject.Beschrijving,
+                Categorie = traject.Categorie,
+                FotoURLCard = traject.FotoURLCard,
+                ID = traject.ID,
+                LangeBeschrijving = traject.LangeBeschrijving,
+                Prijs = traject.Prijs,
+                Titel = traject.Titel,
+                Type = traject.Type,
+                Cursussen = traject.Cursussen
+            };
         }
 
-        public Traject AddTraject(Traject traject)
+        public TrajectDTO GetTraject(int id)
         {
-            var createdTraject = context.Trajecten.FirstOrDefault(o => o.Titel == traject.Titel);
-            if (createdTraject != null)
+            var traject = context.Trajecten.Include(a => a.Cursussen).FirstOrDefault(a => a.ID == id);
+            if (traject == null)
                 return null;
-            context.Trajecten.Add(createdTraject);
-            context.SaveChanges();
-            return createdTraject;
+            return ConvertTrajectToDTO(traject);
         }
 
-        public Traject DeleteTraject(int id)
+        private void SaveChanges()
+        {
+            context.SaveChanges();
+        }
+
+        public TrajectDTO AddTraject(TrajectCreateUpdateDTO traject)
+        {
+            var existingTraject = context.Trajecten.FirstOrDefault(o => o.Titel == traject.Titel);
+            if (existingTraject != null)
+                return null;
+            var createdTraject = ConvertCreateUpdateDTOToTraject(traject);
+            context.Trajecten.Add(createdTraject);
+            SaveChanges();
+            return ConvertTrajectToDTO(createdTraject);
+        }
+
+        private static Traject ConvertCreateUpdateDTOToTraject(TrajectCreateUpdateDTO traject)
+        {
+            return new Traject()
+            {
+                Beschrijving = traject.Beschrijving,
+                Categorie = traject.Categorie,
+                FotoURLCard = traject.FotoURLCard,
+                LangeBeschrijving = traject.LangeBeschrijving,
+                Prijs = traject.Prijs,
+                Titel = traject.Titel,
+                Cursussen = traject.Cursussen,
+                Type = traject.Type
+            };
+        }
+
+        public TrajectDTO DeleteTraject(int id)
         {
             var deletedTraject = context.Trajecten.Include(a => a.Cursussen)
                 .FirstOrDefault(a => a.ID == id);
             if (deletedTraject == null)
                 return null;
-            
             context.Trajecten.Remove(deletedTraject);
-            context.SaveChanges();
-            return deletedTraject;
+            SaveChanges();
+            return ConvertTrajectToDTO(deletedTraject);
         }
 
-        public Traject UpdateTraject(Traject traject)
+        public TrajectDTO UpdateTraject(TrajectCreateUpdateDTO traject, int id)
         {
-            context.Trajecten.Update(traject);
-            context.SaveChanges();
-            return traject;
+            var updatedTraject = ConvertCreateUpdateDTOToTraject(traject);
+            updatedTraject.ID = id;
+            context.Trajecten.Update(updatedTraject);
+            SaveChanges();
+            return ConvertTrajectToDTO(updatedTraject);
         }
     }
 }

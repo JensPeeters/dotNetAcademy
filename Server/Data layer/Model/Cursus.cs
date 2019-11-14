@@ -14,6 +14,5 @@ namespace Data_layer.Model
             this.Categorie = "Cursus";
         }
 
-        //public override int ID { get; set; }
     }
 }

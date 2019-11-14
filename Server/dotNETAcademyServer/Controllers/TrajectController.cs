@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Business_layer;
-using Data_layer.Model;
+using Business_layer.DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,7 +21,7 @@ namespace dotNETAcademyServer.Controllers
         }
 
         [HttpGet]
-        public List<Traject> GetTrajecten(string type, string titel,
+        public List<TrajectDTO> GetTrajecten(string type, string titel,
                                                  string sortBy, string direction = "asc",
                                                  int pageSize = 16, int page = 0)
         {
@@ -30,13 +30,16 @@ namespace dotNETAcademyServer.Controllers
 
         [Route("{id}")]
         [HttpGet]
-        public Traject GetTraject(int id)
+        public ActionResult<TrajectDTO> GetTraject(int id)
         {
-            return facade.GetTraject(id);
+            var traject = facade.GetTraject(id);
+            if (traject == null)
+                return NotFound();
+            return traject;
         }
 
         [HttpPost]
-        public ActionResult<Traject> AddTraject([FromBody] Traject traject)
+        public ActionResult<TrajectDTO> AddTraject([FromBody] TrajectCreateUpdateDTO traject)
         {
             var createdTraject = facade.AddTraject(traject);
             if (createdTraject == null)
@@ -46,7 +49,7 @@ namespace dotNETAcademyServer.Controllers
 
         [Route("{id}")]
         [HttpDelete]
-        public ActionResult<Traject> DeleteTraject(int id)
+        public ActionResult<TrajectDTO> DeleteTraject(int id)
         {
             var deletedTraject = facade.DeleteTraject(id);
             if (deletedTraject == null)
@@ -55,9 +58,9 @@ namespace dotNETAcademyServer.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult<Traject> UpdateTraject([FromBody]Traject traject)
+        public ActionResult<TrajectDTO> UpdateTraject([FromBody]TrajectCreateUpdateDTO traject, int id)
         {
-            var updatedTraject = facade.UpdateTraject(traject);
+            var updatedTraject = facade.UpdateTraject(traject, id);
             return Created("", updatedTraject);
         }
     }

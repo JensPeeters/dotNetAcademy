@@ -1,4 +1,5 @@
-﻿using Data_layer;
+﻿using Business_layer.DTO;
+using Data_layer;
 using Data_layer.Model;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace Business_layer
             this.context = context;
         }
 
-        public List<Cursus> GetCursussen(string type, string titel,
+        public List<CursusDTO> GetCursussen(string type, string titel,
                                                  string sortBy, string direction = "asc",
                                                  int pageSize = 16, int page = 0)
         {
@@ -69,40 +70,93 @@ namespace Business_layer
             query = query.Skip(page * pageSize);
             query = query.Take(pageSize);
 
-            return query.ToList();
+            var cursussen = new List<CursusDTO>();
+            foreach (var cursus in query.ToList())
+            {
+                cursussen.Add(ConvertCursusToDTO(cursus));
+            }
+            return cursussen;
         }
 
-        public Cursus GetCursus(int id)
+        public CursusDTO GetCursus(int id)
         {
-            return context.Cursussen.FirstOrDefault(a => a.ID == id);
-        }
-
-        public Cursus AddCursus(Cursus cursus)
-        {
-            var createdCursus = context.Cursussen.FirstOrDefault(o => o.Titel == cursus.Titel);
-            if (createdCursus != null)
+            var cursus = context.Cursussen.FirstOrDefault(a => a.ID == id);
+            if (cursus == null)
                 return null;
-            context.Cursussen.Add(createdCursus);
-            context.SaveChanges();
-            return createdCursus;
+            return ConvertCursusToDTO(cursus);
         }
 
-        public Cursus DeleteCursus(int id)
+        private static CursusDTO ConvertCursusToDTO(Cursus cursus)
+        {
+            return new CursusDTO()
+            {
+                Beschrijving = cursus.Beschrijving,
+                Categorie = cursus.Categorie,
+                FotoURLCard = cursus.FotoURLCard,
+                ID = cursus.ID,
+                LangeBeschrijving = cursus.LangeBeschrijving,
+                Prijs = cursus.Prijs,
+                Titel = cursus.Titel,
+                Type = cursus.Type
+            };
+        }
+
+        public CursusDTO AddCursus(CursusCreateUpdateDTO cursus)
+        {
+            var existingCursus = context.Cursussen.FirstOrDefault(o => o.Titel == cursus.Titel);
+            if (existingCursus != null)
+                return null;
+            var createdCursus = ConvertCreateUpdateDTOToCursus(cursus);
+            context.Cursussen.Add(createdCursus);
+            try
+            {
+                SaveChanges();
+                
+            }
+            catch
+            {
+               
+            }
+            return ConvertCursusToDTO(createdCursus);
+        }
+
+        private void SaveChanges()
+        {
+            context.SaveChanges();
+        }
+
+        private static Cursus ConvertCreateUpdateDTOToCursus(CursusCreateUpdateDTO cursus)
+        {
+            return new Cursus()
+            {
+                Beschrijving = cursus.Beschrijving,
+                Categorie = cursus.Categorie,
+                FotoURLCard = cursus.FotoURLCard,
+                LangeBeschrijving = cursus.LangeBeschrijving,
+                Prijs = cursus.Prijs,
+                Titel = cursus.Titel,
+                Type = cursus.Type
+            };
+        }
+
+        public CursusDTO DeleteCursus(int id)
         {
             var deletedCursus = context.Cursussen.FirstOrDefault(a => a.ID == id);
             if (deletedCursus == null)
                 return null;
 
             context.Cursussen.Remove(deletedCursus);
-            context.SaveChanges();
-            return deletedCursus;
+            SaveChanges();
+            return ConvertCursusToDTO(deletedCursus);
         }
 
-        public Cursus UpdateCursus(Cursus cursus)
+        public CursusDTO UpdateCursus(CursusCreateUpdateDTO cursus, int id)
         {
-            context.Cursussen.Update(cursus);
-            context.SaveChanges();
-            return cursus;
+            var updatedCursus = ConvertCreateUpdateDTOToCursus(cursus);
+            updatedCursus.ID = id;
+            context.Cursussen.Update(updatedCursus);
+            SaveChanges();
+            return ConvertCursusToDTO(updatedCursus);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Business_layer.Interfaces;
+﻿using Business_layer.DTO;
+using Business_layer.Interfaces;
 using Data_layer;
 using Data_layer.Model;
 using Microsoft.EntityFrameworkCore;
@@ -21,11 +22,12 @@ namespace Business_layer
         }
 
 
-        public Winkelwagen GetWinkelwagen(int id)
+        public WinkelwagenDTO GetWinkelwagen(int id)
         {
-            return context.Winkelwagens.Include(d => d.Producten)
+            var winkelwagen = context.Winkelwagens.Include(d => d.Producten)
                                         .ThenInclude(i => i.Product)
                                         .SingleOrDefault(d => d.Id == id);
+            return ConvertWinkelwagenToDTO(winkelwagen);
         }
 
         /// <summary>
@@ -34,7 +36,7 @@ namespace Business_layer
         /// </summary>
         /// <param name="custId"></param>
         /// <returns></returns>
-        public Winkelwagen GetBagForCustomer(string custId)
+        public WinkelwagenDTO GetBagForCustomer(string custId)
         {
             var klant = context.Klanten
                 .Include(d => d.Winkelwagens)
@@ -65,9 +67,9 @@ namespace Business_layer
                 klant.Winkelwagens.Add(winkelwagen);
                 SaveContext();
             }
-            return klant.Winkelwagens
+            return ConvertWinkelwagenToDTO(klant.Winkelwagens
                 .OrderByDescending(d => d.Datum)
-                .FirstOrDefault();
+                .FirstOrDefault());
         }
 
         private void SaveContext()
@@ -84,7 +86,7 @@ namespace Business_layer
         /// <param name="count">Aantal exemplaren van het betreffende product</param>
         /// <param name="type">Soort type van product</param>
         /// <returns></returns>
-        public Winkelwagen AddProduct(string userId, int prodId, int count,string type)
+        public WinkelwagenDTO AddProduct(string userId, int prodId, int count,string type)
         {
             var winkelwagen = context.Winkelwagens
                 .Include(a => a.Producten)
@@ -99,7 +101,7 @@ namespace Business_layer
                     if (product.Product.ID == prodId)
                     {
                         product.Aantal += count;
-                        return winkelwagen;
+                        return ConvertWinkelwagenToDTO(winkelwagen);
                     }
                 }
                 //not found, create new:
@@ -115,7 +117,7 @@ namespace Business_layer
                     product2.Aantal = count;
                 }
                 winkelwagen.Producten.Add(product2);
-                return winkelwagen;
+                return ConvertWinkelwagenToDTO(winkelwagen);
             }
             finally
             {
@@ -132,7 +134,7 @@ namespace Business_layer
         /// <param name="prodId">ID van het product</param>
         /// <param name="count">Aantal exemplaren van het betreffende product</param>
         /// <returns></returns>
-        public Winkelwagen UpdateProductAantal(string userId, int prodId, int count)
+        public WinkelwagenDTO UpdateProductAantal(string userId, int prodId, int count)
         {
             var winkelwagen = context.Winkelwagens
                 .Include(a => a.Producten)
@@ -146,10 +148,10 @@ namespace Business_layer
                     if (product.Product.ID == prodId)
                     {
                         product.Aantal = count;
-                        return winkelwagen;
+                        return ConvertWinkelwagenToDTO(winkelwagen);
                     }
                 }
-                return winkelwagen;
+                return ConvertWinkelwagenToDTO(winkelwagen);
             }
             finally
             {
@@ -159,13 +161,13 @@ namespace Business_layer
             }
         }
 
-            /// <summary>
-            /// Voeg een product toe in een mandje en bereken de totaalprijs.
-            /// </summary>
-            /// <param name="userId">ID van de gebruiker</param>
-            /// <param name="prodId">ID van het product</param>
-            /// <returns></returns>
-            public Winkelwagen DeleteProduct(string userId, int prodId)
+        /// <summary>
+        /// Voeg een product toe in een mandje en bereken de totaalprijs.
+        /// </summary>
+        /// <param name="userId">ID van de gebruiker</param>
+        /// <param name="prodId">ID van het product</param>
+        /// <returns></returns>
+        public WinkelwagenDTO DeleteProduct(string userId, int prodId)
         {
             var winkelwagen = context.Winkelwagens
                 .Include(a => a.Producten)
@@ -176,7 +178,7 @@ namespace Business_layer
             {
                 var winkelwagenItem = winkelwagen.Producten.FirstOrDefault(a => a.Id == prodId);
                 winkelwagen.Producten.Remove(winkelwagenItem);
-                return winkelwagen;
+                return ConvertWinkelwagenToDTO(winkelwagen);
             }
             finally
             {
@@ -184,6 +186,18 @@ namespace Business_layer
                 winkelwagen.TotaalPrijs = calculator.CalculateCost(winkelwagen);
                 SaveContext();
             }
+        }
+
+        private static WinkelwagenDTO ConvertWinkelwagenToDTO(Winkelwagen winkelwagen)
+        {
+            return new WinkelwagenDTO()
+            {
+                Datum = winkelwagen.Datum,
+                Id = winkelwagen.Id,
+                Klant = winkelwagen.Klant,
+                Producten = winkelwagen.Producten,
+                TotaalPrijs = winkelwagen.TotaalPrijs
+            };
         }
 
         private Winkelwagen CheckIfWinkelwagenExists(string userId, Winkelwagen winkelwagen)

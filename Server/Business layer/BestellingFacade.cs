@@ -1,4 +1,5 @@
-﻿using Data_layer;
+﻿using Business_layer.DTO;
+using Data_layer;
 using Data_layer.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -15,7 +16,7 @@ namespace Business_layer
         {
             this.context = context;
         }
-        public List<Bestelling> GetBestellingen(string custId)
+        public List<BestellingDTO> GetBestellingen(string custId)
         {
             var klant = context.Klanten
                 .Include(d => d.Bestellingen)
@@ -26,7 +27,21 @@ namespace Business_layer
             if (klant == null)
                 return null;
 
-            return klant.Bestellingen.OrderByDescending(d => d.Datum).ToList();
+            var bestellingen = new List<BestellingDTO>();
+            foreach (var bestelling in klant.Bestellingen.OrderByDescending(d => d.Datum).ToList())
+            {
+                bestellingen.Add(
+                    new BestellingDTO()
+                    {
+                        Datum = bestelling.Datum,
+                        Id = bestelling.Id,
+                        Klant = bestelling.Klant,
+                        Producten = bestelling.Producten,
+                        TotaalPrijs = bestelling.TotaalPrijs
+                    });
+            }
+
+            return bestellingen;
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿
 using System.Collections.Generic;
 using Business_layer;
-using Data_layer.Model;
+using Business_layer.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace dotNETAcademyServer.Controllers
@@ -18,7 +18,7 @@ namespace dotNETAcademyServer.Controllers
         }
 
         [HttpGet]
-        public List<Cursus> GetCursussen(string type, string titel,
+        public List<CursusDTO> GetCursussen(string type, string titel,
                                                  string sortBy, string direction = "asc",
                                                  int pageSize = 16, int page = 0)
         {
@@ -27,35 +27,40 @@ namespace dotNETAcademyServer.Controllers
 
         [Route("{id}")]
         [HttpGet]
-        public Cursus GetCursus(int id)
+        public ActionResult<CursusDTO> GetCursus(int id)
         {
-            return facade.GetCursus(id);
+            var cursus = facade.GetCursus(id);
+            if (cursus == null)
+                return NotFound($"Cursus met id:{id} bestaat niet.");
+            return cursus;
         }
 
         [HttpPost]
-        public ActionResult<Cursus> AddCursus([FromBody] Cursus cursus)
+        public ActionResult<CursusCreateUpdateDTO> AddCursus([FromBody] CursusCreateUpdateDTO cursus)
         {
             var createdCursus = facade.AddCursus(cursus);
             if (createdCursus == null)
-                return NoContent();
+                return Conflict("Cursus met die titel bestaat al.");
             return Created("", createdCursus);
         }
 
         [Route("{id}")]
         [HttpDelete]
-        public ActionResult<Cursus> DeleteCursus(int id)
+        public ActionResult<CursusDTO> DeleteCursus(int id)
         {
             var deletedCursus = facade.DeleteCursus(id);
             if (deletedCursus == null)
-                return NotFound();
+                return NotFound($"Cursus met id:{id} bestaat niet.");
             return NoContent();
         }
 
         [HttpPut("{id}")]
-        public ActionResult<Cursus> UpdateCursus([FromBody]Cursus cursus)
+        public ActionResult<CursusCreateUpdateDTO> UpdateCursus([FromBody]CursusCreateUpdateDTO cursus, int id)
         {
-            var updatedCursus = facade.UpdateCursus(cursus);
-            return Created("", updatedCursus);
+            var updatedCursus = facade.UpdateCursus(cursus, id);
+            if (updatedCursus == null)
+                return Conflict($"Cursus met id:{id} bestaal al.");
+            return Ok(updatedCursus);
         }
     }
 }

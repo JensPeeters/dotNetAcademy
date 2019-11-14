@@ -1,5 +1,7 @@
-﻿using Data_layer;
+﻿using Business_layer.DTO;
+using Data_layer;
 using Data_layer.Model;
+using Data_layer.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,18 +11,18 @@ namespace Business_layer
 {
     public class CursusFacade
     {
-        private readonly DatabaseContext context;
+        private readonly CursusRepository repository;
 
-        public CursusFacade(DatabaseContext context)
+        public CursusFacade(CursusRepository repository)
         {
-            this.context = context;
+            this.repository = repository;
         }
 
-        public List<Cursus> GetCursussen(string type, string titel,
+        public List<CursusDTO> GetCursussen(string type, string titel,
                                                  string sortBy, string direction = "asc",
                                                  int pageSize = 16, int page = 0)
         {
-            IQueryable<Cursus> query = context.Cursussen;
+            IQueryable<Cursus> query = repository.GetCursussen();
             if (!string.IsNullOrEmpty(type))
                 query = query.Where(b => b.Type.ToLower().Contains(type.ToLower().Trim()));
 
@@ -63,46 +65,80 @@ namespace Business_layer
                         query = query.OrderByDescending(b => b.ID);
                     break;
             }
-            if (pageSize > 16)
-                pageSize = 16;
-
             query = query.Skip(page * pageSize);
             query = query.Take(pageSize);
 
-            return query.ToList();
+            var cursussen = new List<CursusDTO>();
+            foreach (var cursus in query.ToList())
+            {
+                cursussen.Add(ConvertCursusToDTO(cursus));
+            }
+            return cursussen;
         }
 
-        public Cursus GetCursus(int id)
+        public CursusDTO GetCursus(int id)
         {
-            return context.Cursussen.FirstOrDefault(a => a.ID == id);
-        }
-
-        public Cursus AddCursus(Cursus cursus)
-        {
-            var createdCursus = context.Cursussen.FirstOrDefault(o => o.Titel == cursus.Titel);
-            if (createdCursus != null)
+            var cursus = repository.GetCursusById(id);
+            if (cursus == null)
                 return null;
-            context.Cursussen.Add(createdCursus);
-            context.SaveChanges();
-            return createdCursus;
+            return ConvertCursusToDTO(cursus);
         }
 
-        public Cursus DeleteCursus(int id)
+        private static CursusDTO ConvertCursusToDTO(Cursus cursus)
         {
-            var deletedCursus = context.Cursussen.FirstOrDefault(a => a.ID == id);
+            return new CursusDTO()
+            {
+                Beschrijving = cursus.Beschrijving,
+                Categorie = cursus.Categorie,
+                FotoURLCard = cursus.FotoURLCard,
+                ID = cursus.ID,
+                LangeBeschrijving = cursus.LangeBeschrijving,
+                Prijs = cursus.Prijs,
+                Titel = cursus.Titel,
+                Type = cursus.Type
+            };
+        }
+
+        public CursusDTO AddCursus(CursusCreateUpdateDTO cursus)
+        {
+            var existingCursus = repository.GetCursusByTitel(cursus.Titel);
+            if (existingCursus != null)
+                return null;
+            var newCursus = ConvertCreateUpdateDTOToCursus(cursus);
+            var createdCursus = repository.AddCursus(newCursus);
+            return ConvertCursusToDTO(createdCursus);
+        }
+
+        private static Cursus ConvertCreateUpdateDTOToCursus(CursusCreateUpdateDTO cursus)
+        {
+            return new Cursus()
+            {
+                Beschrijving = cursus.Beschrijving,
+                Categorie = cursus.Categorie,
+                FotoURLCard = cursus.FotoURLCard,
+                LangeBeschrijving = cursus.LangeBeschrijving,
+                Prijs = cursus.Prijs,
+                Titel = cursus.Titel,
+                Type = cursus.Type
+            };
+        }
+
+        public CursusDTO DeleteCursus(int id)
+        {
+            var deletedCursus = repository.DeleteCursus(id);
             if (deletedCursus == null)
                 return null;
-
-            context.Cursussen.Remove(deletedCursus);
-            context.SaveChanges();
-            return deletedCursus;
+            return ConvertCursusToDTO(deletedCursus);
         }
 
-        public Cursus UpdateCursus(Cursus cursus)
+        public CursusDTO UpdateCursus(CursusCreateUpdateDTO cursus, int id)
         {
-            context.Cursussen.Update(cursus);
-            context.SaveChanges();
-            return cursus;
+            var newCursus = ConvertCreateUpdateDTOToCursus(cursus);
+            newCursus.ID = id;
+            var updatedCursus = repository.UpdateCursus(newCursus);
+            if (updatedCursus == null)
+                return null;
+            return ConvertCursusToDTO(updatedCursus);
         }
     }
 }

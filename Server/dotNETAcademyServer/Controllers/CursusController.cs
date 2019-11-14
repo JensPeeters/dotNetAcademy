@@ -59,7 +59,7 @@ namespace dotNETAcademyServer.Controllers
         {
             var updatedCursus = facade.UpdateCursus(cursus, id);
             if (updatedCursus == null)
-                return Conflict($"Cursus met id:{id} bestaal al.");
+                return Conflict($"Cursus met id:{id} bestaat niet.");
             return Ok(updatedCursus);
         }
     }

@@ -19,10 +19,9 @@ namespace dotNETAcademyServer.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<CursusDTO>> GetCursussen([FromQuery]CursusFilter filter)
+        public List<CursusDTO> GetCursussen([FromQuery]CursusFilter filter)
         {
-            return Ok();
-            //return facade.GetCursussen(filter);
+            return facade.GetCursussen(filter);
         }
 
         [Route("{id}")]

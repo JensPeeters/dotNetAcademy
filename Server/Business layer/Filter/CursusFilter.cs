@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Business_layer.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Business_layer.Filter
 {
-    public class CursusFilter
+    public class CursusFilter : IFilter
     {
         public CursusFilter()
         {

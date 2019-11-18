@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Business_layer;
 using Business_layer.DTO;
+using Business_layer.Filter;
 using Microsoft.AspNetCore.Mvc;
 
 namespace dotNETAcademyServer.Controllers
@@ -12,17 +13,15 @@ namespace dotNETAcademyServer.Controllers
     {
         private readonly CursusFacade facade;
 
-        public CursusController(CursusFacade facade)
+        public CursusController(CursusFacade facade )
         {
             this.facade = facade;
         }
 
         [HttpGet]
-        public List<CursusDTO> GetCursussen(string type, string titel,
-                                                 string sortBy, string direction = "asc",
-                                                 int pageSize = 16, int page = 0)
+        public List<CursusDTO> GetCursussen([FromQuery]CursusFilter filter)
         {
-            return facade.GetCursussen(type, titel, sortBy, direction, pageSize, page);
+            return facade.GetCursussen(filter);
         }
 
         [Route("{id}")]

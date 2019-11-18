@@ -1,14 +1,13 @@
 ﻿using Business_layer.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
 namespace Business_layer.Filter
 {
-    public class CursusFilter : IFilter
+    public class TrajectFilter : IFilter
     {
-        public CursusFilter()
+        public TrajectFilter()
         {
             Type = "";
             Direction = "asc";
@@ -23,6 +22,5 @@ namespace Business_layer.Filter
         public string SortBy { get; set; }
         public int PageSize { get; set; }
         public int Page { get; set; }
-
     }
 }

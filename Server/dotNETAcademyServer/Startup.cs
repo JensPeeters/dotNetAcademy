@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Business_layer;
+using Business_layer.Filter;
 using Business_layer.Interfaces;
 using Data_layer;
+using Data_layer.Interfaces;
 using Data_layer.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -46,6 +48,7 @@ namespace dotNETAcademyServer
             services.AddScoped<CursusRepository>();
             services.AddScoped<TrajectRepository>();
             services.AddScoped<ICostCalculator, CostCalculator>();
+            services.AddScoped<ISortFilter, SortFilter>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

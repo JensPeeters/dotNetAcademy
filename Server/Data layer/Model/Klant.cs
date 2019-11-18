@@ -6,11 +6,8 @@ using System.Text;
 
 namespace Data_layer.Model
 {
-    public class Klant
+    public class Klant : User
     {
-        [Key]
-        public int Id { get; set; }
-        public string AzureId { get; set; }
         [JsonIgnore]
         public ICollection<Winkelwagen> Winkelwagens { get; set; }
         [JsonIgnore]

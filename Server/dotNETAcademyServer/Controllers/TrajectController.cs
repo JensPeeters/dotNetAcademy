@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Business_layer;
 using Business_layer.DTO;
+using Business_layer.Filter;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,11 +22,9 @@ namespace dotNETAcademyServer.Controllers
         }
 
         [HttpGet]
-        public List<TrajectDTO> GetTrajecten(string type, string titel,
-                                                 string sortBy, string direction = "asc",
-                                                 int pageSize = 16, int page = 0)
+        public List<TrajectDTO> GetTrajecten([FromQuery]TrajectFilter filter)
         {
-            return facade.GetTrajecten(type, titel, sortBy, direction, pageSize, page);
+            return facade.GetTrajecten(filter);
         }
 
         [Route("{id}")]
@@ -62,7 +61,7 @@ namespace dotNETAcademyServer.Controllers
         {
             var updatedTraject = facade.UpdateTraject(traject, id);
             if (updatedTraject == null)
-                return Conflict($"Traject met id:{id} bestaal al.");
+                return Conflict($"Traject met id:{id} bestaat niet.");
             return Ok(updatedTraject);
         }
     }

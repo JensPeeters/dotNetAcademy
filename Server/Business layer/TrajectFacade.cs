@@ -1,5 +1,7 @@
 ﻿using Business_layer.DTO;
+using Business_layer.Filter;
 using Data_layer;
+using Data_layer.Interfaces;
 using Data_layer.Model;
 using Data_layer.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -13,64 +15,21 @@ namespace Business_layer
     public class TrajectFacade
     {
         private readonly TrajectRepository repository;
+        private readonly ISortFilter sortFilter;
 
-        public TrajectFacade(TrajectRepository repository)
+        public TrajectFacade(TrajectRepository repository, ISortFilter sortFilter)
         {
             this.repository = repository;
+            this.sortFilter = sortFilter;
         }
 
-        public List<TrajectDTO> GetTrajecten(string type, string titel,
-                                                 string sortBy, string direction = "asc",
-                                                 int pageSize = 16, int page = 0)
+        public List<TrajectDTO> GetTrajecten(TrajectFilter filter)
         {
-            IQueryable<Traject> query = repository.GetTrajecten();
-            if (!string.IsNullOrEmpty(type))
-                query = query.Where(b => b.Type.ToLower().Contains(type.ToLower().Trim()));
-
-            if (!string.IsNullOrEmpty(titel))
-                query = query.Where(b => b.Titel.ToLower().Contains(titel.ToLower().Trim()));
-
-            if (string.IsNullOrEmpty(sortBy))
-                sortBy = "id";
-
-            switch (sortBy.ToLower())
-            {
-                case "id":
-                    if (direction == "asc")
-                        query = query.OrderBy(b => b.ID);
-                    else if (direction == "desc")
-                        query = query.OrderByDescending(b => b.ID);
-                    break;
-                case "prijs":
-                    if (direction == "asc")
-                        query = query.OrderBy(b => b.Prijs);
-                    else if (direction == "desc")
-                        query = query.OrderByDescending(b => b.Prijs);
-                    break;
-                case "titel":
-                    if (direction == "asc")
-                        query = query.OrderBy(b => b.Titel);
-                    else if (direction == "desc")
-                        query = query.OrderByDescending(b => b.Titel);
-                    break;
-                case "type":
-                    if (direction == "asc")
-                        query = query.OrderBy(b => b.Type);
-                    else if (direction == "desc")
-                        query = query.OrderByDescending(b => b.Type);
-                    break;
-                default:
-                    if (direction == "asc")
-                        query = query.OrderBy(b => b.ID);
-                    else if (direction == "desc")
-                        query = query.OrderByDescending(b => b.ID);
-                    break;
-            }
-            query = query.Skip(page * pageSize);
-            query = query.Take(pageSize);
+            IQueryable<Product> query = repository.GetTrajecten();
+            query = sortFilter.Filter(filter, query);
 
             var trajecten = new List<TrajectDTO>();
-            foreach (var traject in query.ToList())
+            foreach (Traject traject in query.ToList())
             {
                 trajecten.Add(ConvertTrajectToDTO(traject));
             }

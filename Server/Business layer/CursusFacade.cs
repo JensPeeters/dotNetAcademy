@@ -1,5 +1,7 @@
 ﻿using Business_layer.DTO;
+using Business_layer.Filter;
 using Data_layer;
+using Data_layer.Interfaces;
 using Data_layer.Model;
 using Data_layer.Repositories;
 using System;
@@ -12,64 +14,21 @@ namespace Business_layer
     public class CursusFacade
     {
         private readonly CursusRepository repository;
+        private readonly ISortFilter sortFilter;
 
-        public CursusFacade(CursusRepository repository)
+        public CursusFacade(CursusRepository repository,ISortFilter sortFilter)
         {
             this.repository = repository;
+            this.sortFilter = sortFilter;
         }
 
-        public List<CursusDTO> GetCursussen(string type, string titel,
-                                                 string sortBy, string direction = "asc",
-                                                 int pageSize = 16, int page = 0)
+        public List<CursusDTO> GetCursussen(CursusFilter filter)
         {
-            IQueryable<Cursus> query = repository.GetCursussen();
-            if (!string.IsNullOrEmpty(type))
-                query = query.Where(b => b.Type.ToLower().Contains(type.ToLower().Trim()));
-
-            if (!string.IsNullOrEmpty(titel))
-                query = query.Where(b => b.Titel.ToLower().Contains(titel.ToLower().Trim()));
-
-            if (string.IsNullOrEmpty(sortBy))
-                sortBy = "id";
-
-            switch (sortBy.ToLower())
-            {
-                case "id":
-                    if (direction == "asc")
-                        query = query.OrderBy(b => b.ID);
-                    else if (direction == "desc")
-                        query = query.OrderByDescending(b => b.ID);
-                    break;
-                case "prijs":
-                    if (direction == "asc")
-                        query = query.OrderBy(b => b.Prijs);
-                    else if (direction == "desc")
-                        query = query.OrderByDescending(b => b.Prijs);
-                    break;
-                case "titel":
-                    if (direction == "asc")
-                        query = query.OrderBy(b => b.Titel);
-                    else if (direction == "desc")
-                        query = query.OrderByDescending(b => b.Titel);
-                    break;
-                case "type":
-                    if (direction == "asc")
-                        query = query.OrderBy(b => b.Type);
-                    else if (direction == "desc")
-                        query = query.OrderByDescending(b => b.Type);
-                    break;
-                default:
-                    if (direction == "asc")
-                        query = query.OrderBy(b => b.ID);
-                    else if (direction == "desc")
-                        query = query.OrderByDescending(b => b.ID);
-                    break;
-            }
-            query = query.Skip(page * pageSize);
-            query = query.Take(pageSize);
-
+            IQueryable<Product> query = repository.GetCursussen();
+            query = sortFilter.Filter(filter, query);
+            
             var cursussen = new List<CursusDTO>();
-            foreach (var cursus in query.ToList())
+            foreach (Cursus cursus in query.ToList())
             {
                 cursussen.Add(ConvertCursusToDTO(cursus));
             }

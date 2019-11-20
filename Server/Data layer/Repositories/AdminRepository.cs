@@ -6,41 +6,42 @@ using System.Text;
 
 namespace Data_layer.Repositories
 {
-    public class KlantRepository
+    public class AdminRepository
     {
         private readonly DatabaseContext context;
-        public KlantRepository(DatabaseContext context)
+        public AdminRepository(DatabaseContext context)
         {
             this.context = context;
         }
 
-        public Klant GetKlantByID(string klantId)
+        public Admin GetAdminByID(string adminId)
         {
-            var klant = context.Klanten.FirstOrDefault(d => d.AzureId == klantId);
+            var admin = context.Admins.FirstOrDefault(d => d.AzureId == adminId);
 
-            if (klant == null)
+            if (admin == null)
                 return null;
 
-            return klant;
+            return admin;
         }
-        public Klant CreateKlant(Klant klant)
+        public Admin CreateAdmin(Admin admin)
         {
-            var existingKlant = context.Klanten.FirstOrDefault(d => d.AzureId == klant.AzureId);
+            var existingAdmin = context.Admins.FirstOrDefault(d => d.AzureId == admin.AzureId);
 
-            if (existingKlant == null)
+            if (existingAdmin == null)
                 return null;
 
-            context.Klanten.Add(klant);
+            context.Admins.Add(admin);
 
             try
             {
                 SaveChanges();
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 throw new Exception(e.Message);
             }
 
-            return klant;
+            return admin;
         }
 
         private void SaveChanges()

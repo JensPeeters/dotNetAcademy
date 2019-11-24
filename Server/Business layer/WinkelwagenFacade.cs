@@ -33,6 +33,14 @@ namespace Business_layer
         public WinkelwagenDTO GetBagForCustomer(string custId)
         {
             var winkelwagen = _repository.GetWinkelwagenByKlantId(custId);
+            try
+            {
+                _repository.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
             return ConvertWinkelwagenToDTO(winkelwagen);
         }
 
@@ -47,9 +55,16 @@ namespace Business_layer
         public WinkelwagenDTO AddProduct(string userId, int prodId, int count,string type)
         {
             var winkelwagen = _repository.AddProduct(userId, prodId, count, type);
-
             //Herberekenen van de totaal prijs
             winkelwagen.TotaalPrijs = calculator.CalculateCost(winkelwagen);
+            try
+            {
+                _repository.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
             return ConvertWinkelwagenToDTO(winkelwagen);
         }
 
@@ -63,9 +78,16 @@ namespace Business_layer
         public WinkelwagenDTO UpdateProductAantal(string userId, int prodId, int count)
         {
             var winkelwagen = _repository.UpdateProduct(userId, prodId, count);
-
             //Herberekenen van de totaal prijs
             winkelwagen.TotaalPrijs = calculator.CalculateCost(winkelwagen);
+            try
+            {
+                _repository.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
             return ConvertWinkelwagenToDTO(winkelwagen);
         }
 
@@ -81,6 +103,14 @@ namespace Business_layer
 
             //Herberekenen van de totaal prijs
             winkelwagen.TotaalPrijs = calculator.CalculateCost(winkelwagen);
+            try
+            {
+                _repository.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
             return ConvertWinkelwagenToDTO(winkelwagen);
         }
 

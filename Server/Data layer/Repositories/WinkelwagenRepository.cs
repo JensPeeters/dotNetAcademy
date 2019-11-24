@@ -25,6 +25,28 @@ namespace Data_layer.Repositories
                 .ThenInclude(d => (d as Traject).Cursussen)
                 .SingleOrDefault(d => d.AzureId == custId);
 
+            klant = CheckIfKlantExists(custId, klant);
+            CreateWinkelwagenIfNull(klant);
+            return klant.Winkelwagens
+                .OrderByDescending(d => d.Datum)
+                .FirstOrDefault();
+        }
+
+        private void CreateWinkelwagenIfNull(Klant klant)
+        {
+            if (klant.Winkelwagens == null || klant.Winkelwagens.Count == 0)
+            {
+                var winkelwagen = new Winkelwagen()
+                {
+                    Datum = DateTime.Now,
+                    Producten = new List<WinkelwagenItem>()
+                };
+                klant.Winkelwagens.Add(winkelwagen);
+            }
+        }
+
+        private Klant CheckIfKlantExists(string custId, Klant klant)
+        {
             if (klant == null)
             {
                 klant = new Klant()
@@ -34,24 +56,8 @@ namespace Data_layer.Repositories
                 };
                 _context.Klanten.Add(klant);
             }
-
-            if (klant.Winkelwagens == null || klant.Winkelwagens.Count == 0)
-            {
-                var winkelwagen = new Winkelwagen()
-                {
-                    Datum = DateTime.Now,
-                    Producten = new List<WinkelwagenItem>()
-
-                };
-                klant.Winkelwagens.Add(winkelwagen);
-                SaveChanges();
-            }
-
-            return klant.Winkelwagens
-                .OrderByDescending(d => d.Datum)
-                .FirstOrDefault();
+            return klant;
         }
-
 
         public Winkelwagen AddProduct(string userId, int prodId, int count, string type)
         {
@@ -60,7 +66,6 @@ namespace Data_layer.Repositories
                 .ThenInclude(a => a.Product)
                 .FirstOrDefault(d => d.Klant.AzureId == userId);
             winkelwagen = CheckIfWinkelwagenExists(userId, winkelwagen);
-
             try
             {
                 foreach (var product in winkelwagen.Producten)
@@ -86,9 +91,9 @@ namespace Data_layer.Repositories
                 winkelwagen.Producten.Add(product2);
                 return winkelwagen;
             }
-            finally
+            catch (Exception e)
             {
-                SaveChanges();
+                throw new Exception(e.Message);
             }
         }
 
@@ -106,7 +111,6 @@ namespace Data_layer.Repositories
                 };
                 klant.Winkelwagens.Add(winkelwagen);
             }
-
             return winkelwagen;
         }
 
@@ -123,9 +127,9 @@ namespace Data_layer.Repositories
                 winkelwagen.Producten.Remove(winkelwagenItem);
                 return winkelwagen;
             }
-            finally
+            catch (Exception e)
             {
-                SaveChanges();
+                throw new Exception(e.Message);
             }
         }
 
@@ -148,14 +152,17 @@ namespace Data_layer.Repositories
                 }
                 return winkelwagen;
             }
-            finally
+            catch (Exception e)
             {
-                SaveChanges();
+                throw new Exception(e.Message);
             }
         }
-        private void SaveChanges()
+        public void SaveChanges()
         {
-            _context.SaveChanges();
+            if (_context.SaveChanges() > 0)
+            {
+                _context.SaveChanges();
+            }
         }
     }
 }

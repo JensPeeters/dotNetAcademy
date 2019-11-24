@@ -9,6 +9,7 @@ namespace Data_layer.Interfaces
     {
         Winkelwagen GetWinkelwagenByKlantId(string custId);
         Winkelwagen AddProduct(string userId, int prodId, int count, string type);
+        void SaveChanges();
         Winkelwagen DeleteProduct(string userId, int prodId);
         Winkelwagen UpdateProduct(string userId, int prodId, int count);
     }

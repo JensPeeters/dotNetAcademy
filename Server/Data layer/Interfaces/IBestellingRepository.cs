@@ -7,6 +7,6 @@ namespace Data_layer.Interfaces
 {
     public interface IBestellingRepository
     {
-        List<Bestelling> GetBestellingen(string custId);
+        List<Bestelling> GetBestellingenByCustomerId(string custId);
     }
 }

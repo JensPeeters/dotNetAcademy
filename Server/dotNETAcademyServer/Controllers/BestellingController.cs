@@ -22,9 +22,9 @@ namespace dotNETAcademyServer.Controllers
 
         [Route("{custId}")]
         [HttpGet]
-        public List<BestellingDTO> GetBestellingen(string custId)
+        public List<BestellingDTO> GetBestellingenByCustomerId(string custId)
         {
-            return _facade.GetBestellingen(custId);
+            return _facade.GetBestellingenByCustomerId(custId);
         }
     }
 }

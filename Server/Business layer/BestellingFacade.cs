@@ -20,9 +20,9 @@ namespace Business_layer
         {
             this._repository = repository;
         }
-        public List<BestellingDTO> GetBestellingen(string custId)
+        public List<BestellingDTO> GetBestellingenByCustomerId(string custId)
         {
-            return _repository.GetBestellingen(custId)
+            return _repository.GetBestellingenByCustomerId(custId)
                          .Select(bestelling => new BestellingDTO()
                          {
                              Datum = bestelling.Datum,

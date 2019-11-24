@@ -1,4 +1,6 @@
-﻿using Data_layer.Model;
+﻿using Data_layer.Filter;
+using Data_layer.Interfaces;
+using Data_layer.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,16 +9,31 @@ using System.Text;
 
 namespace Data_layer.Repositories
 {
-    public class TrajectRepository
+    public class TrajectRepository : ITrajectRepository
     {
         private readonly DatabaseContext context;
-        public TrajectRepository(DatabaseContext context)
+        private readonly ISortFilter sortFilter;
+
+        public TrajectRepository(DatabaseContext context, ISortFilter sortFilter)
         {
             this.context = context;
+            this.sortFilter = sortFilter;
         }
-        public IQueryable<Traject> GetTrajecten()
+        public List<Traject> GetTrajecten(ProductFilter filter)
         {
-            return context.Trajecten.Include(a => a.Cursussen);
+            IQueryable<Product> query = context.Trajecten.Include(a => a.Cursussen);
+            query = sortFilter.Filter(filter, query);
+            return query.Select(traject => new Traject {
+                Beschrijving = traject.Beschrijving,
+                Categorie = traject.Categorie,
+                FotoURLCard = traject.FotoURLCard,
+                Cursussen = (traject as Traject).Cursussen,
+                ID = traject.ID,
+                LangeBeschrijving = traject.LangeBeschrijving,
+                Prijs = traject.Prijs,
+                Titel = traject.Titel,
+                Type = traject.Type
+            }).ToList();
         }
 
         public Traject GetTrajectByTitel(string titel)

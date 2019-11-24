@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Business_layer.Interfaces
 {
-    interface IBestellingFacade
+    public interface IBestellingFacade
     {
     }
 }

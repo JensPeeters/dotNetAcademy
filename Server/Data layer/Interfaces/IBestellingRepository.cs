@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Data_layer.Model;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Data_layer.Interfaces
 {
-    interface IBestellingRepository
+    public interface IBestellingRepository
     {
+        List<Bestelling> GetBestellingen(string custId);
     }
 }

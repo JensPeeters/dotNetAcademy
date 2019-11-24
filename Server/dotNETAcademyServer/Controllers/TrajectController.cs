@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Business_layer;
 using Business_layer.DTO;
-using Business_layer.Filter;
+using Data_layer.Filter;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,7 +22,7 @@ namespace dotNETAcademyServer.Controllers
         }
 
         [HttpGet]
-        public List<TrajectDTO> GetTrajecten([FromQuery]TrajectFilter filter)
+        public List<TrajectDTO> GetTrajecten([FromQuery]ProductFilter filter)
         {
             return facade.GetTrajecten(filter);
         }

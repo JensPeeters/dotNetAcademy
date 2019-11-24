@@ -1,12 +1,11 @@
-﻿using Business_layer.Interfaces;
-using Data_layer.Interfaces;
+﻿using Data_layer.Interfaces;
 using Data_layer.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Business_layer.Filter
+namespace Data_layer.Filter
 {
     public class SortFilter : ISortFilter
     {

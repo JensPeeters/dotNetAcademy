@@ -11,7 +11,7 @@ using System.Text;
 
 namespace Business_layer
 {
-    public class WinkelwagenFacade
+    public class WinkelwagenFacade : IWinkelwagenFacade
     {
         private readonly ICostCalculator calculator;
         private readonly WinkelwagenRepository repository;

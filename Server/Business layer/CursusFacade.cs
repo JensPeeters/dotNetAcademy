@@ -1,6 +1,6 @@
 ﻿using Business_layer.DTO;
-using Business_layer.Filter;
 using Data_layer;
+using Data_layer.Filter;
 using Data_layer.Interfaces;
 using Data_layer.Model;
 using Data_layer.Repositories;
@@ -14,21 +14,16 @@ namespace Business_layer
     public class CursusFacade
     {
         private readonly CursusRepository repository;
-        private readonly ISortFilter sortFilter;
 
-        public CursusFacade(CursusRepository repository,ISortFilter sortFilter)
+        public CursusFacade(CursusRepository repository)
         {
             this.repository = repository;
-            this.sortFilter = sortFilter;
         }
 
-        public List<CursusDTO> GetCursussen(CursusFilter filter)
+        public List<CursusDTO> GetCursussen(ProductFilter filter)
         {
-            IQueryable<Product> query = repository.GetCursussen();
-            query = sortFilter.Filter(filter, query);
-            
             var cursussen = new List<CursusDTO>();
-            foreach (Cursus cursus in query.ToList())
+            foreach (Cursus cursus in repository.GetCursussen(filter))
             {
                 cursussen.Add(ConvertCursusToDTO(cursus));
             }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Business_layer;
 using Business_layer.DTO;
-using Business_layer.Filter;
+using Data_layer.Filter;
 using Microsoft.AspNetCore.Mvc;
 
 namespace dotNETAcademyServer.Controllers
@@ -19,7 +19,7 @@ namespace dotNETAcademyServer.Controllers
         }
 
         [HttpGet]
-        public List<CursusDTO> GetCursussen([FromQuery]CursusFilter filter)
+        public List<CursusDTO> GetCursussen([FromQuery]ProductFilter filter)
         {
             return facade.GetCursussen(filter);
         }

@@ -1,5 +1,7 @@
 ﻿using Business_layer.DTO;
+using Business_layer.Interfaces;
 using Data_layer;
+using Data_layer.Interfaces;
 using Data_layer.Model;
 using Data_layer.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -10,30 +12,25 @@ using System.Text;
 
 namespace Business_layer
 {
-    public class BestellingFacade
+    public class BestellingFacade : IBestellingFacade
     {
-        private readonly BestellingRepository repository;
+        private readonly IBestellingRepository _repository;
 
-        public BestellingFacade(BestellingRepository repository)
+        public BestellingFacade(IBestellingRepository repository)
         {
-            this.repository = repository;
+            this._repository = repository;
         }
-        public List<BestellingDTO> GetBestellingen(string custId)
+        public List<BestellingDTO> GetBestellingenByCustomerId(string custId)
         {
-            var bestellingen = new List<BestellingDTO>();
-            foreach (var bestelling in repository.GetBestellingen(custId))
-            {
-                bestellingen.Add(
-                    new BestellingDTO()
-                    {
-                        Datum = bestelling.Datum,
-                        Id = bestelling.Id,
-                        Klant = bestelling.Klant,
-                        Producten = bestelling.Producten,
-                        TotaalPrijs = bestelling.TotaalPrijs
-                    });
-            }
-            return bestellingen;
+            return _repository.GetBestellingenByCustomerId(custId)
+                         .Select(bestelling => new BestellingDTO()
+                         {
+                             Datum = bestelling.Datum,
+                             Id = bestelling.Id,
+                             Klant = bestelling.Klant,
+                             Producten = bestelling.Producten,
+                             TotaalPrijs = bestelling.TotaalPrijs
+                         }).ToList();
         }
     }
 }

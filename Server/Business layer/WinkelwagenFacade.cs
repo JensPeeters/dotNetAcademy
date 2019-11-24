@@ -1,6 +1,7 @@
 ﻿using Business_layer.DTO;
 using Business_layer.Interfaces;
 using Data_layer;
+using Data_layer.Interfaces;
 using Data_layer.Model;
 using Data_layer.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -11,16 +12,16 @@ using System.Text;
 
 namespace Business_layer
 {
-    public class WinkelwagenFacade
+    public class WinkelwagenFacade : IWinkelwagenFacade
     {
         private readonly ICostCalculator calculator;
-        private readonly WinkelwagenRepository repository;
+        private readonly IWinkelwagenRepository _repository;
 
         public WinkelwagenFacade(ICostCalculator calculator,
-            WinkelwagenRepository repository)
+            IWinkelwagenRepository repository)
         {
             this.calculator = calculator;
-            this.repository = repository;
+            this._repository = repository;
         }
 
         /// <summary>
@@ -31,7 +32,15 @@ namespace Business_layer
         /// <returns></returns>
         public WinkelwagenDTO GetBagForCustomer(string custId)
         {
-            var winkelwagen = repository.GetWinkelwagenByKlantId(custId);
+            var winkelwagen = _repository.GetWinkelwagenByKlantId(custId);
+            try
+            {
+                _repository.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
             return ConvertWinkelwagenToDTO(winkelwagen);
         }
 
@@ -45,10 +54,17 @@ namespace Business_layer
         /// <returns></returns>
         public WinkelwagenDTO AddProduct(string userId, int prodId, int count,string type)
         {
-            var winkelwagen = repository.AddProduct(userId, prodId, count, type);
-
+            var winkelwagen = _repository.AddProduct(userId, prodId, count, type);
             //Herberekenen van de totaal prijs
             winkelwagen.TotaalPrijs = calculator.CalculateCost(winkelwagen);
+            try
+            {
+                _repository.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
             return ConvertWinkelwagenToDTO(winkelwagen);
         }
 
@@ -61,10 +77,17 @@ namespace Business_layer
         /// <returns></returns>
         public WinkelwagenDTO UpdateProductAantal(string userId, int prodId, int count)
         {
-            var winkelwagen = repository.UpdateProduct(userId, prodId, count);
-
+            var winkelwagen = _repository.UpdateProduct(userId, prodId, count);
             //Herberekenen van de totaal prijs
             winkelwagen.TotaalPrijs = calculator.CalculateCost(winkelwagen);
+            try
+            {
+                _repository.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
             return ConvertWinkelwagenToDTO(winkelwagen);
         }
 
@@ -76,10 +99,18 @@ namespace Business_layer
         /// <returns></returns>
         public WinkelwagenDTO DeleteProduct(string userId, int prodId)
         {
-            var winkelwagen = repository.DeleteProduct(userId, prodId);
+            var winkelwagen = _repository.DeleteProduct(userId, prodId);
 
             //Herberekenen van de totaal prijs
             winkelwagen.TotaalPrijs = calculator.CalculateCost(winkelwagen);
+            try
+            {
+                _repository.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
             return ConvertWinkelwagenToDTO(winkelwagen);
         }
 

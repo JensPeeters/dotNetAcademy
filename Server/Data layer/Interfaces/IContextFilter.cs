@@ -1,4 +1,5 @@
-﻿using Business_layer.Interfaces;
+﻿
+using Data_layer.Filter;
 using Data_layer.Model;
 using System;
 using System.Collections.Generic;
@@ -7,8 +8,8 @@ using System.Text;
 
 namespace Data_layer.Interfaces
 {
-    public interface ISortFilter
+    public interface IContextFilter
     {
-        IQueryable<Product> Filter(IFilter filter, IQueryable<Product> query);
+        IQueryable<Product> Filter(ProductFilter filter, IQueryable<Product> query);
     }
 }

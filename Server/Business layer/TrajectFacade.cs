@@ -1,6 +1,7 @@
 ﻿using Business_layer.DTO;
-using Business_layer.Filter;
+using Business_layer.Interfaces;
 using Data_layer;
+using Data_layer.Filter;
 using Data_layer.Interfaces;
 using Data_layer.Model;
 using Data_layer.Repositories;
@@ -12,24 +13,19 @@ using System.Text;
 
 namespace Business_layer
 {
-    public class TrajectFacade
+    public class TrajectFacade : ITrajectFacade
     {
         private readonly TrajectRepository repository;
-        private readonly ISortFilter sortFilter;
 
-        public TrajectFacade(TrajectRepository repository, ISortFilter sortFilter)
+        public TrajectFacade(TrajectRepository repository)
         {
             this.repository = repository;
-            this.sortFilter = sortFilter;
         }
 
-        public List<TrajectDTO> GetTrajecten(TrajectFilter filter)
+        public List<TrajectDTO> GetTrajecten(ProductFilter filter)
         {
-            IQueryable<Product> query = repository.GetTrajecten();
-            query = sortFilter.Filter(filter, query);
-
             var trajecten = new List<TrajectDTO>();
-            foreach (Traject traject in query.ToList())
+            foreach (Traject traject in repository.GetTrajecten(filter))
             {
                 trajecten.Add(ConvertTrajectToDTO(traject));
             }

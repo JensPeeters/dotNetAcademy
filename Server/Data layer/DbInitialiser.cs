@@ -1,4 +1,5 @@
 ﻿using Data_layer.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace Data_layer
     {
         public static void Initialize(DatabaseContext context)
         {
+            context.Database.Migrate();
             //Create the db if not yet exists
             context.Database.EnsureCreated();
 

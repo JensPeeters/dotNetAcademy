@@ -16,6 +16,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+
+using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Options;
 
 namespace dotNETAcademyServer
@@ -33,9 +35,11 @@ namespace dotNETAcademyServer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DatabaseContext>(
-                // options => options.UseMySQL(
+                //options => options.UseSqlServer(
+                //    Configuration.GetConnectionString("DefaultConnection")
+                //)
                 options => options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")
+                    Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("Data layer")
                 )
             );
             //Dependency injection configuration
@@ -64,7 +68,7 @@ namespace dotNETAcademyServer
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            DbInitialiser.Initialize(context);
+            //DbInitialiser.Initialize(context);
             app.UseCors(builder =>
                 builder.AllowAnyOrigin()
                         .AllowAnyHeader()

@@ -15,17 +15,17 @@ namespace Business_layer
 {
     public class TrajectFacade : ITrajectFacade
     {
-        private readonly TrajectRepository repository;
+        private readonly ITrajectRepository _repository;
 
-        public TrajectFacade(TrajectRepository repository)
+        public TrajectFacade(ITrajectRepository repository)
         {
-            this.repository = repository;
+            this._repository = repository;
         }
 
         public List<TrajectDTO> GetTrajecten(ProductFilter filter)
         {
             var trajecten = new List<TrajectDTO>();
-            foreach (Traject traject in repository.GetTrajecten(filter))
+            foreach (Traject traject in _repository.GetTrajecten(filter))
             {
                 trajecten.Add(ConvertTrajectToDTO(traject));
             }
@@ -50,7 +50,7 @@ namespace Business_layer
 
         public TrajectDTO GetTraject(int id)
         {
-            var traject = repository.GetTrajectById(id);
+            var traject = _repository.GetTrajectById(id);
             if (traject == null)
                 return null;
             return ConvertTrajectToDTO(traject);
@@ -58,11 +58,11 @@ namespace Business_layer
 
         public TrajectDTO AddTraject(TrajectCreateUpdateDTO traject)
         {
-            var existingTraject = repository.GetTrajectByTitel(traject.Titel);
+            var existingTraject = _repository.GetTrajectByTitel(traject.Titel);
             if (existingTraject != null)
                 return null;
             var newTraject = ConvertCreateUpdateDTOToTraject(traject);
-            var createdTraject = repository.AddTraject(newTraject);
+            var createdTraject = _repository.AddTraject(newTraject);
             return ConvertTrajectToDTO(createdTraject);
         }
 
@@ -83,7 +83,7 @@ namespace Business_layer
 
         public TrajectDTO DeleteTraject(int id)
         {
-            var deletedTraject = repository.DeleteTraject(id);
+            var deletedTraject = _repository.DeleteTraject(id);
             if (deletedTraject == null)
                 return null;
             return ConvertTrajectToDTO(deletedTraject);
@@ -93,7 +93,7 @@ namespace Business_layer
         {
             var newTraject = ConvertCreateUpdateDTOToTraject(traject);
             newTraject.ID = id;
-            var updatedTraject = repository.UpdateTraject(newTraject);
+            var updatedTraject = _repository.UpdateTraject(newTraject);
             if (updatedTraject == null)
                 return null;
             return ConvertTrajectToDTO(updatedTraject);

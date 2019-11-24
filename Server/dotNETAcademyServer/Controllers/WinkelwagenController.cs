@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Business_layer;
 using Business_layer.DTO;
+using Business_layer.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,38 +14,38 @@ namespace dotNETAcademyServer.Controllers
     [ApiController]
     public class WinkelwagenController : ControllerBase
     {
-        private readonly WinkelwagenFacade facade;
+        private readonly IWinkelwagenFacade _facade;
 
-        public WinkelwagenController(WinkelwagenFacade facade)
+        public WinkelwagenController(IWinkelwagenFacade facade)
         {
-            this.facade = facade;
+            this._facade = facade;
         }
 
         [Route("{userId}/product/{type}/{prodId}/{count}")]
         [HttpPost]
         public WinkelwagenDTO AddProduct(string userId, int prodId, int count, string type)
         {
-            return facade.AddProduct(userId, prodId, count, type);
+            return _facade.AddProduct(userId, prodId, count, type);
         }
 
         [Route("{userId}/product/{prodId}")]
         [HttpDelete]
         public WinkelwagenDTO DeleteProduct(string userId, int prodId)
         {
-            return facade.DeleteProduct(userId, prodId);
+            return _facade.DeleteProduct(userId, prodId);
         }
 
         [Route("{userId}/product/{prodId}/{count}")]
         [HttpPut]
         public WinkelwagenDTO UpdateProductAantal(string userId, int prodId, int count)
         {
-            return facade.UpdateProductAantal(userId, prodId, count);
+            return _facade.UpdateProductAantal(userId, prodId, count);
         }
 
         [Route("{id}")]
         public WinkelwagenDTO GetBagForCustomer(string id)
         {
-            return facade.GetBagForCustomer(id);
+            return _facade.GetBagForCustomer(id);
         }
     }
 }

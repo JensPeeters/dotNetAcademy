@@ -10,14 +10,14 @@ namespace Data_layer.Repositories
 {
     public class BestellingRepository : IBestellingRepository
     {
-        private readonly DatabaseContext context;
+        private readonly DatabaseContext _context;
         public BestellingRepository(DatabaseContext context)
         {
-            this.context = context;
+            this._context = context;
         }
         public List<Bestelling> GetBestellingen(string custId)
         {
-            var klant = context.Klanten
+            var klant = _context.Klanten
                 .Include(d => d.Bestellingen)
                 .ThenInclude(b => b.Producten)
                 .ThenInclude(i => i.Product)

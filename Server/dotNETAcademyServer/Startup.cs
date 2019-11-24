@@ -43,14 +43,14 @@ namespace dotNETAcademyServer
                 )
             );
             //Dependency injection configuration
-            services.AddTransient<TrajectFacade>();
-            services.AddTransient<CursusFacade>();
-            services.AddTransient<WinkelwagenFacade>();
-            services.AddTransient<BestellingFacade>();
-            services.AddTransient<WinkelwagenRepository>();
-            services.AddTransient<BestellingRepository>();
-            services.AddTransient<CursusRepository>();
-            services.AddTransient<TrajectRepository>();
+            services.AddTransient<ITrajectFacade, TrajectFacade>();
+            services.AddTransient<ICursusFacade, CursusFacade>();
+            services.AddTransient<IWinkelwagenFacade, WinkelwagenFacade>();
+            services.AddTransient<IBestellingFacade, BestellingFacade>();
+            services.AddTransient<IWinkelwagenRepository, WinkelwagenRepository>();
+            services.AddTransient<IBestellingRepository, BestellingRepository>();
+            services.AddTransient<ICursusRepository, CursusRepository>();
+            services.AddTransient<ITrajectRepository, TrajectRepository>();
             services.AddScoped<ICostCalculator, CostCalculator>();
             services.AddScoped<ISortFilter, SortFilter>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

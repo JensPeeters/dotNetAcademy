@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Business_layer;
 using Business_layer.DTO;
+using Business_layer.Interfaces;
 using Data_layer.Filter;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,24 +12,24 @@ namespace dotNETAcademyServer.Controllers
     [ApiController]
     public class CursusController : ControllerBase
     {
-        private readonly CursusFacade facade;
+        private readonly ICursusFacade _facade;
 
-        public CursusController(CursusFacade facade )
+        public CursusController(ICursusFacade facade )
         {
-            this.facade = facade;
+            this._facade = facade;
         }
 
         [HttpGet]
         public List<CursusDTO> GetCursussen([FromQuery]ProductFilter filter)
         {
-            return facade.GetCursussen(filter);
+            return _facade.GetCursussen(filter);
         }
 
         [Route("{id}")]
         [HttpGet]
         public ActionResult<CursusDTO> GetCursus(int id)
         {
-            var cursus = facade.GetCursus(id);
+            var cursus = _facade.GetCursus(id);
             if (cursus == null)
                 return NotFound($"Cursus met id:{id} bestaat niet.");
             return cursus;
@@ -37,7 +38,7 @@ namespace dotNETAcademyServer.Controllers
         [HttpPost]
         public ActionResult<CursusDTO> AddCursus([FromBody] CursusCreateUpdateDTO cursus)
         {
-            var createdCursus = facade.AddCursus(cursus);
+            var createdCursus = _facade.AddCursus(cursus);
             if (createdCursus == null)
                 return Conflict("Cursus met die titel bestaat al.");
             return Created($"api/cursus/{createdCursus.ID}", createdCursus);
@@ -47,7 +48,7 @@ namespace dotNETAcademyServer.Controllers
         [HttpDelete]
         public ActionResult<CursusDTO> DeleteCursus(int id)
         {
-            var deletedCursus = facade.DeleteCursus(id);
+            var deletedCursus = _facade.DeleteCursus(id);
             if (deletedCursus == null)
                 return NotFound($"Cursus met id:{id} bestaat niet.");
             return NoContent();
@@ -56,7 +57,7 @@ namespace dotNETAcademyServer.Controllers
         [HttpPut("{id}")]
         public ActionResult<CursusCreateUpdateDTO> UpdateCursus([FromBody]CursusCreateUpdateDTO cursus, int id)
         {
-            var updatedCursus = facade.UpdateCursus(cursus, id);
+            var updatedCursus = _facade.UpdateCursus(cursus, id);
             if (updatedCursus == null)
                 return Conflict($"Cursus met id:{id} bestaat niet.");
             return Ok(updatedCursus);

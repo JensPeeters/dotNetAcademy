@@ -1,4 +1,5 @@
 ﻿using Business_layer.DTO;
+using Business_layer.Interfaces;
 using Data_layer;
 using Data_layer.Filter;
 using Data_layer.Interfaces;
@@ -11,19 +12,19 @@ using System.Text;
 
 namespace Business_layer
 {
-    public class CursusFacade
+    public class CursusFacade : ICursusFacade
     {
-        private readonly CursusRepository repository;
+        private readonly ICursusRepository _repository;
 
-        public CursusFacade(CursusRepository repository)
+        public CursusFacade(ICursusRepository repository)
         {
-            this.repository = repository;
+            this._repository = repository;
         }
 
         public List<CursusDTO> GetCursussen(ProductFilter filter)
         {
             var cursussen = new List<CursusDTO>();
-            foreach (Cursus cursus in repository.GetCursussen(filter))
+            foreach (Cursus cursus in _repository.GetCursussen(filter))
             {
                 cursussen.Add(ConvertCursusToDTO(cursus));
             }
@@ -32,7 +33,7 @@ namespace Business_layer
 
         public CursusDTO GetCursus(int id)
         {
-            var cursus = repository.GetCursusById(id);
+            var cursus = _repository.GetCursusById(id);
             if (cursus == null)
                 return null;
             return ConvertCursusToDTO(cursus);
@@ -55,11 +56,11 @@ namespace Business_layer
 
         public CursusDTO AddCursus(CursusCreateUpdateDTO cursus)
         {
-            var existingCursus = repository.GetCursusByTitel(cursus.Titel);
+            var existingCursus = _repository.GetCursusByTitel(cursus.Titel);
             if (existingCursus != null)
                 return null;
             var newCursus = ConvertCreateUpdateDTOToCursus(cursus);
-            var createdCursus = repository.AddCursus(newCursus);
+            var createdCursus = _repository.AddCursus(newCursus);
             return ConvertCursusToDTO(createdCursus);
         }
 
@@ -79,7 +80,7 @@ namespace Business_layer
 
         public CursusDTO DeleteCursus(int id)
         {
-            var deletedCursus = repository.DeleteCursus(id);
+            var deletedCursus = _repository.DeleteCursus(id);
             if (deletedCursus == null)
                 return null;
             return ConvertCursusToDTO(deletedCursus);
@@ -89,7 +90,7 @@ namespace Business_layer
         {
             var newCursus = ConvertCreateUpdateDTOToCursus(cursus);
             newCursus.ID = id;
-            var updatedCursus = repository.UpdateCursus(newCursus);
+            var updatedCursus = _repository.UpdateCursus(newCursus);
             if (updatedCursus == null)
                 return null;
             return ConvertCursusToDTO(updatedCursus);

@@ -11,18 +11,18 @@ namespace Data_layer.Repositories
 {
     public class CursusRepository : ICursusRepository
     {
-        private readonly DatabaseContext context;
-        private readonly ISortFilter sortFilter;
+        private readonly DatabaseContext _context;
+        private readonly ISortFilter _sortFilter;
 
         public CursusRepository(DatabaseContext context, ISortFilter sortFilter)
         {
-            this.context = context;
-            this.sortFilter = sortFilter;
+            this._context = context;
+            this._sortFilter = sortFilter;
         }
         public List<Cursus> GetCursussen(ProductFilter filter)
         {
-            IQueryable<Product> query = context.Cursussen;
-            query = sortFilter.Filter(filter, query);
+            IQueryable<Product> query = _context.Cursussen;
+            query = _sortFilter.Filter(filter, query);
             return query.Select(cursus => new Cursus
             {
                 Beschrijving = cursus.Beschrijving,
@@ -38,20 +38,20 @@ namespace Data_layer.Repositories
 
         public Cursus GetCursusByTitel(string titel)
         {
-            return context.Cursussen.FirstOrDefault(a => a.Titel == titel);
+            return _context.Cursussen.FirstOrDefault(a => a.Titel == titel);
         }
 
         public Cursus GetCursusById(int id)
         {
-            return context.Cursussen.FirstOrDefault(a => a.ID == id);
+            return _context.Cursussen.FirstOrDefault(a => a.ID == id);
         }
 
         public Cursus AddCursus(Cursus cursus)
         {
-            var existingCursus = context.Cursussen.FirstOrDefault(o => o.Titel == cursus.Titel);
+            var existingCursus = _context.Cursussen.FirstOrDefault(o => o.Titel == cursus.Titel);
             if (existingCursus != null)
                 return null;
-            context.Cursussen.Add(cursus);
+            _context.Cursussen.Add(cursus);
             try
             {
                 SaveChanges();
@@ -65,17 +65,17 @@ namespace Data_layer.Repositories
 
         private void SaveChanges()
         {
-            context.SaveChanges();
+            _context.SaveChanges();
         }
 
 
         public Cursus DeleteCursus(int id)
         {
-            var deletedCursus = context.Cursussen.FirstOrDefault(a => a.ID == id);
+            var deletedCursus = _context.Cursussen.FirstOrDefault(a => a.ID == id);
             if (deletedCursus == null)
                 return null;
 
-            context.Cursussen.Remove(deletedCursus);
+            _context.Cursussen.Remove(deletedCursus);
             try
             {
                 SaveChanges();
@@ -89,11 +89,11 @@ namespace Data_layer.Repositories
 
         public Cursus UpdateCursus(Cursus cursus)
         {
-            var existingCursus = context.Cursussen.FirstOrDefault(a => a.ID == cursus.ID);
+            var existingCursus = _context.Cursussen.FirstOrDefault(a => a.ID == cursus.ID);
             if (existingCursus == null)
                 return null;
-            context.Entry(existingCursus).State = EntityState.Detached;
-            context.Cursussen.Update(cursus);
+            _context.Entry(existingCursus).State = EntityState.Detached;
+            _context.Cursussen.Update(cursus);
             try
             {
                 SaveChanges();

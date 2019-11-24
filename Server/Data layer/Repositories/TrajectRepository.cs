@@ -11,18 +11,18 @@ namespace Data_layer.Repositories
 {
     public class TrajectRepository : ITrajectRepository
     {
-        private readonly DatabaseContext context;
-        private readonly ISortFilter sortFilter;
+        private readonly DatabaseContext _context;
+        private readonly ISortFilter _sortFilter;
 
         public TrajectRepository(DatabaseContext context, ISortFilter sortFilter)
         {
-            this.context = context;
-            this.sortFilter = sortFilter;
+            this._context = context;
+            this._sortFilter = sortFilter;
         }
         public List<Traject> GetTrajecten(ProductFilter filter)
         {
-            IQueryable<Product> query = context.Trajecten.Include(a => a.Cursussen);
-            query = sortFilter.Filter(filter, query);
+            IQueryable<Product> query = _context.Trajecten.Include(a => a.Cursussen);
+            query = _sortFilter.Filter(filter, query);
             return query.Select(traject => new Traject {
                 Beschrijving = traject.Beschrijving,
                 Categorie = traject.Categorie,
@@ -38,21 +38,21 @@ namespace Data_layer.Repositories
 
         public Traject GetTrajectByTitel(string titel)
         {
-            return context.Trajecten.FirstOrDefault(a => a.Titel == titel);
+            return _context.Trajecten.FirstOrDefault(a => a.Titel == titel);
         }
 
         public Traject GetTrajectById(int id)
         {
-            return context.Trajecten.Include(a => a.Cursussen)
+            return _context.Trajecten.Include(a => a.Cursussen)
                                         .FirstOrDefault(a => a.ID == id);
         }
 
         public Traject AddTraject(Traject traject)
         {
-            var existingTraject = context.Trajecten.FirstOrDefault(o => o.Titel == traject.Titel);
+            var existingTraject = _context.Trajecten.FirstOrDefault(o => o.Titel == traject.Titel);
             if (existingTraject != null)
                 return null;
-            context.Trajecten.Add(traject);
+            _context.Trajecten.Add(traject);
             try
             {
                 SaveChanges();
@@ -66,17 +66,17 @@ namespace Data_layer.Repositories
 
         private void SaveChanges()
         {
-            context.SaveChanges();
+            _context.SaveChanges();
         }
 
 
         public Traject DeleteTraject(int id)
         {
-            var deletedTraject = context.Trajecten.FirstOrDefault(a => a.ID == id);
+            var deletedTraject = _context.Trajecten.FirstOrDefault(a => a.ID == id);
             if (deletedTraject == null)
                 return null;
 
-            context.Trajecten.Remove(deletedTraject);
+            _context.Trajecten.Remove(deletedTraject);
             try
             {
                 SaveChanges();
@@ -90,11 +90,11 @@ namespace Data_layer.Repositories
 
         public Traject UpdateTraject(Traject traject)
         {
-            var existingTraject = context.Trajecten.FirstOrDefault(a => a.ID == traject.ID);
+            var existingTraject = _context.Trajecten.FirstOrDefault(a => a.ID == traject.ID);
             if (existingTraject == null)
                 return null;
-            context.Entry(existingTraject).State = EntityState.Detached;
-            context.Trajecten.Update(traject);
+            _context.Entry(existingTraject).State = EntityState.Detached;
+            _context.Trajecten.Update(traject);
             try
             {
                 SaveChanges();

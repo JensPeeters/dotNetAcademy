@@ -10,15 +10,15 @@ namespace Data_layer.Repositories
 {
     public class WinkelwagenRepository : IWinkelwagenRepository
     {
-        private readonly DatabaseContext context;
+        private readonly DatabaseContext _context;
         public WinkelwagenRepository(DatabaseContext context)
         {
-            this.context = context;
+            this._context = context;
         }
 
         public Winkelwagen GetWinkelwagenByKlantId(string custId)
         {
-            var klant = context.Klanten
+            var klant = _context.Klanten
                 .Include(d => d.Winkelwagens)
                 .ThenInclude(b => b.Producten)
                 .ThenInclude(i => i.Product)
@@ -32,7 +32,7 @@ namespace Data_layer.Repositories
                     AzureId = custId,
                     Winkelwagens = new List<Winkelwagen>()
                 };
-                context.Klanten.Add(klant);
+                _context.Klanten.Add(klant);
             }
 
             if (klant.Winkelwagens == null || klant.Winkelwagens.Count == 0)
@@ -55,7 +55,7 @@ namespace Data_layer.Repositories
 
         public Winkelwagen AddProduct(string userId, int prodId, int count, string type)
         {
-            var winkelwagen = context.Winkelwagens
+            var winkelwagen = _context.Winkelwagens
                 .Include(a => a.Producten)
                 .ThenInclude(a => a.Product)
                 .FirstOrDefault(d => d.Klant.AzureId == userId);
@@ -75,12 +75,12 @@ namespace Data_layer.Repositories
                 var product2 = new WinkelwagenItem();
                 if (type == "Traject")
                 {
-                    product2.Product = context.Trajecten.Find(prodId);
+                    product2.Product = _context.Trajecten.Find(prodId);
                     product2.Aantal = count;
                 }
                 else if (type == "Cursus")
                 {
-                    product2.Product = context.Cursussen.Find(prodId);
+                    product2.Product = _context.Cursussen.Find(prodId);
                     product2.Aantal = count;
                 }
                 winkelwagen.Producten.Add(product2);
@@ -96,7 +96,7 @@ namespace Data_layer.Repositories
         {
             if (winkelwagen == null)
             {
-                var klant = context.Klanten
+                var klant = _context.Klanten
                     .Include(a => a.Winkelwagens)
                     .FirstOrDefault(a => a.AzureId == userId);
                 winkelwagen = new Winkelwagen()
@@ -112,7 +112,7 @@ namespace Data_layer.Repositories
 
         public Winkelwagen DeleteProduct(string userId, int prodId)
         {
-            var winkelwagen = context.Winkelwagens
+            var winkelwagen = _context.Winkelwagens
                 .Include(a => a.Producten)
                 .ThenInclude(a => a.Product)
                 .FirstOrDefault(d => d.Klant.AzureId == userId);
@@ -131,7 +131,7 @@ namespace Data_layer.Repositories
 
         public Winkelwagen UpdateProduct(string userId, int prodId, int count)
         {
-            var winkelwagen = context.Winkelwagens
+            var winkelwagen = _context.Winkelwagens
                 .Include(a => a.Producten)
                 .ThenInclude(a => a.Product)
                 .FirstOrDefault(d => d.Klant.AzureId == userId);
@@ -155,7 +155,7 @@ namespace Data_layer.Repositories
         }
         private void SaveChanges()
         {
-            context.SaveChanges();
+            _context.SaveChanges();
         }
     }
 }

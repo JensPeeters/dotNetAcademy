@@ -2,6 +2,7 @@
 using Business_layer.Interfaces;
 using Data_layer;
 using Data_layer.Filter;
+using Data_layer.Filter.ProductenFilters;
 using Data_layer.Interfaces;
 using Data_layer.Model;
 using Data_layer.Repositories;
@@ -22,7 +23,7 @@ namespace Business_layer
             this._repository = repository;
         }
 
-        public List<TrajectDTO> GetTrajecten(ProductFilterQuery filter)
+        public List<TrajectDTO> GetTrajecten(TrajectFilter filter)
         {
             var trajecten = new List<TrajectDTO>();
             foreach (Traject traject in _repository.GetTrajecten(filter))

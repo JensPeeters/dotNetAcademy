@@ -1,4 +1,5 @@
 ﻿using Data_layer.Filter;
+using Data_layer.Filter.ProductenFilters;
 using Data_layer.Model;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ namespace Data_layer.Interfaces
 {
     public interface ITrajectRepository
     {
-        List<Traject> GetTrajecten(ProductFilterQuery filter);
+        List<Traject> GetTrajecten(TrajectFilter filter);
         Traject GetTrajectByTitel(string titel);
         Traject GetTrajectById(int id);
         Traject AddTraject(Traject traject);

@@ -2,6 +2,7 @@
 using Business_layer.Interfaces;
 using Data_layer;
 using Data_layer.Filter;
+using Data_layer.Filter.ProductenFilters;
 using Data_layer.Interfaces;
 using Data_layer.Model;
 using Data_layer.Repositories;
@@ -21,7 +22,7 @@ namespace Business_layer
             this._repository = repository;
         }
 
-        public List<CursusDTO> GetCursussen(ProductFilterQuery filter)
+        public List<CursusDTO> GetCursussen(CursusFilter filter)
         {
             var cursussen = new List<CursusDTO>();
             foreach (Cursus cursus in _repository.GetCursussen(filter))

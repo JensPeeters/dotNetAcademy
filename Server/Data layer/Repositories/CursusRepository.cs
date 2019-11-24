@@ -1,4 +1,5 @@
 ﻿using Data_layer.Filter;
+using Data_layer.Filter.ProductenFilters;
 using Data_layer.Interfaces;
 using Data_layer.Model;
 using Microsoft.EntityFrameworkCore;
@@ -19,7 +20,7 @@ namespace Data_layer.Repositories
             this._context = context;
             this._sortFilter = sortFilter;
         }
-        public List<Cursus> GetCursussen(ProductFilterQuery filter)
+        public List<Cursus> GetCursussen(CursusFilter filter)
         {
             IQueryable<Product> query = _context.Cursussen;
             query = _sortFilter.Filter(filter, query);

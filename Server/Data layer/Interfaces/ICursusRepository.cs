@@ -1,4 +1,5 @@
 ﻿using Data_layer.Filter;
+using Data_layer.Filter.ProductenFilters;
 using Data_layer.Model;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ namespace Data_layer.Interfaces
 {
     public interface ICursusRepository
     {
-        List<Cursus> GetCursussen(ProductFilterQuery filter);
+        List<Cursus> GetCursussen(CursusFilter filter);
         Cursus GetCursusByTitel(string titel);
         Cursus GetCursusById(int id);
         Cursus AddCursus(Cursus cursus);

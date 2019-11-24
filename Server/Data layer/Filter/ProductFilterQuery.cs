@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Data_layer.Filter
 {
-    public class ProductFilterQuery : IFilterQuery
+    public abstract class ProductFilter
     {
         public string Type { get; set; } = "";
         public string Direction { get; set; } = "asc";

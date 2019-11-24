@@ -68,7 +68,8 @@ namespace dotNETAcademyServer
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            DbInitialiser.Initialize(context);
+            //DbInitialiser.Initialize(context);
+            context.Database.Migrate();
             app.UseCors(builder =>
                 builder.AllowAnyOrigin()
                         .AllowAnyHeader()

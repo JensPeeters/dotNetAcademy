@@ -8,7 +8,7 @@ namespace Data_layer.Interfaces
 {
     public interface ICursusRepository
     {
-        List<Cursus> GetCursussen(ProductFilter filter);
+        List<Cursus> GetCursussen(ProductFilterQuery filter);
         Cursus GetCursusByTitel(string titel);
         Cursus GetCursusById(int id);
         Cursus AddCursus(Cursus cursus);

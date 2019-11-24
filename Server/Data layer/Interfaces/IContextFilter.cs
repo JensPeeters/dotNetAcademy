@@ -7,8 +7,8 @@ using System.Text;
 
 namespace Data_layer.Interfaces
 {
-    public interface ISortFilter
+    public interface IContextFilter
     {
-        IQueryable<Product> Filter(IFilter filter, IQueryable<Product> query);
+        IQueryable<Product> Filter(IFilterQuery filter, IQueryable<Product> query);
     }
 }

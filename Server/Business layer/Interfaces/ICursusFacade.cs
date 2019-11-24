@@ -8,7 +8,7 @@ namespace Business_layer.Interfaces
 {
     public interface ICursusFacade
     {
-        List<CursusDTO> GetCursussen(ProductFilter filter);
+        List<CursusDTO> GetCursussen(ProductFilterQuery filter);
 
         CursusDTO GetCursus(int id);
 

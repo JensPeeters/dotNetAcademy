@@ -21,7 +21,7 @@ namespace Business_layer
             this._repository = repository;
         }
 
-        public List<CursusDTO> GetCursussen(ProductFilter filter)
+        public List<CursusDTO> GetCursussen(ProductFilterQuery filter)
         {
             var cursussen = new List<CursusDTO>();
             foreach (Cursus cursus in _repository.GetCursussen(filter))

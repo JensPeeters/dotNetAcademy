@@ -7,9 +7,9 @@ using System.Text;
 
 namespace Data_layer.Filter
 {
-    public class SortFilter : ISortFilter
+    public class ContextFilter : IContextFilter
     {
-        public IQueryable<Product> Filter(IFilter filter, IQueryable<Product> query)
+        public IQueryable<Product> Filter(IFilterQuery filter, IQueryable<Product> query)
         {
             if (!string.IsNullOrEmpty(filter.Type))
                 query = query.Where(b => b.Type.ToLower().Contains(filter.Type.ToLower().Trim()));

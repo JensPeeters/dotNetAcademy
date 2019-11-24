@@ -52,7 +52,7 @@ namespace dotNETAcademyServer
             services.AddTransient<ICursusRepository, CursusRepository>();
             services.AddTransient<ITrajectRepository, TrajectRepository>();
             services.AddScoped<ICostCalculator, CostCalculator>();
-            services.AddScoped<ISortFilter, SortFilter>();
+            services.AddScoped<IContextFilter, ContextFilter>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

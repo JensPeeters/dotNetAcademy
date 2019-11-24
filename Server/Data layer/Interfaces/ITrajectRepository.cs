@@ -8,7 +8,7 @@ namespace Data_layer.Interfaces
 {
     public interface ITrajectRepository
     {
-        List<Traject> GetTrajecten(ProductFilter filter);
+        List<Traject> GetTrajecten(ProductFilterQuery filter);
         Traject GetTrajectByTitel(string titel);
         Traject GetTrajectById(int id);
         Traject AddTraject(Traject traject);

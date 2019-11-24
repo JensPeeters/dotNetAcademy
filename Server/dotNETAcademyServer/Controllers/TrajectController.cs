@@ -23,7 +23,7 @@ namespace dotNETAcademyServer.Controllers
         }
 
         [HttpGet]
-        public List<TrajectDTO> GetTrajecten([FromQuery]ProductFilter filter)
+        public List<TrajectDTO> GetTrajecten([FromQuery]ProductFilterQuery filter)
         {
             return _facade.GetTrajecten(filter);
         }

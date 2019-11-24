@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Data_layer.Interfaces
 {
-    public interface IFilter
+    public interface IFilterQuery
     {
         string Type { get; set; }
         string Direction { get; set; }

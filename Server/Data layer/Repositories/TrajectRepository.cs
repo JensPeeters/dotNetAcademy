@@ -12,14 +12,14 @@ namespace Data_layer.Repositories
     public class TrajectRepository : ITrajectRepository
     {
         private readonly DatabaseContext _context;
-        private readonly ISortFilter _sortFilter;
+        private readonly IContextFilter _sortFilter;
 
-        public TrajectRepository(DatabaseContext context, ISortFilter sortFilter)
+        public TrajectRepository(DatabaseContext context, IContextFilter sortFilter)
         {
             this._context = context;
             this._sortFilter = sortFilter;
         }
-        public List<Traject> GetTrajecten(ProductFilter filter)
+        public List<Traject> GetTrajecten(ProductFilterQuery filter)
         {
             IQueryable<Product> query = _context.Trajecten.Include(a => a.Cursussen);
             query = _sortFilter.Filter(filter, query);

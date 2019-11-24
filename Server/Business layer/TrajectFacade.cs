@@ -22,7 +22,7 @@ namespace Business_layer
             this._repository = repository;
         }
 
-        public List<TrajectDTO> GetTrajecten(ProductFilter filter)
+        public List<TrajectDTO> GetTrajecten(ProductFilterQuery filter)
         {
             var trajecten = new List<TrajectDTO>();
             foreach (Traject traject in _repository.GetTrajecten(filter))

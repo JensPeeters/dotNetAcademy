@@ -20,7 +20,7 @@ namespace dotNETAcademyServer.Controllers
         }
 
         [HttpGet]
-        public List<CursusDTO> GetCursussen([FromQuery]ProductFilter filter)
+        public List<CursusDTO> GetCursussen([FromQuery]ProductFilterQuery filter)
         {
             return _facade.GetCursussen(filter);
         }

@@ -8,7 +8,7 @@ namespace Business_layer.Interfaces
 {
     public interface ITrajectFacade
     {
-        List<TrajectDTO> GetTrajecten(ProductFilter filter);
+        List<TrajectDTO> GetTrajecten(ProductFilterQuery filter);
 
         TrajectDTO GetTraject(int id);
 

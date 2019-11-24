@@ -12,14 +12,14 @@ namespace Data_layer.Repositories
     public class CursusRepository : ICursusRepository
     {
         private readonly DatabaseContext _context;
-        private readonly ISortFilter _sortFilter;
+        private readonly IContextFilter _sortFilter;
 
-        public CursusRepository(DatabaseContext context, ISortFilter sortFilter)
+        public CursusRepository(DatabaseContext context, IContextFilter sortFilter)
         {
             this._context = context;
             this._sortFilter = sortFilter;
         }
-        public List<Cursus> GetCursussen(ProductFilter filter)
+        public List<Cursus> GetCursussen(ProductFilterQuery filter)
         {
             IQueryable<Product> query = _context.Cursussen;
             query = _sortFilter.Filter(filter, query);

@@ -12,6 +12,7 @@ namespace Data_layer.Interfaces
         List<Traject> GetTrajecten(TrajectFilter filter);
         Traject GetTrajectByTitel(string titel);
         Traject GetTrajectById(int id);
+        void SaveChanges();
         Traject AddTraject(Traject traject);
         Traject DeleteTraject(int id);
         Traject UpdateTraject(Traject traject);

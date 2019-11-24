@@ -12,6 +12,7 @@ namespace Data_layer.Interfaces
         List<Cursus> GetCursussen(CursusFilter filter);
         Cursus GetCursusByTitel(string titel);
         Cursus GetCursusById(int id);
+        void SaveChanges();
         Cursus AddCursus(Cursus cursus);
         Cursus DeleteCursus(int id);
         Cursus UpdateCursus(Cursus cursus);

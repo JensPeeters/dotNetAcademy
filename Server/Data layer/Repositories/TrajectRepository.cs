@@ -54,20 +54,15 @@ namespace Data_layer.Repositories
             if (existingTraject != null)
                 return null;
             _context.Trajecten.Add(traject);
-            try
-            {
-                SaveChanges();
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
             return traject;
         }
 
-        private void SaveChanges()
+        public void SaveChanges()
         {
-            _context.SaveChanges();
+            if (_context.SaveChanges() > 0)
+            {
+                _context.SaveChanges();
+            }
         }
 
 
@@ -78,14 +73,6 @@ namespace Data_layer.Repositories
                 return null;
 
             _context.Trajecten.Remove(deletedTraject);
-            try
-            {
-                SaveChanges();
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
             return deletedTraject;
         }
 
@@ -96,14 +83,6 @@ namespace Data_layer.Repositories
                 return null;
             _context.Entry(existingTraject).State = EntityState.Detached;
             _context.Trajecten.Update(traject);
-            try
-            {
-                SaveChanges();
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
             return traject;
         }
     }

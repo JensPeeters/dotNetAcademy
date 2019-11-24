@@ -53,20 +53,15 @@ namespace Data_layer.Repositories
             if (existingCursus != null)
                 return null;
             _context.Cursussen.Add(cursus);
-            try
-            {
-                SaveChanges();
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
             return cursus;
         }
 
-        private void SaveChanges()
+        public void SaveChanges()
         {
-            _context.SaveChanges();
+            if (_context.SaveChanges() > 0)
+            {
+                _context.SaveChanges();
+            }
         }
 
 
@@ -75,16 +70,7 @@ namespace Data_layer.Repositories
             var deletedCursus = _context.Cursussen.FirstOrDefault(a => a.ID == id);
             if (deletedCursus == null)
                 return null;
-
             _context.Cursussen.Remove(deletedCursus);
-            try
-            {
-                SaveChanges();
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
             return deletedCursus;
         }
 
@@ -95,14 +81,6 @@ namespace Data_layer.Repositories
                 return null;
             _context.Entry(existingCursus).State = EntityState.Detached;
             _context.Cursussen.Update(cursus);
-            try
-            {
-                SaveChanges();
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
             return cursus;
         }
     }

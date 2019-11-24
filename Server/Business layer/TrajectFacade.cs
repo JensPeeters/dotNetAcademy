@@ -64,6 +64,14 @@ namespace Business_layer
                 return null;
             var newTraject = ConvertCreateUpdateDTOToTraject(traject);
             var createdTraject = _repository.AddTraject(newTraject);
+            try
+            {
+                _repository.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
             return ConvertTrajectToDTO(createdTraject);
         }
 
@@ -87,6 +95,14 @@ namespace Business_layer
             var deletedTraject = _repository.DeleteTraject(id);
             if (deletedTraject == null)
                 return null;
+            try
+            {
+                _repository.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
             return ConvertTrajectToDTO(deletedTraject);
         }
 
@@ -97,6 +113,14 @@ namespace Business_layer
             var updatedTraject = _repository.UpdateTraject(newTraject);
             if (updatedTraject == null)
                 return null;
+            try
+            {
+                _repository.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
             return ConvertTrajectToDTO(updatedTraject);
         }
     }

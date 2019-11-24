@@ -62,6 +62,14 @@ namespace Business_layer
                 return null;
             var newCursus = ConvertCreateUpdateDTOToCursus(cursus);
             var createdCursus = _repository.AddCursus(newCursus);
+            try
+            {
+                _repository.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
             return ConvertCursusToDTO(createdCursus);
         }
 
@@ -84,6 +92,14 @@ namespace Business_layer
             var deletedCursus = _repository.DeleteCursus(id);
             if (deletedCursus == null)
                 return null;
+            try
+            {
+                _repository.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
             return ConvertCursusToDTO(deletedCursus);
         }
 
@@ -94,6 +110,14 @@ namespace Business_layer
             var updatedCursus = _repository.UpdateCursus(newCursus);
             if (updatedCursus == null)
                 return null;
+            try
+            {
+                _repository.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
             return ConvertCursusToDTO(updatedCursus);
         }
     }

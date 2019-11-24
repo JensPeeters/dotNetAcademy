@@ -35,12 +35,12 @@ namespace dotNETAcademyServer.Controllers
         }
 
         [HttpPost]
-        public ActionResult<CursusCreateUpdateDTO> AddCursus([FromBody] CursusCreateUpdateDTO cursus)
+        public ActionResult<CursusDTO> AddCursus([FromBody] CursusCreateUpdateDTO cursus)
         {
             var createdCursus = facade.AddCursus(cursus);
             if (createdCursus == null)
                 return Conflict("Cursus met die titel bestaat al.");
-            return Created("", createdCursus);
+            return Created($"api/cursus/{createdCursus.ID}", createdCursus);
         }
 
         [Route("{id}")]

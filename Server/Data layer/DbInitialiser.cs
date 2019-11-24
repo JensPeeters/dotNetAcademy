@@ -11,7 +11,7 @@ namespace Data_layer
     {
         public static void Initialize(DatabaseContext context)
         {
-            context.Database.Migrate();
+            //context.Database.Migrate();
             //Create the db if not yet exists
             context.Database.EnsureCreated();
 

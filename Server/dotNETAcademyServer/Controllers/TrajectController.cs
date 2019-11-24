@@ -43,7 +43,7 @@ namespace dotNETAcademyServer.Controllers
             var createdTraject = facade.AddTraject(traject);
             if (createdTraject == null)
                 return Conflict("Traject met die titel bestaat al.");
-            return Created("", createdTraject);
+            return Created($"api/traject/{createdTraject.ID}", createdTraject);
         }
 
         [Route("{id}")]

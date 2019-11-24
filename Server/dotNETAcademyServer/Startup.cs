@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Business_layer;
-using Business_layer.Filter;
 using Business_layer.Interfaces;
 using Data_layer;
 using Data_layer.Interfaces;
@@ -19,6 +18,7 @@ using Microsoft.Extensions.Logging;
 
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Options;
+using Data_layer.Filter;
 
 namespace dotNETAcademyServer
 {
@@ -43,14 +43,14 @@ namespace dotNETAcademyServer
                 )
             );
             //Dependency injection configuration
-            services.AddScoped<TrajectFacade>();
-            services.AddScoped<CursusFacade>();
-            services.AddScoped<WinkelwagenFacade>();
-            services.AddScoped<BestellingFacade>();
-            services.AddScoped<WinkelwagenRepository>();
-            services.AddScoped<BestellingRepository>();
-            services.AddScoped<CursusRepository>();
-            services.AddScoped<TrajectRepository>();
+            services.AddTransient<TrajectFacade>();
+            services.AddTransient<CursusFacade>();
+            services.AddTransient<WinkelwagenFacade>();
+            services.AddTransient<BestellingFacade>();
+            services.AddTransient<WinkelwagenRepository>();
+            services.AddTransient<BestellingRepository>();
+            services.AddTransient<CursusRepository>();
+            services.AddTransient<TrajectRepository>();
             services.AddScoped<ICostCalculator, CostCalculator>();
             services.AddScoped<ISortFilter, SortFilter>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -68,7 +68,7 @@ namespace dotNETAcademyServer
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            //DbInitialiser.Initialize(context);
+            DbInitialiser.Initialize(context);
             app.UseCors(builder =>
                 builder.AllowAnyOrigin()
                         .AllowAnyHeader()

@@ -25,12 +25,9 @@ namespace Business_layer
 
         public List<TrajectDTO> GetTrajecten(TrajectFilter filter)
         {
-            var trajecten = new List<TrajectDTO>();
-            foreach (Traject traject in _repository.GetTrajecten(filter))
-            {
-                trajecten.Add(ConvertTrajectToDTO(traject));
-            }
-            return trajecten;
+            return _repository.GetTrajecten(filter)
+                        .Select(traject => ConvertTrajectToDTO(traject))
+                        .ToList();
         }
 
         private static TrajectDTO ConvertTrajectToDTO(Traject traject)

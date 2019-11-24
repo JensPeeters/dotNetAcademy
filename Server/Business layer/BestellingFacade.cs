@@ -22,20 +22,15 @@ namespace Business_layer
         }
         public List<BestellingDTO> GetBestellingen(string custId)
         {
-            var bestellingen = new List<BestellingDTO>();
-            foreach (var bestelling in _repository.GetBestellingen(custId))
-            {
-                bestellingen.Add(
-                    new BestellingDTO()
-                    {
-                        Datum = bestelling.Datum,
-                        Id = bestelling.Id,
-                        Klant = bestelling.Klant,
-                        Producten = bestelling.Producten,
-                        TotaalPrijs = bestelling.TotaalPrijs
-                    });
-            }
-            return bestellingen;
+            return _repository.GetBestellingen(custId)
+                         .Select(bestelling => new BestellingDTO()
+                         {
+                             Datum = bestelling.Datum,
+                             Id = bestelling.Id,
+                             Klant = bestelling.Klant,
+                             Producten = bestelling.Producten,
+                             TotaalPrijs = bestelling.TotaalPrijs
+                         }).ToList();
         }
     }
 }

@@ -24,12 +24,9 @@ namespace Business_layer
 
         public List<CursusDTO> GetCursussen(CursusFilter filter)
         {
-            var cursussen = new List<CursusDTO>();
-            foreach (Cursus cursus in _repository.GetCursussen(filter))
-            {
-                cursussen.Add(ConvertCursusToDTO(cursus));
-            }
-            return cursussen;
+            return _repository.GetCursussen(filter)
+                        .Select(cursus => ConvertCursusToDTO(cursus))
+                        .ToList();
         }
 
         public CursusDTO GetCursus(int id)

@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace Data_layer.Model
+namespace Business_layer.DTO
 {
-    public abstract class Product
+    public abstract class ProductDTO
     {
-        [Key]
         public int ID { get; set; }
         [Required]
         public double Prijs { get; set; }

@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Business_layer;
 using Business_layer.Interfaces;
 using Data_layer;
+using Data_layer.Interfaces;
+using Data_layer.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -13,7 +15,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+
+using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Options;
+using Data_layer.Filter;
 
 namespace dotNETAcademyServer
 {
@@ -30,17 +35,24 @@ namespace dotNETAcademyServer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DatabaseContext>(
-                // options => options.UseMySQL(
+                //options => options.UseSqlServer(
+                //    Configuration.GetConnectionString("DefaultConnection")
+                //)
                 options => options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")
+                    Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("Data layer")
                 )
             );
             //Dependency injection configuration
-            services.AddScoped<TrajectFacade>();
-            services.AddScoped<CursusFacade>();
-            services.AddScoped<WinkelwagenFacade>();
-            services.AddScoped<BestellingFacade>();
+            services.AddTransient<ITrajectFacade, TrajectFacade>();
+            services.AddTransient<ICursusFacade, CursusFacade>();
+            services.AddTransient<IWinkelwagenFacade, WinkelwagenFacade>();
+            services.AddTransient<IBestellingFacade, BestellingFacade>();
+            services.AddTransient<IWinkelwagenRepository, WinkelwagenRepository>();
+            services.AddTransient<IBestellingRepository, BestellingRepository>();
+            services.AddTransient<ICursusRepository, CursusRepository>();
+            services.AddTransient<ITrajectRepository, TrajectRepository>();
             services.AddScoped<ICostCalculator, CostCalculator>();
+            services.AddScoped<IContextFilter, ContextFilter>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

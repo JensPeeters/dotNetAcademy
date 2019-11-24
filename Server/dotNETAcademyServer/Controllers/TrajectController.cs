@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Business_layer;
-using Data_layer.Model;
+using Business_layer.DTO;
+using Business_layer.Interfaces;
+using Data_layer.Filter;
+using Data_layer.Filter.ProductenFilters;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,52 +16,55 @@ namespace dotNETAcademyServer.Controllers
     [ApiController]
     public class TrajectController : ControllerBase
     {
-        private readonly TrajectFacade facade;
+        private readonly ITrajectFacade _facade;
 
-        public TrajectController(TrajectFacade facade)
+        public TrajectController(ITrajectFacade facade)
         {
-            this.facade = facade;
+            this._facade = facade;
         }
 
         [HttpGet]
-        public List<Traject> GetTrajecten(string type, string titel,
-                                                 string sortBy, string direction = "asc",
-                                                 int pageSize = 16, int page = 0)
+        public List<TrajectDTO> GetTrajecten([FromQuery]TrajectFilter filter)
         {
-            return facade.GetTrajecten(type, titel, sortBy, direction, pageSize, page);
+            return _facade.GetTrajecten(filter);
         }
 
         [Route("{id}")]
         [HttpGet]
-        public Traject GetTraject(int id)
+        public ActionResult<TrajectDTO> GetTraject(int id)
         {
-            return facade.GetTraject(id);
+            var traject = _facade.GetTraject(id);
+            if (traject == null)
+                return NotFound($"Traject met id:{id} bestaat niet.");
+            return traject;
         }
 
         [HttpPost]
-        public ActionResult<Traject> AddTraject([FromBody] Traject traject)
+        public ActionResult<TrajectDTO> AddTraject([FromBody] TrajectCreateUpdateDTO traject)
         {
-            var createdTraject = facade.AddTraject(traject);
+            var createdTraject = _facade.AddTraject(traject);
             if (createdTraject == null)
-                return NoContent();
-            return Created("", createdTraject);
+                return Conflict("Traject met die titel bestaat al.");
+            return Created($"api/traject/{createdTraject.ID}", createdTraject);
         }
 
         [Route("{id}")]
         [HttpDelete]
-        public ActionResult<Traject> DeleteTraject(int id)
+        public ActionResult<TrajectDTO> DeleteTraject(int id)
         {
-            var deletedTraject = facade.DeleteTraject(id);
+            var deletedTraject = _facade.DeleteTraject(id);
             if (deletedTraject == null)
-                return NotFound();
+                return NotFound($"Traject met id:{id} bestaat niet.");
             return NoContent();
         }
 
         [HttpPut("{id}")]
-        public ActionResult<Traject> UpdateTraject([FromBody]Traject traject)
+        public ActionResult<TrajectDTO> UpdateTraject([FromBody]TrajectCreateUpdateDTO traject, int id)
         {
-            var updatedTraject = facade.UpdateTraject(traject);
-            return Created("", updatedTraject);
+            var updatedTraject = _facade.UpdateTraject(traject, id);
+            if (updatedTraject == null)
+                return Conflict($"Traject met id:{id} bestaat niet.");
+            return Ok(updatedTraject);
         }
     }
 }

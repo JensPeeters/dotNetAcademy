@@ -1,5 +1,11 @@
-﻿using Data_layer;
+﻿using Business_layer.DTO;
+using Business_layer.Interfaces;
+using Data_layer;
+using Data_layer.Filter;
+using Data_layer.Filter.ProductenFilters;
+using Data_layer.Interfaces;
 using Data_layer.Model;
+using Data_layer.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,103 +14,112 @@ using System.Text;
 
 namespace Business_layer
 {
-    public class TrajectFacade
+    public class TrajectFacade : ITrajectFacade
     {
-        private readonly DatabaseContext context;
+        private readonly ITrajectRepository _repository;
 
-        public TrajectFacade(DatabaseContext context)
+        public TrajectFacade(ITrajectRepository repository)
         {
-            this.context = context;
+            this._repository = repository;
         }
 
-        public List<Traject> GetTrajecten(string type, string titel,
-                                                 string sortBy, string direction = "asc",
-                                                 int pageSize = 16, int page = 0)
+        public List<TrajectDTO> GetTrajecten(TrajectFilter filter)
         {
-            IQueryable<Traject> query = context.Trajecten.Include(a => a.Cursussen);
-            if (!string.IsNullOrEmpty(type))
-                query = query.Where(b => b.Type.ToLower().Contains(type.ToLower().Trim()));
+            return _repository.GetTrajecten(filter)
+                        .Select(traject => ConvertTrajectToDTO(traject))
+                        .ToList();
+        }
 
-            if (!string.IsNullOrEmpty(titel))
-                query = query.Where(b => b.Titel.ToLower().Contains(titel.ToLower().Trim()));
-
-            if (string.IsNullOrEmpty(sortBy))
-                sortBy = "id";
-
-            switch (sortBy.ToLower())
+        private static TrajectDTO ConvertTrajectToDTO(Traject traject)
+        {
+            return new TrajectDTO()
             {
-                case "id":
-                    if (direction == "asc")
-                        query = query.OrderBy(b => b.ID);
-                    else if (direction == "desc")
-                        query = query.OrderByDescending(b => b.ID);
-                    break;
-                case "prijs":
-                    if (direction == "asc")
-                        query = query.OrderBy(b => b.Prijs);
-                    else if (direction == "desc")
-                        query = query.OrderByDescending(b => b.Prijs);
-                    break;
-                case "titel":
-                    if (direction == "asc")
-                        query = query.OrderBy(b => b.Titel);
-                    else if (direction == "desc")
-                        query = query.OrderByDescending(b => b.Titel);
-                    break;
-                case "type":
-                    if (direction == "asc")
-                        query = query.OrderBy(b => b.Type);
-                    else if (direction == "desc")
-                        query = query.OrderByDescending(b => b.Type);
-                    break;
-                default:
-                    if (direction == "asc")
-                        query = query.OrderBy(b => b.ID);
-                    else if (direction == "desc")
-                        query = query.OrderByDescending(b => b.ID);
-                    break;
-            }
-            if (pageSize > 16)
-                pageSize = 16;
-
-            query = query.Skip(page * pageSize);
-            query = query.Take(pageSize);
-
-            return query.ToList();
+                Beschrijving = traject.Beschrijving,
+                Categorie = traject.Categorie,
+                FotoURLCard = traject.FotoURLCard,
+                ID = traject.ID,
+                LangeBeschrijving = traject.LangeBeschrijving,
+                Prijs = traject.Prijs,
+                Titel = traject.Titel,
+                Type = traject.Type,
+                Cursussen = traject.Cursussen
+            };
         }
 
-        public Traject GetTraject(int id)
+        public TrajectDTO GetTraject(int id)
         {
-            return context.Trajecten.Include(a => a.Cursussen).FirstOrDefault(a => a.ID == id);
-        }
-
-        public Traject AddTraject(Traject traject)
-        {
-            var createdTraject = context.Trajecten.FirstOrDefault(o => o.Titel == traject.Titel);
-            if (createdTraject != null)
+            var traject = _repository.GetTrajectById(id);
+            if (traject == null)
                 return null;
-            context.Trajecten.Add(createdTraject);
-            context.SaveChanges();
-            return createdTraject;
+            return ConvertTrajectToDTO(traject);
         }
 
-        public Traject DeleteTraject(int id)
+        public TrajectDTO AddTraject(TrajectCreateUpdateDTO traject)
         {
-            var deletedTraject = context.Trajecten.Include(a => a.Cursussen)
-                .FirstOrDefault(a => a.ID == id);
+            var newTraject = ConvertCreateUpdateDTOToTraject(traject);
+            var createdTraject = _repository.AddTraject(newTraject);
+            try
+            {
+                _repository.SaveChanges();
+            }
+            catch (DbUpdateException)
+            {
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            return ConvertTrajectToDTO(createdTraject);
+        }
+
+        private static Traject ConvertCreateUpdateDTOToTraject(TrajectCreateUpdateDTO traject)
+        {
+            return new Traject()
+            {
+                Beschrijving = traject.Beschrijving,
+                Categorie = traject.Categorie,
+                FotoURLCard = traject.FotoURLCard,
+                LangeBeschrijving = traject.LangeBeschrijving,
+                Prijs = traject.Prijs,
+                Titel = traject.Titel,
+                Cursussen = traject.Cursussen,
+                Type = traject.Type
+            };
+        }
+
+        public TrajectDTO DeleteTraject(int id)
+        {
+            var deletedTraject = _repository.DeleteTraject(id);
             if (deletedTraject == null)
                 return null;
-            
-            context.Trajecten.Remove(deletedTraject);
-            context.SaveChanges();
-            return deletedTraject;
+            try
+            {
+                _repository.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            return ConvertTrajectToDTO(deletedTraject);
         }
 
-        public Traject UpdateTraject(Traject traject)
+        public TrajectDTO UpdateTraject(TrajectCreateUpdateDTO traject, int id)
         {
-            context.Trajecten.Update(traject);
-            context.SaveChanges();
-            return traject;
+            var newTraject = ConvertCreateUpdateDTOToTraject(traject);
+            newTraject.ID = id;
+            var updatedTraject = _repository.UpdateTraject(newTraject);
+            if (updatedTraject == null)
+                return null;
+            try
+            {
+                _repository.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            return ConvertTrajectToDTO(updatedTraject);
         }
     }
 }

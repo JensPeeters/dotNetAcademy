@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Business_layer;
-using Data_layer.Model;
+using Business_layer.DTO;
+using Business_layer.Interfaces;
 
 namespace dotNETAcademyServer.Controllers
 {
@@ -13,17 +14,17 @@ namespace dotNETAcademyServer.Controllers
     [ApiController]
     public class BestellingController : ControllerBase
     {
-        private readonly BestellingFacade facade;
-        public BestellingController(BestellingFacade facade)
+        private readonly IBestellingFacade _facade;
+        public BestellingController(IBestellingFacade facade)
         {
-            this.facade = facade;
+            this._facade = facade;
         }
 
         [Route("{custId}")]
         [HttpGet]
-        public List<Bestelling> GetBestellingen(string custId)
+        public List<BestellingDTO> GetBestellingenByCustomerId(string custId)
         {
-            return facade.GetBestellingen(custId);
+            return _facade.GetBestellingenByCustomerId(custId);
         }
     }
 }

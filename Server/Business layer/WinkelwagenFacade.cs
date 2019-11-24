@@ -1,6 +1,9 @@
-﻿using Business_layer.Interfaces;
+﻿using Business_layer.DTO;
+using Business_layer.Interfaces;
 using Data_layer;
+using Data_layer.Interfaces;
 using Data_layer.Model;
+using Data_layer.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,23 +12,16 @@ using System.Text;
 
 namespace Business_layer
 {
-    public class WinkelwagenFacade
+    public class WinkelwagenFacade : IWinkelwagenFacade
     {
-        private readonly DatabaseContext context;
         private readonly ICostCalculator calculator;
+        private readonly IWinkelwagenRepository _repository;
 
-        public WinkelwagenFacade(DatabaseContext context, ICostCalculator calculator)
+        public WinkelwagenFacade(ICostCalculator calculator,
+            IWinkelwagenRepository repository)
         {
-            this.context = context;
             this.calculator = calculator;
-        }
-
-
-        public Winkelwagen GetWinkelwagen(int id)
-        {
-            return context.Winkelwagens.Include(d => d.Producten)
-                                        .ThenInclude(i => i.Product)
-                                        .SingleOrDefault(d => d.Id == id);
+            this._repository = repository;
         }
 
         /// <summary>
@@ -34,47 +30,19 @@ namespace Business_layer
         /// </summary>
         /// <param name="custId"></param>
         /// <returns></returns>
-        public Winkelwagen GetBagForCustomer(string custId)
+        public WinkelwagenDTO GetBagForCustomer(string custId)
         {
-            var klant = context.Klanten
-                .Include(d => d.Winkelwagens)
-                .ThenInclude(b => b.Producten)
-                .ThenInclude(i => i.Product)
-                .ThenInclude(d => (d as Traject).Cursussen)
-                .SingleOrDefault(d => d.AzureId == custId);
-
-            if (klant == null)
+            var winkelwagen = _repository.GetWinkelwagenByKlantId(custId);
+            try
             {
-                klant = new Klant()
-                {
-                    AzureId = custId,
-                    Winkelwagens = new List<Winkelwagen>()
-                };
-                context.Klanten.Add(klant);
-                //SaveContext();
+                _repository.SaveChanges();
             }
-
-            if (klant.Winkelwagens == null || klant.Winkelwagens.Count == 0)
+            catch (Exception e)
             {
-                var winkelwagen = new Winkelwagen()
-                {
-                    Datum = DateTime.Now,
-                    Producten = new List<WinkelwagenItem>()
-
-                };
-                klant.Winkelwagens.Add(winkelwagen);
-                SaveContext();
+                throw new Exception(e.Message);
             }
-            return klant.Winkelwagens
-                .OrderByDescending(d => d.Datum)
-                .FirstOrDefault();
+            return ConvertWinkelwagenToDTO(winkelwagen);
         }
-
-        private void SaveContext()
-        {
-            context.SaveChanges();
-        }
-
 
         /// <summary>
         /// Voeg een product toe in een mandje en bereken de totaalprijs.
@@ -84,45 +52,20 @@ namespace Business_layer
         /// <param name="count">Aantal exemplaren van het betreffende product</param>
         /// <param name="type">Soort type van product</param>
         /// <returns></returns>
-        public Winkelwagen AddProduct(string userId, int prodId, int count,string type)
+        public WinkelwagenDTO AddProduct(string userId, int prodId, int count,string type)
         {
-            var winkelwagen = context.Winkelwagens
-                .Include(a => a.Producten)
-                .ThenInclude(a => a.Product)
-                .FirstOrDefault(d => d.Klant.AzureId == userId);
-            winkelwagen = CheckIfWinkelwagenExists(userId, winkelwagen);
-
+            var winkelwagen = _repository.AddProduct(userId, prodId, count, type);
+            //Herberekenen van de totaal prijs
+            winkelwagen.TotaalPrijs = calculator.CalculateCost(winkelwagen);
             try
             {
-                foreach (var product in winkelwagen.Producten)
-                {
-                    if (product.Product.ID == prodId)
-                    {
-                        product.Aantal += count;
-                        return winkelwagen;
-                    }
-                }
-                //not found, create new:
-                var product2 = new WinkelwagenItem();
-                if (type == "Traject")
-                {
-                    product2.Product = context.Trajecten.Find(prodId);
-                    product2.Aantal = count;
-                }
-                else if (type == "Cursus")
-                {
-                    product2.Product = context.Cursussen.Find(prodId);
-                    product2.Aantal = count;
-                }
-                winkelwagen.Producten.Add(product2);
-                return winkelwagen;
+                _repository.SaveChanges();
             }
-            finally
+            catch (Exception e)
             {
-                //Herberekenen van de totaal prijs
-                winkelwagen.TotaalPrijs = calculator.CalculateCost(winkelwagen);
-                SaveContext();
+                throw new Exception(e.Message);
             }
+            return ConvertWinkelwagenToDTO(winkelwagen);
         }
 
         /// <summary>
@@ -132,76 +75,57 @@ namespace Business_layer
         /// <param name="prodId">ID van het product</param>
         /// <param name="count">Aantal exemplaren van het betreffende product</param>
         /// <returns></returns>
-        public Winkelwagen UpdateProductAantal(string userId, int prodId, int count)
+        public WinkelwagenDTO UpdateProductAantal(string userId, int prodId, int count)
         {
-            var winkelwagen = context.Winkelwagens
-                .Include(a => a.Producten)
-                .ThenInclude(a => a.Product)
-                .FirstOrDefault(d => d.Klant.AzureId == userId);
-            winkelwagen = CheckIfWinkelwagenExists(userId, winkelwagen);
+            var winkelwagen = _repository.UpdateProduct(userId, prodId, count);
+            //Herberekenen van de totaal prijs
+            winkelwagen.TotaalPrijs = calculator.CalculateCost(winkelwagen);
             try
             {
-                foreach (var product in winkelwagen.Producten)
-                {
-                    if (product.Product.ID == prodId)
-                    {
-                        product.Aantal = count;
-                        return winkelwagen;
-                    }
-                }
-                return winkelwagen;
+                _repository.SaveChanges();
             }
-            finally
+            catch (Exception e)
             {
-                //Herberekenen van de totaal prijs
-                winkelwagen.TotaalPrijs = calculator.CalculateCost(winkelwagen);
-                SaveContext();
+                throw new Exception(e.Message);
             }
+            return ConvertWinkelwagenToDTO(winkelwagen);
         }
 
-            /// <summary>
-            /// Voeg een product toe in een mandje en bereken de totaalprijs.
-            /// </summary>
-            /// <param name="userId">ID van de gebruiker</param>
-            /// <param name="prodId">ID van het product</param>
-            /// <returns></returns>
-            public Winkelwagen DeleteProduct(string userId, int prodId)
+        /// <summary>
+        /// Voeg een product toe in een mandje en bereken de totaalprijs.
+        /// </summary>
+        /// <param name="userId">ID van de gebruiker</param>
+        /// <param name="prodId">ID van het product</param>
+        /// <returns></returns>
+        public WinkelwagenDTO DeleteProduct(string userId, int prodId)
         {
-            var winkelwagen = context.Winkelwagens
-                .Include(a => a.Producten)
-                .ThenInclude(a => a.Product)
-                .FirstOrDefault(d => d.Klant.AzureId == userId);
-            winkelwagen = CheckIfWinkelwagenExists(userId, winkelwagen);
+            var winkelwagen = _repository.DeleteProduct(userId, prodId);
+
+            //Herberekenen van de totaal prijs
+            winkelwagen.TotaalPrijs = calculator.CalculateCost(winkelwagen);
             try
             {
-                var winkelwagenItem = winkelwagen.Producten.FirstOrDefault(a => a.Id == prodId);
-                winkelwagen.Producten.Remove(winkelwagenItem);
-                return winkelwagen;
+                _repository.SaveChanges();
             }
-            finally
+            catch (Exception e)
             {
-                //Herberekenen van de totaal prijs
-                winkelwagen.TotaalPrijs = calculator.CalculateCost(winkelwagen);
-                SaveContext();
+                throw new Exception(e.Message);
             }
+            return ConvertWinkelwagenToDTO(winkelwagen);
         }
 
-        private Winkelwagen CheckIfWinkelwagenExists(string userId, Winkelwagen winkelwagen)
+        private static WinkelwagenDTO ConvertWinkelwagenToDTO(Winkelwagen winkelwagen)
         {
-            if (winkelwagen == null)
+            return new WinkelwagenDTO()
             {
-                var klant = context.Klanten
-                    .Include(a => a.Winkelwagens)
-                    .FirstOrDefault(a => a.AzureId == userId);
-                winkelwagen = new Winkelwagen()
-                {
-                    Datum = new DateTime(),
-                    Producten = new List<WinkelwagenItem>()
-                };
-                klant.Winkelwagens.Add(winkelwagen);
-            }
-
-            return winkelwagen;
+                Datum = winkelwagen.Datum,
+                Id = winkelwagen.Id,
+                Klant = winkelwagen.Klant,
+                Producten = winkelwagen.Producten,
+                TotaalPrijs = winkelwagen.TotaalPrijs
+            };
         }
+
+        
     }
 }

@@ -1,5 +1,12 @@
-﻿using Data_layer;
+﻿using Business_layer.DTO;
+using Business_layer.Interfaces;
+using Data_layer;
+using Data_layer.Filter;
+using Data_layer.Filter.ProductenFilters;
+using Data_layer.Interfaces;
 using Data_layer.Model;
+using Data_layer.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,102 +14,110 @@ using System.Text;
 
 namespace Business_layer
 {
-    public class CursusFacade
+    public class CursusFacade : ICursusFacade
     {
-        private readonly DatabaseContext context;
+        private readonly ICursusRepository _repository;
 
-        public CursusFacade(DatabaseContext context)
+        public CursusFacade(ICursusRepository repository)
         {
-            this.context = context;
+            this._repository = repository;
         }
 
-        public List<Cursus> GetCursussen(string type, string titel,
-                                                 string sortBy, string direction = "asc",
-                                                 int pageSize = 16, int page = 0)
+        public List<CursusDTO> GetCursussen(CursusFilter filter)
         {
-            IQueryable<Cursus> query = context.Cursussen;
-            if (!string.IsNullOrEmpty(type))
-                query = query.Where(b => b.Type.ToLower().Contains(type.ToLower().Trim()));
-
-            if (!string.IsNullOrEmpty(titel))
-                query = query.Where(b => b.Titel.ToLower().Contains(titel.ToLower().Trim()));
-
-            if (string.IsNullOrEmpty(sortBy))
-                sortBy = "id";
-
-            switch (sortBy.ToLower())
-            {
-                case "id":
-                    if (direction == "asc")
-                        query = query.OrderBy(b => b.ID);
-                    else if (direction == "desc")
-                        query = query.OrderByDescending(b => b.ID);
-                    break;
-                case "prijs":
-                    if (direction == "asc")
-                        query = query.OrderBy(b => b.Prijs);
-                    else if (direction == "desc")
-                        query = query.OrderByDescending(b => b.Prijs);
-                    break;
-                case "titel":
-                    if (direction == "asc")
-                        query = query.OrderBy(b => b.Titel);
-                    else if (direction == "desc")
-                        query = query.OrderByDescending(b => b.Titel);
-                    break;
-                case "type":
-                    if (direction == "asc")
-                        query = query.OrderBy(b => b.Type);
-                    else if (direction == "desc")
-                        query = query.OrderByDescending(b => b.Type);
-                    break;
-                default:
-                    if (direction == "asc")
-                        query = query.OrderBy(b => b.ID);
-                    else if (direction == "desc")
-                        query = query.OrderByDescending(b => b.ID);
-                    break;
-            }
-            if (pageSize > 16)
-                pageSize = 16;
-
-            query = query.Skip(page * pageSize);
-            query = query.Take(pageSize);
-
-            return query.ToList();
+            return _repository.GetCursussen(filter)
+                        .Select(cursus => ConvertCursusToDTO(cursus))
+                        .ToList();
         }
 
-        public Cursus GetCursus(int id)
+        public CursusDTO GetCursus(int id)
         {
-            return context.Cursussen.FirstOrDefault(a => a.ID == id);
-        }
-
-        public Cursus AddCursus(Cursus cursus)
-        {
-            var createdCursus = context.Cursussen.FirstOrDefault(o => o.Titel == cursus.Titel);
-            if (createdCursus != null)
+            var cursus = _repository.GetCursusById(id);
+            if (cursus == null)
                 return null;
-            context.Cursussen.Add(createdCursus);
-            context.SaveChanges();
-            return createdCursus;
+            return ConvertCursusToDTO(cursus);
         }
 
-        public Cursus DeleteCursus(int id)
+        private static CursusDTO ConvertCursusToDTO(Cursus cursus)
         {
-            var deletedCursus = context.Cursussen.FirstOrDefault(a => a.ID == id);
+            return new CursusDTO()
+            {
+                Beschrijving = cursus.Beschrijving,
+                Categorie = cursus.Categorie,
+                FotoURLCard = cursus.FotoURLCard,
+                ID = cursus.ID,
+                LangeBeschrijving = cursus.LangeBeschrijving,
+                Prijs = cursus.Prijs,
+                Titel = cursus.Titel,
+                Type = cursus.Type
+            };
+        }
+
+        public CursusDTO AddCursus(CursusCreateUpdateDTO cursus)
+        {
+            var newCursus = ConvertCreateUpdateDTOToCursus(cursus);
+            var createdCursus = _repository.AddCursus(newCursus);
+            try
+            {
+                _repository.SaveChanges();
+            }
+            catch (DbUpdateException)
+            {
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            return ConvertCursusToDTO(createdCursus);
+        }
+
+        private static Cursus ConvertCreateUpdateDTOToCursus(CursusCreateUpdateDTO cursus)
+        {
+            return new Cursus()
+            {
+                Beschrijving = cursus.Beschrijving,
+                Categorie = cursus.Categorie,
+                FotoURLCard = cursus.FotoURLCard,
+                LangeBeschrijving = cursus.LangeBeschrijving,
+                Prijs = cursus.Prijs,
+                Titel = cursus.Titel,
+                Type = cursus.Type
+            };
+        }
+
+        public CursusDTO DeleteCursus(int id)
+        {
+            var deletedCursus = _repository.DeleteCursus(id);
             if (deletedCursus == null)
                 return null;
-
-            context.Cursussen.Remove(deletedCursus);
-            context.SaveChanges();
-            return deletedCursus;
+            try
+            {
+                _repository.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            return ConvertCursusToDTO(deletedCursus);
         }
 
-        public Cursus UpdateCursus(Cursus cursus)
+        public CursusDTO UpdateCursus(CursusCreateUpdateDTO cursus, int id)
         {
-            context.Cursussen.Update(cursus);
-            context.SaveChanges();
-            return cursus;
+            var newCursus = ConvertCreateUpdateDTOToCursus(cursus);
+            newCursus.ID = id;
+            var updatedCursus = _repository.UpdateCursus(newCursus);
+            if (updatedCursus == null)
+                return null;
+            try
+            {
+                _repository.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            return ConvertCursusToDTO(updatedCursus);
         }
     }
 }

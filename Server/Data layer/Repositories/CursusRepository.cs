@@ -49,9 +49,6 @@ namespace Data_layer.Repositories
 
         public Cursus AddCursus(Cursus cursus)
         {
-            var existingCursus = _context.Cursussen.FirstOrDefault(o => o.Titel == cursus.Titel);
-            if (existingCursus != null)
-                return null;
             _context.Cursussen.Add(cursus);
             return cursus;
         }
@@ -68,9 +65,14 @@ namespace Data_layer.Repositories
         public Cursus DeleteCursus(int id)
         {
             var deletedCursus = _context.Cursussen.FirstOrDefault(a => a.ID == id);
-            if (deletedCursus == null)
+            try
+            {
+                _context.Cursussen.Remove(deletedCursus);
+            }
+            catch (ArgumentNullException)
+            {
                 return null;
-            _context.Cursussen.Remove(deletedCursus);
+            }
             return deletedCursus;
         }
 

@@ -50,9 +50,6 @@ namespace Data_layer.Repositories
 
         public Traject AddTraject(Traject traject)
         {
-            var existingTraject = _context.Trajecten.FirstOrDefault(o => o.Titel == traject.Titel);
-            if (existingTraject != null)
-                return null;
             _context.Trajecten.Add(traject);
             return traject;
         }
@@ -69,10 +66,14 @@ namespace Data_layer.Repositories
         public Traject DeleteTraject(int id)
         {
             var deletedTraject = _context.Trajecten.FirstOrDefault(a => a.ID == id);
-            if (deletedTraject == null)
+            try
+            {
+                _context.Trajecten.Remove(deletedTraject);
+            }
+            catch (ArgumentNullException)
+            {
                 return null;
-
-            _context.Trajecten.Remove(deletedTraject);
+            }
             return deletedTraject;
         }
 
@@ -81,8 +82,14 @@ namespace Data_layer.Repositories
             var existingTraject = _context.Trajecten.FirstOrDefault(a => a.ID == traject.ID);
             if (existingTraject == null)
                 return null;
-            _context.Entry(existingTraject).State = EntityState.Detached;
-            _context.Trajecten.Update(traject);
+            existingTraject.Beschrijving = traject.Beschrijving;
+            existingTraject.Categorie = traject.Categorie;
+            existingTraject.FotoURLCard = traject.FotoURLCard;
+            existingTraject.Cursussen = traject.Cursussen;
+            existingTraject.LangeBeschrijving = traject.LangeBeschrijving;
+            existingTraject.Prijs = traject.Prijs;
+            existingTraject.Titel = traject.Titel;
+            existingTraject.Type = traject.Type;
             return traject;
         }
     }

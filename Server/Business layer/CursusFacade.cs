@@ -6,6 +6,7 @@ using Data_layer.Filter.ProductenFilters;
 using Data_layer.Interfaces;
 using Data_layer.Model;
 using Data_layer.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,14 +55,15 @@ namespace Business_layer
 
         public CursusDTO AddCursus(CursusCreateUpdateDTO cursus)
         {
-            var existingCursus = _repository.GetCursusByTitel(cursus.Titel);
-            if (existingCursus != null)
-                return null;
             var newCursus = ConvertCreateUpdateDTOToCursus(cursus);
             var createdCursus = _repository.AddCursus(newCursus);
             try
             {
                 _repository.SaveChanges();
+            }
+            catch (DbUpdateException)
+            {
+                return null;
             }
             catch (Exception e)
             {

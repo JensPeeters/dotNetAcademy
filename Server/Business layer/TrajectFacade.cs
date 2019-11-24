@@ -56,14 +56,15 @@ namespace Business_layer
 
         public TrajectDTO AddTraject(TrajectCreateUpdateDTO traject)
         {
-            var existingTraject = _repository.GetTrajectByTitel(traject.Titel);
-            if (existingTraject != null)
-                return null;
             var newTraject = ConvertCreateUpdateDTOToTraject(traject);
             var createdTraject = _repository.AddTraject(newTraject);
             try
             {
                 _repository.SaveChanges();
+            }
+            catch (DbUpdateException)
+            {
+                return null;
             }
             catch (Exception e)
             {

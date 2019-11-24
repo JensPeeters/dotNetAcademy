@@ -79,8 +79,13 @@ namespace Data_layer.Repositories
             var existingCursus = _context.Cursussen.FirstOrDefault(a => a.ID == cursus.ID);
             if (existingCursus == null)
                 return null;
-            _context.Entry(existingCursus).State = EntityState.Detached;
-            _context.Cursussen.Update(cursus);
+            existingCursus.Beschrijving = cursus.Beschrijving;
+            existingCursus.Categorie = cursus.Categorie;
+            existingCursus.FotoURLCard = cursus.FotoURLCard;
+            existingCursus.LangeBeschrijving = cursus.LangeBeschrijving;
+            existingCursus.Prijs = cursus.Prijs;
+            existingCursus.Titel = cursus.Titel;
+            existingCursus.Type = cursus.Type;
             return cursus;
         }
     }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { BestellingenService, IBestelling } from '../services/bestellingen.service';
+import { BestellingenService } from '../services/bestellingen.service';
 import { MsalService } from '../services/msal.service';
+import { IBestelling } from '../Interfaces/IBestelling';
 
 @Component({
   selector: 'app-bestellingen',

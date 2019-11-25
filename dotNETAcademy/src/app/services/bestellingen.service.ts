@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IProducten, IKlant } from './winkelmand.service';
+import { environment } from 'src/environments/environment';
+import { IBestelling } from '../Interfaces/IBestelling';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BestellingenService {
 
-  //domain: string = "https://localhost:44334/api";
-  domain: string = 'https://dotnetacademy-api.azurewebsites.net/api';
+  domain: string = environment.domain;
 
   constructor(private http: HttpClient) { }
 
@@ -17,11 +17,4 @@ export class BestellingenService {
     .get<IBestelling[]>(`${this.domain}/bestelling/${UserId}`)
     .toPromise();
   }
-}
-export interface IBestelling {
-    id: number;
-    datum: Date;
-    producten: IProducten[];
-    totaalPrijs: number;
-    klant: IKlant;
 }

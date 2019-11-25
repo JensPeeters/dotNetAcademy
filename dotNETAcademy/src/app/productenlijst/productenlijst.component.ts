@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductenService, Traject, Cursus } from '../services/producten.service';
+import { ProductenService } from '../services/producten.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { ICursus } from '../Interfaces/ICursus';
+import { ITraject } from '../Interfaces/ITraject';
 
 @Component({
   selector: 'app-productenlijst',
@@ -13,15 +15,10 @@ export class ProductenlijstComponent implements OnInit {
   constructor(private productService: ProductenService, private route: ActivatedRoute) { }
   
   currentRoute: string;
-  cursussen: Cursus[] = [];
-  trajecten: Traject[] = [];
-  types: string[] = [];
-  type: string = "Aanbevolen";
-  currentType: string = "";
-  sortItems: string[] = ["Aanbevolen","Titel","Type"];
-  sortBy: string = "Aanbevolen";
-  direction: string = "asc"
-  searchParam: string = "";
+  cursussen: ICursus[] = [];
+  trajecten: ITraject[] = [];
+  productFilter: Filter = new Filter();
+
   collapsedCursussen: boolean = false;
   collapsedTrajecten: boolean = false;
   subscription: Subscription;
@@ -36,14 +33,22 @@ export class ProductenlijstComponent implements OnInit {
       this.cursussen = [];
       this.trajecten = [];
       if(this.currentRoute == "cursussen"){
-        this.types = this.productService.cursusTypes;
+        this.productService.GetCursusTypes().subscribe(res =>{
+          this.productFilter.types = res;
+        });
       }
       else if (this.currentRoute == "trajecten"){
-        this.types = this.productService.TrajectTypes;
+        this.productService.GetTrajectTypes().subscribe(res =>{
+          this.productFilter.types = res;
+        });
       }
       else if (this.currentRoute == "zoekresultaten"){
-        this.searchParam = routeParams.searchParam;
-        this.types = this.productService.cursusTypes.concat(this.productService.TrajectTypes);
+        this.productFilter.searchParam = routeParams.searchParam;
+        var tempCursusTypes;
+        this.productService.GetCursusTypes().subscribe(res =>{tempCursusTypes = res;});
+        var tempTrajectTypes;
+        this.productService.GetTrajectTypes().subscribe(res =>{tempTrajectTypes = res;});
+        this.productFilter.types = tempCursusTypes.concat(tempTrajectTypes);
       }
       this.GetProducts();
     });
@@ -66,32 +71,32 @@ export class ProductenlijstComponent implements OnInit {
   }
 
   async GetCursussen(){
-    this.cursussen = await this.productService.GetCursussen(`${this.currentType}&titel=${this.searchParam}`);
+    this.cursussen = await this.productService.GetCursussen(`${this.productFilter.currentType}&titel=${this.productFilter.searchParam}`);
   }
 
   async GetTrajecten(){
-    this.trajecten = await this.productService.GetTrajecten(`${this.currentType}&titel=${this.searchParam}`);
+    this.trajecten = await this.productService.GetTrajecten(`${this.productFilter.currentType}&titel=${this.productFilter.searchParam}`);
   }
 
   Sort(){
-    this.productService.sortBy = this.sortBy;
+    this.productService.sortBy = this.productFilter.sortBy;
     this.GetProducts();
   }
 
   GetType(){
-    if(this.type != "Aanbevolen")
-      this.currentType = `type=${this.type}`;
+    if(this.productFilter.type != "Aanbevolen")
+      this.productFilter.currentType = `type=${this.productFilter.type}`;
     else
-      this.currentType = "";
+      this.productFilter.currentType = "";
     this.GetProducts();
   }
 
   ChangeDirection(){
-    if (this.direction == "asc")
-      this.direction = "desc";
+    if (this.productFilter.direction == "asc")
+      this.productFilter.direction = "desc";
     else
-      this.direction = "asc";
-    this.productService.direction = this.direction;
+      this.productFilter.direction = "asc";
+    this.productService.direction = this.productFilter.direction;
     this.GetProducts();
   }
   Changecollapsedcursussen(){
@@ -101,3 +106,14 @@ export class ProductenlijstComponent implements OnInit {
     this.collapsedTrajecten != this.collapsedTrajecten;
   }
 }
+export class Filter{
+  types: string[];
+  type: string = "Aanbevolen";
+  currentType: string = "";
+
+  sortItems: string[] = ["Aanbevolen","Titel","Type"];
+  sortBy: string = "Aanbevolen";
+
+  direction: string = "asc"
+  searchParam: string = "";
+} 

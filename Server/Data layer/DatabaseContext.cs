@@ -25,6 +25,8 @@ namespace Data_layer
             modelBuilder.Entity<Traject>()
                 .HasIndex(b => b.Titel)
                 .IsUnique();
+
+
         }
     }
 }

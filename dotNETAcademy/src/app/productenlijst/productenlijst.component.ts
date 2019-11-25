@@ -33,14 +33,22 @@ export class ProductenlijstComponent implements OnInit {
       this.cursussen = [];
       this.trajecten = [];
       if(this.currentRoute == "cursussen"){
-        this.productFilter.types = this.productService.cursusTypes;
+        this.productService.GetCursusTypes().subscribe(res =>{
+          this.productFilter.types = res;
+        });
       }
       else if (this.currentRoute == "trajecten"){
-        this.productFilter.types = this.productService.TrajectTypes;
+        this.productService.GetTrajectTypes().subscribe(res =>{
+          this.productFilter.types = res;
+        });
       }
       else if (this.currentRoute == "zoekresultaten"){
         this.productFilter.searchParam = routeParams.searchParam;
-        this.productFilter.types = this.productService.cursusTypes.concat(this.productService.TrajectTypes);
+        var tempCursusTypes;
+        this.productService.GetCursusTypes().subscribe(res =>{tempCursusTypes = res;});
+        var tempTrajectTypes;
+        this.productService.GetTrajectTypes().subscribe(res =>{tempTrajectTypes = res;});
+        this.productFilter.types = tempCursusTypes.concat(tempTrajectTypes);
       }
       this.GetProducts();
     });
@@ -99,7 +107,7 @@ export class ProductenlijstComponent implements OnInit {
   }
 }
 export class Filter{
-  types: string[] = [];
+  types: string[];
   type: string = "Aanbevolen";
   currentType: string = "";
 

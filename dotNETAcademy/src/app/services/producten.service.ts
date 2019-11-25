@@ -17,9 +17,6 @@ export class ProductenService {
   sortBy: string = '';
   direction: string = 'asc';
 
-  cursusTypes: string[] = ['Aanbevolen', '.NET', 'Web'];
-  TrajectTypes: string[] = ['Aanbevolen', 'Full Stack', 'Visual Studio', 'Angular'];
-
   public GetCursussen(filter?: string) {
     return this.http
     .get<ICursus[]>(`${this.domain}/cursus?${filter}&pageSize=${this.pageSize}&sortBy=${this.sortBy}&direction=${this.direction}&pageNumber=${this.pageNumber}`)
@@ -40,5 +37,12 @@ export class ProductenService {
     return this.http
     .get<ITraject>(`${this.domain}/traject/${id}`)
     .toPromise();
+  }
+
+  GetCursusTypes(){
+    return this.http.get<string[]>(`${this.domain}/cursus/types`);
+  }
+  GetTrajectTypes(){
+    return this.http.get<string[]>(`${this.domain}/traject/types`);
   }
 }

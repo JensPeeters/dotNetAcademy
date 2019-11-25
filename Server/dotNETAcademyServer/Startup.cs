@@ -1,23 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Business_layer;
+﻿using Business_layer;
 using Business_layer.Interfaces;
 using Data_layer;
 using Data_layer.Interfaces;
 using Data_layer.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-
-using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Options;
 using Data_layer.Filter;
 
 namespace dotNETAcademyServer
@@ -47,10 +38,14 @@ namespace dotNETAcademyServer
             services.AddTransient<ICursusFacade, CursusFacade>();
             services.AddTransient<IWinkelwagenFacade, WinkelwagenFacade>();
             services.AddTransient<IBestellingFacade, BestellingFacade>();
+            services.AddTransient<IAdminFacade, AdminFacade>();
+            services.AddTransient<IKlantFacade, KlantFacade>();
             services.AddTransient<IWinkelwagenRepository, WinkelwagenRepository>();
             services.AddTransient<IBestellingRepository, BestellingRepository>();
             services.AddTransient<ICursusRepository, CursusRepository>();
             services.AddTransient<ITrajectRepository, TrajectRepository>();
+            services.AddTransient<IAdminRepository, AdminRepository>();
+            services.AddTransient<IKlantRepository, KlantRepository>();
             services.AddScoped<ICostCalculator, CostCalculator>();
             services.AddScoped<IContextFilter, ContextFilter>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

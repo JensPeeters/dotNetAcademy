@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Business_layer;
-using Business_layer.DTO;
-using Data_layer.Model;
-using Microsoft.AspNetCore.Http;
+﻿using Business_layer.DTO;
+using Business_layer.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace dotNETAcademyServer.Controllers
@@ -14,17 +8,17 @@ namespace dotNETAcademyServer.Controllers
     [ApiController]
     public class KlantController : ControllerBase
     {
-        private readonly KlantFacade facade;
-        public KlantController(KlantFacade facade)
+        private readonly IKlantFacade _facade;
+        public KlantController(IKlantFacade facade)
         {
-            this.facade = facade;
+            this._facade = facade;
         }
 
         [Route("{klantId}")]
         [HttpPost]
         public ActionResult<KlantDTO> CreateKlant(string klantId)
         {
-            var createdKlant = facade.CreateKlant(klantId);
+            var createdKlant = _facade.CreateKlant(klantId);
             if (createdKlant == null)
                 return Conflict("Klant met die ID bestaat al.");
             return Created("", createdKlant);
@@ -34,7 +28,7 @@ namespace dotNETAcademyServer.Controllers
         [HttpGet]
         public ActionResult<KlantDTO> GetKlant(string klantId)
         {
-            var klant = facade.GetKlant(klantId);
+            var klant = _facade.GetKlant(klantId);
             if (klant == null)
                 return NotFound($"Klant met id:{klantId} bestaat niet.");
             return klant;

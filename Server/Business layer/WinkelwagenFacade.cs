@@ -1,14 +1,8 @@
 ﻿using Business_layer.DTO;
 using Business_layer.Interfaces;
-using Data_layer;
 using Data_layer.Interfaces;
 using Data_layer.Model;
-using Data_layer.Repositories;
-using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Business_layer
 {

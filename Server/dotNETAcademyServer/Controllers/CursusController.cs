@@ -1,9 +1,6 @@
-﻿
-using System.Collections.Generic;
-using Business_layer;
+﻿using System.Collections.Generic;
 using Business_layer.DTO;
 using Business_layer.Interfaces;
-using Data_layer.Filter;
 using Data_layer.Filter.ProductenFilters;
 using Microsoft.AspNetCore.Mvc;
 

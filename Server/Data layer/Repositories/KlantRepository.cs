@@ -1,22 +1,20 @@
-﻿using Data_layer.Model;
-using System;
-using System.Collections.Generic;
+﻿using Data_layer.Interfaces;
+using Data_layer.Model;
 using System.Linq;
-using System.Text;
 
 namespace Data_layer.Repositories
 {
-    public class KlantRepository
+    public class KlantRepository : IKlantRepository
     {
-        private readonly DatabaseContext context;
+        private readonly DatabaseContext _context;
         public KlantRepository(DatabaseContext context)
         {
-            this.context = context;
+            this._context = context;
         }
 
         public Klant GetKlantByID(string klantId)
         {
-            var klant = context.Klanten.FirstOrDefault(d => d.AzureId == klantId);
+            var klant = _context.Klanten.FirstOrDefault(d => d.AzureId == klantId);
 
             if (klant == null)
                 return null;
@@ -25,27 +23,22 @@ namespace Data_layer.Repositories
         }
         public Klant CreateKlant(Klant klant)
         {
-            var existingKlant = context.Klanten.FirstOrDefault(d => d.AzureId == klant.AzureId);
+            var existingKlant = _context.Klanten.FirstOrDefault(d => d.AzureId == klant.AzureId);
 
-            if (existingKlant == null)
+            if (existingKlant != null)
                 return null;
 
-            context.Klanten.Add(klant);
-
-            try
-            {
-                SaveChanges();
-            } catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
+            _context.Klanten.Add(klant);
 
             return klant;
         }
 
-        private void SaveChanges()
+        public void SaveChanges()
         {
-            context.SaveChanges();
+            if (_context.SaveChanges() > 0)
+            {
+                _context.SaveChanges();
+            }
         }
     }
 }

@@ -14,10 +14,20 @@ namespace dotNETAcademyServer.Controllers
     public class CursusController : ControllerBase
     {
         private readonly ICursusFacade _facade;
-
+        private List<string> cursusTypes;
         public CursusController(ICursusFacade facade )
         {
             this._facade = facade;
+            this.cursusTypes = new List<string>() {
+                "Aanbevolen", ".NET", "Web"
+            };
+        }
+
+        [Route("types")]
+        [HttpGet]
+        public List<string> GetCursusTypes()
+        {
+            return this.cursusTypes;
         }
 
         [HttpGet]

@@ -3,7 +3,8 @@ import { ProductenService } from '../services/producten.service';
 import { ActivatedRoute } from '@angular/router';
 import {Location} from '@angular/common';
 import { MsalService } from '../services/msal.service';
-import { WinkelmandService, IProduct } from '../services/winkelmand.service';
+import { WinkelmandService } from '../services/winkelmand.service';
+import { IProduct } from '../Interfaces/IProduct';
 
 @Component({
   selector: 'app-product-info',

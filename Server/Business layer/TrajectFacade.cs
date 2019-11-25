@@ -1,6 +1,8 @@
 ﻿using Business_layer.DTO;
-using Business_layer.Filter;
+using Business_layer.Interfaces;
 using Data_layer;
+using Data_layer.Filter;
+using Data_layer.Filter.ProductenFilters;
 using Data_layer.Interfaces;
 using Data_layer.Model;
 using Data_layer.Repositories;
@@ -12,28 +14,20 @@ using System.Text;
 
 namespace Business_layer
 {
-    public class TrajectFacade
+    public class TrajectFacade : ITrajectFacade
     {
-        private readonly TrajectRepository repository;
-        private readonly ISortFilter sortFilter;
+        private readonly ITrajectRepository _repository;
 
-        public TrajectFacade(TrajectRepository repository, ISortFilter sortFilter)
+        public TrajectFacade(ITrajectRepository repository)
         {
-            this.repository = repository;
-            this.sortFilter = sortFilter;
+            this._repository = repository;
         }
 
         public List<TrajectDTO> GetTrajecten(TrajectFilter filter)
         {
-            IQueryable<Product> query = repository.GetTrajecten();
-            query = sortFilter.Filter(filter, query);
-
-            var trajecten = new List<TrajectDTO>();
-            foreach (Traject traject in query.ToList())
-            {
-                trajecten.Add(ConvertTrajectToDTO(traject));
-            }
-            return trajecten;
+            return _repository.GetTrajecten(filter)
+                        .Select(traject => ConvertTrajectToDTO(traject))
+                        .ToList();
         }
 
         private static TrajectDTO ConvertTrajectToDTO(Traject traject)
@@ -54,7 +48,7 @@ namespace Business_layer
 
         public TrajectDTO GetTraject(int id)
         {
-            var traject = repository.GetTrajectById(id);
+            var traject = _repository.GetTrajectById(id);
             if (traject == null)
                 return null;
             return ConvertTrajectToDTO(traject);
@@ -62,11 +56,20 @@ namespace Business_layer
 
         public TrajectDTO AddTraject(TrajectCreateUpdateDTO traject)
         {
-            var existingTraject = repository.GetTrajectByTitel(traject.Titel);
-            if (existingTraject != null)
-                return null;
             var newTraject = ConvertCreateUpdateDTOToTraject(traject);
-            var createdTraject = repository.AddTraject(newTraject);
+            var createdTraject = _repository.AddTraject(newTraject);
+            try
+            {
+                _repository.SaveChanges();
+            }
+            catch (DbUpdateException)
+            {
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
             return ConvertTrajectToDTO(createdTraject);
         }
 
@@ -87,9 +90,17 @@ namespace Business_layer
 
         public TrajectDTO DeleteTraject(int id)
         {
-            var deletedTraject = repository.DeleteTraject(id);
+            var deletedTraject = _repository.DeleteTraject(id);
             if (deletedTraject == null)
                 return null;
+            try
+            {
+                _repository.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
             return ConvertTrajectToDTO(deletedTraject);
         }
 
@@ -97,9 +108,17 @@ namespace Business_layer
         {
             var newTraject = ConvertCreateUpdateDTOToTraject(traject);
             newTraject.ID = id;
-            var updatedTraject = repository.UpdateTraject(newTraject);
+            var updatedTraject = _repository.UpdateTraject(newTraject);
             if (updatedTraject == null)
                 return null;
+            try
+            {
+                _repository.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
             return ConvertTrajectToDTO(updatedTraject);
         }
     }

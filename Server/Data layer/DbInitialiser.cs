@@ -1,4 +1,5 @@
 ﻿using Data_layer.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace Data_layer
     {
         public static void Initialize(DatabaseContext context)
         {
+            //context.Database.Migrate();
             //Create the db if not yet exists
             context.Database.EnsureCreated();
 
@@ -77,87 +79,39 @@ namespace Data_layer
                     new Traject()
                     {
                         Cursussen = new List<Cursus>()
-                {
-                    new Cursus()
-                    {
-                        Titel = "dotNET cursus",
-                        LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                        Type = ".NET",
-                        Prijs = 15.45,
-                        Beschrijving = "Some example text some example text.",
-                        FotoURLCard = "https://via.placeholder.com/450x350.png/09f/fff?text=Foto van een product"
-                    },
-                    new Cursus()
-                    {
-                        Titel = "Angular cursus",
-                        Type = "Web Development",
-                        LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                        Prijs = 21.45,
-                        Beschrijving = "Some example text some example text.",
-                        FotoURLCard = "https://via.placeholder.com/450x350.png/09f/fff?text=Foto van een product"
-                    }
-                },
-                        Titel = "Complete Full Stack Traject",
+                        {
+                            cursussen[0],
+                            cursussen[1]
+                        },
+                        Titel = "Complete Full Stack Traject #0",
                         Type = "Full Stack",
                         LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                         Prijs = 50,
                         Beschrijving = "Some example text some example text.",
                         FotoURLCard = "https://via.placeholder.com/450x350.png/09f/fff?text=Foto van een product"
                     },
-                     new Traject()
+                    new Traject()
                     {
                         Cursussen = new List<Cursus>()
-                {
-                    new Cursus()
-                    {
-                        Titel = "dotNET cursus",
-                        LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                        Type = ".NET",
-                        Prijs = 15.45,
-                        Beschrijving = "Some example text some example text.",
-                        FotoURLCard = "https://via.placeholder.com/450x350.png/09f/fff?text=Foto van een product"
-                    },
-                    new Cursus()
-                    {
-                        Titel = "Angular cursus",
-                        Type = "Web Development",
-                        LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                        Prijs = 21.45,
-                        Beschrijving = "Some example text some example text.",
-                        FotoURLCard = "https://via.placeholder.com/450x350.png/09f/fff?text=Foto van een product"
-                    }
-                },
-                        Titel = "Complete Full Stack Traject",
+                        {
+                            cursussen[2],
+                            cursussen[3]
+                        },
+                        Titel = "Complete Full Stack Traject #1",
                         Type = "Full Stack",
                         LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                         Prijs = 50,
                         Beschrijving = "Some example text some example text.",
                         FotoURLCard = "https://via.placeholder.com/450x350.png/09f/fff?text=Foto van een product"
                     },
-                      new Traject()
+                    new Traject()
                     {
                         Cursussen = new List<Cursus>()
-                {
-                    new Cursus()
-                    {
-                        Titel = "dotNET cursus",
-                        LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                        Type = ".NET",
-                        Prijs = 15.45,
-                        Beschrijving = "Some example text some example text.",
-                        FotoURLCard = "https://via.placeholder.com/450x350.png/09f/fff?text=Foto van een product"
-                    },
-                    new Cursus()
-                    {
-                        Titel = "Angular cursus",
-                        Type = "Web Development",
-                        LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                        Prijs = 21.45,
-                        Beschrijving = "Some example text some example text.",
-                        FotoURLCard = "https://via.placeholder.com/450x350.png/09f/fff?text=Foto van een product"
-                    }
-                },
-                        Titel = "Complete Full Stack Traject",
+                        {
+                            cursussen[4],
+                            cursussen[5]
+                        },
+                        Titel = "Complete Full Stack Traject #2",
                         Type = "Full Stack",
                         LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                         Prijs = 50,

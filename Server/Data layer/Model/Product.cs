@@ -8,6 +8,7 @@ namespace Data_layer.Model
 {
     public abstract class Product
     {
+        [Key]
         public int ID { get; set; }
         [Required]
         public double Prijs { get; set; }

@@ -1,19 +1,18 @@
 ﻿using Business_layer.DTO;
+using Business_layer.Interfaces;
+using Data_layer.Interfaces;
 using Data_layer.Model;
-using Data_layer.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace Business_layer
 {
-    public class KlantFacade
+    public class KlantFacade : IKlantFacade
     {
-        private readonly KlantRepository repository;
+        private readonly IKlantRepository _repository;
 
-        public KlantFacade(KlantRepository repository)
+        public KlantFacade(IKlantRepository repository)
         {
-            this.repository = repository;
+            this._repository = repository;
         }
 
         private static Klant ConvertCreateUpdateDTOToKlant(string klantId)
@@ -35,17 +34,29 @@ namespace Business_layer
 
         public KlantDTO CreateKlant(string klantId)
         {
-            var klant = repository.GetKlantByID(klantId);
+            var klant = _repository.GetKlantByID(klantId);
             if (klant != null)
                 return null;
             var newKlant = ConvertCreateUpdateDTOToKlant(klantId);
-            var createdKlant = repository.CreateKlant(newKlant);
+            var createdKlant = _repository.CreateKlant(newKlant);
+            try
+            {
+                _repository.SaveChanges();
+            }
+            catch (DbUpdateException)
+            {
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
             return ConvertKlantToDTO(createdKlant);
         }
 
         public KlantDTO GetKlant(string klantId)
         {
-            var klant = repository.GetKlantByID(klantId);
+            var klant = _repository.GetKlantByID(klantId);
             if (klant == null)
                 return null;
             return ConvertKlantToDTO(klant);

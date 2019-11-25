@@ -1,22 +1,20 @@
-﻿using Data_layer.Model;
-using System;
-using System.Collections.Generic;
+﻿using Data_layer.Interfaces;
+using Data_layer.Model;
 using System.Linq;
-using System.Text;
 
 namespace Data_layer.Repositories
 {
-    public class AdminRepository
+    public class AdminRepository : IAdminRepository
     {
-        private readonly DatabaseContext context;
+        private readonly DatabaseContext _context;
         public AdminRepository(DatabaseContext context)
         {
-            this.context = context;
+            this._context = context;
         }
 
         public Admin GetAdminByID(string adminId)
         {
-            var admin = context.Admins.FirstOrDefault(d => d.AzureId == adminId);
+            var admin = _context.Admins.FirstOrDefault(d => d.AzureId == adminId);
 
             if (admin == null)
                 return null;
@@ -25,28 +23,22 @@ namespace Data_layer.Repositories
         }
         public Admin CreateAdmin(Admin admin)
         {
-            var existingAdmin = context.Admins.FirstOrDefault(d => d.AzureId == admin.AzureId);
+            var existingAdmin = _context.Admins.FirstOrDefault(d => d.AzureId == admin.AzureId);
 
             if (existingAdmin == null)
                 return null;
 
-            context.Admins.Add(admin);
-
-            try
-            {
-                SaveChanges();
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
+            _context.Admins.Add(admin);
 
             return admin;
         }
 
-        private void SaveChanges()
+        public void SaveChanges()
         {
-            context.SaveChanges();
+            if (_context.SaveChanges() > 0)
+            {
+                _context.SaveChanges();
+            }
         }
     }
 }

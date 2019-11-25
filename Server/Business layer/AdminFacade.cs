@@ -1,19 +1,20 @@
 ﻿using Business_layer.DTO;
+using Business_layer.Interfaces;
+using Data_layer.Interfaces;
 using Data_layer.Model;
 using Data_layer.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Business_layer
 {
-    public class AdminFacade
+    public class AdminFacade : IAdminFacade
     {
-        private readonly AdminRepository repository;
+        private readonly IAdminRepository _repository;
 
         public AdminFacade(AdminRepository repository)
         {
-            this.repository = repository;
+            this._repository = repository;
         }
 
         private static Admin ConvertCreateUpdateDTOToAdmin(string adminId)
@@ -33,17 +34,29 @@ namespace Business_layer
 
         public AdminDTO CreateAdmin(string adminId)
         {
-            var admin = repository.GetAdminByID(adminId);
+            var admin = _repository.GetAdminByID(adminId);
             if (admin != null)
                 return null;
             var newAdmin = ConvertCreateUpdateDTOToAdmin(adminId);
-            var createdAdmin = repository.CreateAdmin(newAdmin);
+            var createdAdmin = _repository.CreateAdmin(newAdmin);
+            try
+            {
+                _repository.SaveChanges();
+            }
+            catch (DbUpdateException)
+            {
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
             return ConvertAdminToDTO(createdAdmin);
         }
 
         public AdminDTO GetAdmin(string adminId)
         {
-            var admin = repository.GetAdminByID(adminId);
+            var admin = _repository.GetAdminByID(adminId);
             if (admin == null)
                 return null;
             return ConvertAdminToDTO(admin);

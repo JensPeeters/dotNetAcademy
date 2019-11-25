@@ -79,7 +79,7 @@ export class ProductenlijstComponent implements OnInit {
   }
 
   Sort(){
-    this.productService.sortBy = this.productFilter.sortBy;
+    this.productService.apiPageFilter.sortBy = this.productFilter.sortBy;
     this.GetProducts();
   }
 
@@ -96,7 +96,7 @@ export class ProductenlijstComponent implements OnInit {
       this.productFilter.direction = "desc";
     else
       this.productFilter.direction = "asc";
-    this.productService.direction = this.productFilter.direction;
+    this.productService.apiPageFilter.direction = this.productFilter.direction;
     this.GetProducts();
   }
   Changecollapsedcursussen(){

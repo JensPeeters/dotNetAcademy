@@ -1,16 +1,13 @@
-﻿using Newtonsoft.Json;
+﻿using Data_layer.Model;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace Data_layer.Model
+namespace Business_layer.DTO
 {
-    public class Klant : User
+    public class KlantDTO : UserDTO
     {
-        [JsonIgnore]
         public ICollection<Winkelwagen> Winkelwagens { get; set; }
-        [JsonIgnore]
         public ICollection<Bestelling> Bestellingen { get; set; }
     }
 }

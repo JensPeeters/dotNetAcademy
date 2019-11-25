@@ -25,7 +25,7 @@ namespace Data_layer.Repositories
         {
             var existingAdmin = _context.Admins.FirstOrDefault(d => d.AzureId == admin.AzureId);
 
-            if (existingAdmin == null)
+            if (existingAdmin != null)
                 return null;
 
             _context.Admins.Add(admin);

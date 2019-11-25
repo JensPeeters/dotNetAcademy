@@ -25,7 +25,7 @@ namespace Data_layer.Repositories
         {
             var existingKlant = _context.Klanten.FirstOrDefault(d => d.AzureId == klant.AzureId);
 
-            if (existingKlant == null)
+            if (existingKlant != null)
                 return null;
 
             _context.Klanten.Add(klant);

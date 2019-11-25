@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ProductenService } from '../services/producten.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -10,7 +10,7 @@ import { ITraject } from '../Interfaces/ITraject';
   templateUrl: './productenlijst.component.html',
   styleUrls: ['./productenlijst.component.scss']
 })
-export class ProductenlijstComponent implements OnInit {
+export class ProductenlijstComponent implements OnInit, OnDestroy {
 
   constructor(private productService: ProductenService, private route: ActivatedRoute) { }
   

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IBestelling } from 'src/app/services/bestellingen.service';
+import { IBestelling } from 'src/app/Interfaces/IBestelling';
 
 @Component({
   selector: 'app-bestelling',

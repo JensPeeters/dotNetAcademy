@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as Msal from 'msal';
+import { environment } from 'src/environments/environment';
 import { UserService } from './user.service';
 
 @Injectable()
@@ -9,17 +10,7 @@ export class MsalService {
 
     B2CTodoAccessTokenKey = 'b2c.access.token';
 
-    tenantConfig = {
-        domain: 'https://dotnetacademy.b2clogin.com/tfp/dotnetacademy.onmicrosoft.com/',
-        // Replace this with your client id
-        clientID: '4c8ac317-e97b-45ce-93fd-e9e6775cfded',
-        signInPolicy: 'B2C_1_signin',
-        signUpPolicy: 'B2C_1_signup',
-        resetPasswordPolicy: 'B2C_1_resetpassword',
-        editProfilePolicy: 'B2C_1_editprofile',
-        redirectUri: 'https://dotnetacademy.azurewebsites.net',
-        b2cScopes: ['https://dotnetacademy.onmicrosoft.com/access-api/user_impersonation']
-    };
+    tenantConfig = environment.tenantConfig;
 
     // Configure the authority for Azure AD B2C
     authority = this.tenantConfig.domain + '/' + this.tenantConfig.signInPolicy;
@@ -29,21 +20,21 @@ export class MsalService {
      */
     clientApplication = new Msal.UserAgentApplication(
         this.tenantConfig.clientID, this.authority,
-        function(errorDesc: any, token: any, error: any, tokenType: any) {
-      },
-      {
-          validateAuthority: false
-      }
+        (errorDesc: any, token: any, error: any, tokenType: any) => {
+        },
+        {
+            validateAuthority: false
+        }
     );
 
     public login(): void {
-      this.clientApplication.authority = this.tenantConfig.domain + this.tenantConfig.signInPolicy;
-      this.authenticate();
+        this.clientApplication.authority = this.tenantConfig.domain + this.tenantConfig.signInPolicy;
+        this.authenticate();
     }
 
     public signup(): void {
-      this.clientApplication.authority = this.tenantConfig.domain + this.tenantConfig.signUpPolicy;
-      this.authenticate();
+        this.clientApplication.authority = this.tenantConfig.domain + this.tenantConfig.signUpPolicy;
+        this.authenticate();
     }
 
     public resetPassword(): void {
@@ -58,19 +49,19 @@ export class MsalService {
 
     public authenticate(): void {
         const THIS = this;
-        this.clientApplication.loginPopup(this.tenantConfig.b2cScopes).then(function(idToken: any) {
+        this.clientApplication.loginPopup(this.tenantConfig.b2cScopes).then((idToken: any) => {
             THIS.clientApplication.acquireTokenSilent(THIS.tenantConfig.b2cScopes).then(
-                function(accessToken: any) {
+                (accessToken: any) => {
                     THIS.saveAccessTokenToCache(accessToken);
-                }, function(error: any) {
+                }, (error: any) => {
                     THIS.clientApplication.acquireTokenPopup(THIS.tenantConfig.b2cScopes).then(
-                        function(accessToken: any) {
+                        (accessToken: any) => {
                             THIS.saveAccessTokenToCache(accessToken);
-                        }, function(error: any) {
+                        }, (error: any) => {
                             console.log('error: ', error);
                         });
                 });
-        }, function(errorDesc: any) {
+        }, (errorDesc: any) => {
             console.log('error: ', errorDesc);
             if (errorDesc.indexOf('AADB2C90118') > -1) {
                 THIS.resetPassword();

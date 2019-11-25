@@ -169,3 +169,157 @@ END;
 
 GO
 
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191125130415_AddAdmin')
+BEGIN
+    ALTER TABLE [Bestellingen] DROP CONSTRAINT [FK_Bestellingen_Klanten_KlantId];
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191125130415_AddAdmin')
+BEGIN
+    ALTER TABLE [Winkelwagens] DROP CONSTRAINT [FK_Winkelwagens_Klanten_KlantId];
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191125130415_AddAdmin')
+BEGIN
+    DROP INDEX [IX_Winkelwagens_KlantId] ON [Winkelwagens];
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191125130415_AddAdmin')
+BEGIN
+    ALTER TABLE [Klanten] DROP CONSTRAINT [PK_Klanten];
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191125130415_AddAdmin')
+BEGIN
+    DROP INDEX [IX_Bestellingen_KlantId] ON [Bestellingen];
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191125130415_AddAdmin')
+BEGIN
+    DECLARE @var0 sysname;
+    SELECT @var0 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[Winkelwagens]') AND [c].[name] = N'KlantId');
+    IF @var0 IS NOT NULL EXEC(N'ALTER TABLE [Winkelwagens] DROP CONSTRAINT [' + @var0 + '];');
+    ALTER TABLE [Winkelwagens] DROP COLUMN [KlantId];
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191125130415_AddAdmin')
+BEGIN
+    DECLARE @var1 sysname;
+    SELECT @var1 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[Klanten]') AND [c].[name] = N'Id');
+    IF @var1 IS NOT NULL EXEC(N'ALTER TABLE [Klanten] DROP CONSTRAINT [' + @var1 + '];');
+    ALTER TABLE [Klanten] DROP COLUMN [Id];
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191125130415_AddAdmin')
+BEGIN
+    DECLARE @var2 sysname;
+    SELECT @var2 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[Bestellingen]') AND [c].[name] = N'KlantId');
+    IF @var2 IS NOT NULL EXEC(N'ALTER TABLE [Bestellingen] DROP CONSTRAINT [' + @var2 + '];');
+    ALTER TABLE [Bestellingen] DROP COLUMN [KlantId];
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191125130415_AddAdmin')
+BEGIN
+    ALTER TABLE [Winkelwagens] ADD [KlantAzureId] nvarchar(450) NULL;
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191125130415_AddAdmin')
+BEGIN
+    DECLARE @var3 sysname;
+    SELECT @var3 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[Klanten]') AND [c].[name] = N'AzureId');
+    IF @var3 IS NOT NULL EXEC(N'ALTER TABLE [Klanten] DROP CONSTRAINT [' + @var3 + '];');
+    ALTER TABLE [Klanten] ALTER COLUMN [AzureId] nvarchar(450) NOT NULL;
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191125130415_AddAdmin')
+BEGIN
+    ALTER TABLE [Bestellingen] ADD [KlantAzureId] nvarchar(450) NULL;
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191125130415_AddAdmin')
+BEGIN
+    ALTER TABLE [Klanten] ADD CONSTRAINT [PK_Klanten] PRIMARY KEY ([AzureId]);
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191125130415_AddAdmin')
+BEGIN
+    CREATE TABLE [Admins] (
+        [AzureId] nvarchar(450) NOT NULL,
+        CONSTRAINT [PK_Admins] PRIMARY KEY ([AzureId])
+    );
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191125130415_AddAdmin')
+BEGIN
+    CREATE INDEX [IX_Winkelwagens_KlantAzureId] ON [Winkelwagens] ([KlantAzureId]);
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191125130415_AddAdmin')
+BEGIN
+    CREATE INDEX [IX_Bestellingen_KlantAzureId] ON [Bestellingen] ([KlantAzureId]);
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191125130415_AddAdmin')
+BEGIN
+    ALTER TABLE [Bestellingen] ADD CONSTRAINT [FK_Bestellingen_Klanten_KlantAzureId] FOREIGN KEY ([KlantAzureId]) REFERENCES [Klanten] ([AzureId]) ON DELETE NO ACTION;
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191125130415_AddAdmin')
+BEGIN
+    ALTER TABLE [Winkelwagens] ADD CONSTRAINT [FK_Winkelwagens_Klanten_KlantAzureId] FOREIGN KEY ([KlantAzureId]) REFERENCES [Klanten] ([AzureId]) ON DELETE NO ACTION;
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191125130415_AddAdmin')
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20191125130415_AddAdmin', N'2.2.6-servicing-10079');
+END;
+
+GO
+

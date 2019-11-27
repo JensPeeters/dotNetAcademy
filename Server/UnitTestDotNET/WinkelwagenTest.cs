@@ -69,8 +69,7 @@ namespace UnitTestDotNET
 
                 context.Klanten.Add(new Klant()
                 {
-                    Id = 1,
-                    AzureId = "TestUser"
+                    AzureId = "TestUser",
                 });
 
                 for (int f = 1; f <= products; f++)
@@ -129,7 +128,6 @@ namespace UnitTestDotNET
 
                 context.Klanten.Add(new Klant()
                 {
-                    Id = 1,
                     AzureId = "TestUser"
                 });
 
@@ -179,7 +177,6 @@ namespace UnitTestDotNET
 
                 context.Klanten.Add(new Klant()
                 {
-                    Id = 1,
                     AzureId = "TestUser"
                 });
 

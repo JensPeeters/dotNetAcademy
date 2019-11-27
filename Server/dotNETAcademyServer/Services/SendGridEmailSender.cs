@@ -12,10 +12,10 @@ namespace dotNETAcademyServer.Services
         /// Aanroepen:
         /// SendGridEmailSender emailSender = new SendGridEmailSender();
         /// string mailmsg = "Mogelijk gemaakt door Davy";
-        /// emailSender.SendEmailAsync("voorbeeld@domain", "Bedankt voor je bestelling!", mailmsg, 1).Wait();
+        /// emailSender.SendEmailAsync("voorbeeld@domain", "Bedankt voor je bestelling!", mailmsg, 1, stream).Wait();
         /// </summary>
         PDFGenerator pdfGenerator = new PDFGenerator();
-        public async Task SendEmailAsync(string userEmail, string emailSubject, string message, int bestellingsId)
+        public async Task SendEmailAsync(string userEmail, string emailSubject, string message, int? bestellingsId = null, MemoryStream stream = null)
         {
             //var apiKey = System.Environment.GetEnvironmentVariable("SENDGRID_APIKEY");
             var apiKey = "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";
@@ -29,14 +29,30 @@ namespace dotNETAcademyServer.Services
             };
             msg.AddTo(new EmailAddress(userEmail, ""));
             msg.SetFooterSetting(true,
-                "<p style='color: grey;'>Dit is een automatische bevestiging van je bestelling.</p>",
-                "Dit is een automatische bevestiging van je bestelling.");
+                "<p style='color: grey;'>Dit is een automatische mail van dotNetAcademy™</p>",
+                "Dit is een automatische mail van dotNetAcademy™");
 
+            if(bestellingsId != null && stream != null)
+            {
+                msg.AddAttachment(CreateAttachment(bestellingsId.Value, stream));
+            }  
+
+            var response = await client.SendEmailAsync(msg);
+        }
+        public Attachment CreateAttachment(int bestellingsId, MemoryStream stream = null)
+        {
             string fileName = "Factuur" + bestellingsId + ".pdf";
-            pdfGenerator.GeneratePDF(fileName);
-            byte[] pdfBytes = File.ReadAllBytes("./Bestellingen/" + fileName);
-            string pdfBase64 = Convert.ToBase64String(pdfBytes);
-
+            ///--------
+            /// Deze lijnen gebruik je wanneer je je document opslaat en hem uitleest om het document zo mee te sturen in de email
+            //byte[] pdfBytes = File.ReadAllBytes("./Bestellingen/" + fileName);
+            //byte[] pdfBytes = File.ReadAllBytes("factuur" + factuurId + ".pdf");
+            //string pdfBase64 = Convert.ToBase64String(pdfBytes);
+            ///--------
+            byte[] buffer = new byte[stream.Length];
+            stream.Seek(0, SeekOrigin.Begin);
+            stream.Flush();
+            stream.Read(buffer, 0, (int)stream.Length);
+            string pdfBase64 = Convert.ToBase64String(buffer);
             var bestelling = new Attachment()
             {
                 Content = pdfBase64,
@@ -44,10 +60,8 @@ namespace dotNETAcademyServer.Services
                 Filename = fileName,
                 Disposition = "inline",
                 ContentId = "Factuur"
-            };    
-            msg.AddAttachment(bestelling);
-
-            var response = await client.SendEmailAsync(msg);
+            };
+            return bestelling;
         }
     }
 }

@@ -12,6 +12,13 @@ namespace Data_layer.Repositories
         {
             this._context = context;
         }
+
+        public Bestelling AddBestellingToCustomer(Bestelling bestelling)
+        {
+            _context.Bestellingen.Add(bestelling);
+            return bestelling;
+        }
+
         public List<Bestelling> GetBestellingenByCustomerId(string custId)
         {
             return _context.Bestellingen
@@ -20,6 +27,15 @@ namespace Data_layer.Repositories
                     .ThenInclude(i => i.Product)
                     .OrderByDescending(d => d.Datum)
                     .ToList();
+        }
+
+        public void SaveChanges()
+        {
+            if (_context.SaveChanges() > 0)
+            {
+                _context.SaveChanges();
+            }
+
         }
     }
 }

@@ -1,10 +1,4 @@
-﻿
-using Data_layer.Model;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Data_layer.Model
 {
@@ -15,6 +9,7 @@ namespace Data_layer.Model
         {
             this.Categorie = "Traject";
         }
+        
         public ICollection<Cursus> Cursussen { get; set; }
     }
 }

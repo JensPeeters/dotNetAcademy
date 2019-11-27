@@ -1,31 +1,25 @@
-﻿using Data_layer.Model;
+﻿using Data_layer.Interfaces;
+using Data_layer.Model;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-
 namespace Data_layer.Repositories
 {
-    public class BestellingRepository
+    public class BestellingRepository : IBestellingRepository
     {
-        private readonly DatabaseContext context;
+        private readonly DatabaseContext _context;
         public BestellingRepository(DatabaseContext context)
         {
-            this.context = context;
+            this._context = context;
         }
-        public List<Bestelling> GetBestellingen(string custId)
+        public List<Bestelling> GetBestellingenByCustomerId(string custId)
         {
-            var klant = context.Klanten
-                .Include(d => d.Bestellingen)
-                .ThenInclude(b => b.Producten)
-                .ThenInclude(i => i.Product)
-                .SingleOrDefault(d => d.AzureId == custId);
-
-            if (klant == null)
-                return null;
-
-            return klant.Bestellingen.OrderByDescending(d => d.Datum).ToList();
+            return _context.Bestellingen
+                    .Where(d => d.Klant.AzureId == custId)
+                    .Include(b => b.Producten)
+                    .ThenInclude(i => i.Product)
+                    .OrderByDescending(d => d.Datum)
+                    .ToList();
         }
     }
 }

@@ -1,91 +1,93 @@
-﻿using Data_layer.Model;
+﻿using Data_layer.Filter.ProductenFilters;
+using Data_layer.Interfaces;
+using Data_layer.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Data_layer.Repositories
 {
-    public class TrajectRepository
+    public class TrajectRepository : ITrajectRepository
     {
-        private readonly DatabaseContext context;
-        public TrajectRepository(DatabaseContext context)
+        private readonly DatabaseContext _context;
+        private readonly IContextFilter _sortFilter;
+
+        public TrajectRepository(DatabaseContext context, IContextFilter sortFilter)
         {
-            this.context = context;
+            this._context = context;
+            this._sortFilter = sortFilter;
         }
-        public IQueryable<Traject> GetTrajecten()
+        public List<Traject> GetTrajecten(TrajectFilter filter)
         {
-            return context.Trajecten.Include(a => a.Cursussen);
+            IQueryable<Product> query = _context.Trajecten.Include(a => a.Cursussen);
+            query = _sortFilter.Filter(filter, query);
+            return query.Select(traject => new Traject {
+                Beschrijving = traject.Beschrijving,
+                Categorie = traject.Categorie,
+                FotoURLCard = traject.FotoURLCard,
+                Cursussen = (traject as Traject).Cursussen,
+                ID = traject.ID,
+                LangeBeschrijving = traject.LangeBeschrijving,
+                Prijs = traject.Prijs,
+                Titel = traject.Titel,
+                Type = traject.Type
+            }).ToList();
         }
 
         public Traject GetTrajectByTitel(string titel)
         {
-            return context.Trajecten.FirstOrDefault(a => a.Titel == titel);
+            return _context.Trajecten.FirstOrDefault(a => a.Titel == titel);
         }
 
         public Traject GetTrajectById(int id)
         {
-            return context.Trajecten.Include(a => a.Cursussen)
+            return _context.Trajecten.Include(a => a.Cursussen)
                                         .FirstOrDefault(a => a.ID == id);
         }
 
         public Traject AddTraject(Traject traject)
         {
-            var existingTraject = context.Trajecten.FirstOrDefault(o => o.Titel == traject.Titel);
-            if (existingTraject != null)
-                return null;
-            context.Trajecten.Add(traject);
-            try
-            {
-                SaveChanges();
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
+            _context.Trajecten.Add(traject);
             return traject;
         }
 
-        private void SaveChanges()
+        public void SaveChanges()
         {
-            context.SaveChanges();
+            if (_context.SaveChanges() > 0)
+            {
+                _context.SaveChanges();
+            }
         }
 
 
         public Traject DeleteTraject(int id)
         {
-            var deletedTraject = context.Trajecten.FirstOrDefault(a => a.ID == id);
-            if (deletedTraject == null)
-                return null;
-
-            context.Trajecten.Remove(deletedTraject);
+            var deletedTraject = _context.Trajecten.FirstOrDefault(a => a.ID == id);
             try
             {
-                SaveChanges();
+                _context.Trajecten.Remove(deletedTraject);
             }
-            catch (Exception e)
+            catch (ArgumentNullException)
             {
-                throw new Exception(e.Message);
+                return null;
             }
             return deletedTraject;
         }
 
         public Traject UpdateTraject(Traject traject)
         {
-            var existingTraject = context.Trajecten.FirstOrDefault(a => a.ID == traject.ID);
+            var existingTraject = _context.Trajecten.FirstOrDefault(a => a.ID == traject.ID);
             if (existingTraject == null)
                 return null;
-            context.Entry(existingTraject).State = EntityState.Detached;
-            context.Trajecten.Update(traject);
-            try
-            {
-                SaveChanges();
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
+            existingTraject.Beschrijving = traject.Beschrijving;
+            existingTraject.Categorie = traject.Categorie;
+            existingTraject.FotoURLCard = traject.FotoURLCard;
+            existingTraject.Cursussen = traject.Cursussen;
+            existingTraject.LangeBeschrijving = traject.LangeBeschrijving;
+            existingTraject.Prijs = traject.Prijs;
+            existingTraject.Titel = traject.Titel;
+            existingTraject.Type = traject.Type;
             return traject;
         }
     }

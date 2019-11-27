@@ -15,6 +15,19 @@ namespace Data_layer
 
         public virtual DbSet<Winkelwagen> Winkelwagens { get; set; }
         public virtual DbSet<Klant> Klanten { get; set; }
+        public virtual DbSet<Admin> Admins { get; set; }
         public virtual DbSet<Bestelling> Bestellingen { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Cursus>()
+                .HasIndex(b => b.Titel)
+                .IsUnique();
+            modelBuilder.Entity<Traject>()
+                .HasIndex(b => b.Titel)
+                .IsUnique();
+
+
+        }
     }
 }

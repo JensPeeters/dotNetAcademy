@@ -1,43 +1,34 @@
 ﻿using Business_layer.DTO;
-using Business_layer.Filter;
-using Data_layer;
+using Business_layer.Interfaces;
+using Data_layer.Filter.ProductenFilters;
 using Data_layer.Interfaces;
 using Data_layer.Model;
-using Data_layer.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Business_layer
 {
-    public class CursusFacade
+    public class CursusFacade : ICursusFacade
     {
-        private readonly CursusRepository repository;
-        private readonly ISortFilter sortFilter;
+        private readonly ICursusRepository _repository;
 
-        public CursusFacade(CursusRepository repository,ISortFilter sortFilter)
+        public CursusFacade(ICursusRepository repository)
         {
-            this.repository = repository;
-            this.sortFilter = sortFilter;
+            this._repository = repository;
         }
 
         public List<CursusDTO> GetCursussen(CursusFilter filter)
         {
-            IQueryable<Product> query = repository.GetCursussen();
-            query = sortFilter.Filter(filter, query);
-            
-            var cursussen = new List<CursusDTO>();
-            foreach (Cursus cursus in query.ToList())
-            {
-                cursussen.Add(ConvertCursusToDTO(cursus));
-            }
-            return cursussen;
+            return _repository.GetCursussen(filter)
+                        .Select(cursus => ConvertCursusToDTO(cursus))
+                        .ToList();
         }
 
         public CursusDTO GetCursus(int id)
         {
-            var cursus = repository.GetCursusById(id);
+            var cursus = _repository.GetCursusById(id);
             if (cursus == null)
                 return null;
             return ConvertCursusToDTO(cursus);
@@ -60,11 +51,20 @@ namespace Business_layer
 
         public CursusDTO AddCursus(CursusCreateUpdateDTO cursus)
         {
-            var existingCursus = repository.GetCursusByTitel(cursus.Titel);
-            if (existingCursus != null)
-                return null;
             var newCursus = ConvertCreateUpdateDTOToCursus(cursus);
-            var createdCursus = repository.AddCursus(newCursus);
+            var createdCursus = _repository.AddCursus(newCursus);
+            try
+            {
+                _repository.SaveChanges();
+            }
+            catch (DbUpdateException)
+            {
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
             return ConvertCursusToDTO(createdCursus);
         }
 
@@ -84,9 +84,17 @@ namespace Business_layer
 
         public CursusDTO DeleteCursus(int id)
         {
-            var deletedCursus = repository.DeleteCursus(id);
+            var deletedCursus = _repository.DeleteCursus(id);
             if (deletedCursus == null)
                 return null;
+            try
+            {
+                _repository.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
             return ConvertCursusToDTO(deletedCursus);
         }
 
@@ -94,9 +102,17 @@ namespace Business_layer
         {
             var newCursus = ConvertCreateUpdateDTOToCursus(cursus);
             newCursus.ID = id;
-            var updatedCursus = repository.UpdateCursus(newCursus);
+            var updatedCursus = _repository.UpdateCursus(newCursus);
             if (updatedCursus == null)
                 return null;
+            try
+            {
+                _repository.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
             return ConvertCursusToDTO(updatedCursus);
         }
     }

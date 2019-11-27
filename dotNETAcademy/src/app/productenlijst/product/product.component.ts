@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IProduct, WinkelmandService } from 'src/app/services/winkelmand.service';
+import { WinkelmandService } from 'src/app/services/winkelmand.service';
 import { MsalService } from 'src/app/services/msal.service';
+import { IProduct } from 'src/app/Interfaces/IProduct';
 
 @Component({
   selector: 'app-product',

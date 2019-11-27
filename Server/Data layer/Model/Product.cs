@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Data_layer.Model
 {
     public abstract class Product
     {
+        [Key]
         public int ID { get; set; }
         [Required]
         public double Prijs { get; set; }

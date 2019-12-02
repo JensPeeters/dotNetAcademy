@@ -8,17 +8,17 @@ namespace dotNETAcademyServer.Controllers
     [ApiController]
     public class AdminController : ControllerBase
     {
-        private readonly IAdminFacade _facade;
-        public AdminController(IAdminFacade facade)
+        private readonly IAdminFacade _adminFacade;
+        public AdminController(IAdminFacade adminFacade)
         {
-            this._facade = facade;
+            this._adminFacade = adminFacade;
         }
 
         [Route("{adminId}")]
         [HttpPost]
         public ActionResult<AdminDTO> CreateAdmin(string adminId)
         {
-            var createdAdmin = _facade.CreateAdmin(adminId);
+            var createdAdmin = _adminFacade.CreateAdmin(adminId);
             if (createdAdmin == null)
                 return Conflict("Admin met die ID bestaat al.");
             return Created("", createdAdmin);
@@ -28,7 +28,7 @@ namespace dotNETAcademyServer.Controllers
         [HttpGet]
         public ActionResult<AdminDTO> GetAdmin(string adminId)
         {
-            var admin = _facade.GetAdmin(adminId);
+            var admin = _adminFacade.GetAdmin(adminId);
             if (admin == null)
                 return NotFound($"Admin met id:{adminId} bestaat niet.");
             return admin;

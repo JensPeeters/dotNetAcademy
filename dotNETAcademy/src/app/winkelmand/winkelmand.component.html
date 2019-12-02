@@ -7,7 +7,7 @@
       (updateEvent)="HerlaadWinkelmand($event)" [product]="product"></app-winkelmand-item>
       <hr>
       <h3>Totaalprijs : {{Winkelmand.totaalPrijs | currency:' € '}}</h3>
-      <button class="btn btn-primary">Ga verder met bestellen</button>
+      <button class="btn btn-primary" (click)="CreateBestelling()">Ga verder met bestellen</button>
     </div>
   </div>
 </div>

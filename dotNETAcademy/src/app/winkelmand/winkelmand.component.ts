@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { WinkelmandService } from '../services/winkelmand.service';
 import { MsalService } from '../services/msal.service';
 import { IWinkelmand } from '../Interfaces/IWinkelmand';
+import { BestellingenService } from '../services/bestellingen.service';
 
 @Component({
   selector: 'app-winkelmand',
@@ -12,7 +13,7 @@ export class WinkelmandComponent implements OnInit {
   Winkelmand : IWinkelmand;
   UserId : string;
   constructor(private winkelmandService: WinkelmandService,
-    private msalService: MsalService) { }
+    private msalService: MsalService, private bestellingService: BestellingenService) { }
 
   ngOnInit() {
     if(this.msalService.isLoggedIn()){
@@ -45,6 +46,12 @@ export class WinkelmandComponent implements OnInit {
       this.Winkelmand = res;
       this.winkelmandService.ChangeAantal(res.producten.length.toString());
       this.BerekenTotaalprijs();
+    });
+  }
+
+  CreateBestelling(){
+    this.bestellingService.PostBestelling(this.UserId).subscribe(res => {
+      console.log(res);
     });
   }
 }

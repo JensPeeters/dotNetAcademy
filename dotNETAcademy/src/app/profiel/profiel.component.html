@@ -1,4 +1,4 @@
-<div class="card" *ngIf="isUserLoggedIn()">
+<div class="card">
     <div class="heading">
         <h3>Profiel</h3>
     </div>
@@ -7,16 +7,16 @@
             <div class="namegrid">
                 <div class="controls">
                     <p class="identifier"><i class="fa fa-user"></i> Voornaam:</p>
-                    <p class="info">{{userfirstname()}}</p>
+                    <p class="info">{{userFirstName}}</p>
                 </div>
                 <div class="controls">
                     <p class="identifier"><i class="fa fa-user"></i> Achternaam:</p>
-                    <p class="info">{{userfamilyname()}}</p>
+                    <p class="info">{{userFamilyName}}</p>
                 </div>
             </div>
             <div class="controls">
                 <p class="identifier"><i class="fa fa-at"></i> E-mailadres:</p>
-                <p class="info">{{useremail()}}</p>
+                <p class="info">{{userEmail}}</p>
             </div>
             <!--<div class="controls">
                 <p class="identifier"><i class="fa fa-mobile"></i> Telefoonnummer:</p>

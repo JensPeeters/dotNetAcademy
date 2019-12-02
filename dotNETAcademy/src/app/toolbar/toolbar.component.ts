@@ -37,7 +37,7 @@ export class ToolbarComponent implements OnInit {
     this.router.navigateByUrl(`producten/zoekresultaten/${this.searchParam}`);
   }
 
-  userfirstname() {
+  get userfirstname() {
     return this.msalService.getUserFirstName();
   }
 
@@ -60,6 +60,10 @@ export class ToolbarComponent implements OnInit {
 
   isUserLoggedIn() {
     return this.msalService.isLoggedIn();
+  }
+
+  isAdmin() {
+    return this.msalService.admin;
   }
 
 }

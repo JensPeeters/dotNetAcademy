@@ -10,6 +10,8 @@ export class MsalService {
 
     B2CTodoAccessTokenKey = 'b2c.access.token';
 
+    admin: boolean;
+
     tenantConfig = environment.tenantConfig;
 
     // Configure the authority for Azure AD B2C
@@ -77,6 +79,7 @@ export class MsalService {
         if (this.isNew()) {
             this.userService.saveUserInDb(this.getUserObjectId()).subscribe();
         }
+        this.isAdmin();
     }
 
     logout(): void {
@@ -100,10 +103,10 @@ export class MsalService {
 
     isAdmin() {
         this.userService.isadmin(this.getUserObjectId()).subscribe(res => {
-          return true;
+          this.admin = true;
         },
         err => {
-          return false;
+          this.admin = false;
         });
       }
 

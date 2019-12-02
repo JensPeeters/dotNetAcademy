@@ -10,11 +10,11 @@ namespace Business_layer
 {
     public class AdminFacade : IAdminFacade
     {
-        private readonly IAdminRepository _repository;
+        private readonly IAdminRepository _adminRepository;
 
-        public AdminFacade(AdminRepository repository)
+        public AdminFacade(IAdminRepository repository)
         {
-            this._repository = repository;
+            this._adminRepository = repository;
         }
 
         private static Admin ConvertCreateUpdateDTOToAdmin(string adminId)
@@ -34,14 +34,14 @@ namespace Business_layer
 
         public AdminDTO CreateAdmin(string adminId)
         {
-            var admin = _repository.GetAdminByID(adminId);
+            var admin = _adminRepository.GetAdminByID(adminId);
             if (admin != null)
                 return null;
             var newAdmin = ConvertCreateUpdateDTOToAdmin(adminId);
-            var createdAdmin = _repository.CreateAdmin(newAdmin);
+            var createdAdmin = _adminRepository.CreateAdmin(newAdmin);
             try
             {
-                _repository.SaveChanges();
+                _adminRepository.SaveChanges();
             }
             catch (DbUpdateException)
             {
@@ -56,7 +56,7 @@ namespace Business_layer
 
         public AdminDTO GetAdmin(string adminId)
         {
-            var admin = _repository.GetAdminByID(adminId);
+            var admin = _adminRepository.GetAdminByID(adminId);
             if (admin == null)
                 return null;
             return ConvertAdminToDTO(admin);

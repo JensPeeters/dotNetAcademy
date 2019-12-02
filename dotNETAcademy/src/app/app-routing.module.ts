@@ -8,6 +8,7 @@ import { WinkelmandComponent } from './winkelmand/winkelmand.component';
 import { BestellingenComponent } from './bestellingen/bestellingen.component';
 import { ProfielComponent } from './profiel/profiel.component';
 import { MsalGuard } from './guard/msal.guard';
+import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
@@ -17,6 +18,7 @@ const routes: Routes = [
   {path: 'winkelmand', component: WinkelmandComponent},
   {path: 'bestellingen', component: BestellingenComponent},
   {path: 'profiel', component: ProfielComponent, canActivate: [MsalGuard]},
+  {path: 'adminpanel', component: AdminPanelComponent, canActivate: [MsalGuard]},
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: '**', component: NotFoundComponent}
 ];

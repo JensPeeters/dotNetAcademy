@@ -21,6 +21,7 @@ import { BestellingComponent } from './bestellingen/bestelling/bestelling.compon
 import { BestellingenService } from './services/bestellingen.service';
 import { ProfielComponent } from './profiel/profiel.component';
 import { MsalGuard } from './guard/msal.guard';
+import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { MsalGuard } from './guard/msal.guard';
     ProductInfoComponent,
     BestellingenComponent,
     BestellingComponent,
-    ProfielComponent
+    ProfielComponent,
+    AdminPanelComponent
   ],
   imports: [
     BrowserModule,

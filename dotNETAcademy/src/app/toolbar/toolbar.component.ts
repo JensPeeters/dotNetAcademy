@@ -11,7 +11,7 @@ import { WinkelmandService } from '../services/winkelmand.service';
 export class ToolbarComponent implements OnInit {
 
   constructor(private router: Router, private msalService: MsalService,
-    private winkelmandService: WinkelmandService) {
+              private winkelmandService: WinkelmandService) {
     this.winkelmandService.aantalItems.subscribe(aantal => {
         this.aantalItems = Number(aantal);
     });
@@ -42,7 +42,7 @@ export class ToolbarComponent implements OnInit {
   }
 
   useremail() {
-    let useremail = this.msalService.getUserEmail();
+    const useremail = this.msalService.getUserEmail();
     return useremail;
   }
 

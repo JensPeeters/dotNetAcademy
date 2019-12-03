@@ -11,8 +11,20 @@ export class UserService {
 
   domain: string = environment.domain;
 
-  saveUserInDb(UserId) {
+  saveKlantInDb(UserId) {
     return this.http.post(`${this.domain}/klant/${UserId}`, null);
+  }
+
+  saveAdminInDb(UserId) {
+    return this.http.post(`${this.domain}/admin/${UserId}`, null);
+  }
+
+  deleteKlantInDb(UserId) {
+    return this.http.delete(`${this.domain}/klant/${UserId}`);
+  }
+
+  deleteAdminInDb(UserId) {
+    return this.http.delete(`${this.domain}/admin/${UserId}`);
   }
 
   isadmin(UserId) {

@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,6 +22,11 @@ import { BestellingenService } from './services/bestellingen.service';
 import { ProfielComponent } from './profiel/profiel.component';
 import { MsalGuard } from './guard/msal.guard';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
+import { NoAdminComponent } from './no-admin/no-admin.component';
+import { AdminGuard } from './guard/admin.guard';
+import { CreateUserComponent } from './admin-panel/create-user/create-user.component';
+import { UpdateUserComponent } from './admin-panel/update-user/update-user.component';
+import { DeleteUserComponent } from './admin-panel/delete-user/delete-user.component';
 
 
 @NgModule({
@@ -38,19 +43,24 @@ import { AdminPanelComponent } from './admin-panel/admin-panel.component';
     BestellingenComponent,
     BestellingComponent,
     ProfielComponent,
-    AdminPanelComponent
+    AdminPanelComponent,
+    NoAdminComponent,
+    CreateUserComponent,
+    UpdateUserComponent,
+    DeleteUserComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
   ],
   providers: [
     ProductenService,
     BestellingenService,
     MsalService,
-    MsalGuard
+    MsalGuard,
+    AdminGuard
   ],
   bootstrap: [AppComponent]
 })

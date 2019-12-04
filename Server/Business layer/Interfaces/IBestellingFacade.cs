@@ -1,5 +1,4 @@
 ﻿using Business_layer.DTO;
-using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
 namespace Business_layer.Interfaces

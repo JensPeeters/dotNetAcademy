@@ -24,7 +24,7 @@
     <section *ngIf="cursussen">
         <div class="listview row" *ngIf="currentRoute!='zoekresultaten'"><app-product class="col" *ngFor="let product of cursussen" [product]="product"></app-product></div>
         <div *ngIf="currentRoute=='zoekresultaten'">
-            <button class="btn btnResults" type="button" data-toggle="collapse" data-target="#collapseCursussen" aria-expanded="false" aria-controls="collapseCursussen" (click)="Changecollapsedcursussen()">
+            <button class="btn btnResults" data-toggle="collapse" data-target="#collapseCursussen">
                 <h4>Cursusresultaten voor "{{productFilter.searchParam}}": <i *ngIf="collapsedCursussen" class="fas fa-caret-square-up"></i> <i *ngIf="!collapsedCursussen" class="fas fa-caret-square-down"></i></h4>
             </button>
             <div *ngIf="!collapsedCursussen" class="collapse show listview row" id="collapseCursussen">
@@ -35,7 +35,7 @@
     <section *ngIf="trajecten">
         <div class="listview row" *ngIf="currentRoute!='zoekresultaten'"><app-product class="col" *ngFor="let product of trajecten" [product]="product"></app-product></div>
         <div *ngIf="currentRoute=='zoekresultaten'">
-            <button class="btn btnResults" type="button" data-toggle="collapse" data-target="#collapseTrajecten" aria-expanded="false" aria-controls="collapseTrajecten" (click)="Changecollapsedctrajecten()">
+            <button class="btn btnResults" type="button" data-toggle="collapse" data-target="#collapseTrajecten">
                 <h4>Trajectresultaten voor "{{productFilter.searchParam}}": <i *ngIf="collapsedTrajecten" class="fas fa-caret-square-up"></i> <i *ngIf="!collapsedTrajecten" class="fas fa-caret-square-down"></i></h4>
             </button>
             <div *ngIf="!collapsedTrajecten" class="collapse show listview row" id="collapseTrajecten">

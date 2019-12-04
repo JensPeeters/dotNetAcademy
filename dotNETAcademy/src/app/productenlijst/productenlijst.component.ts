@@ -99,12 +99,6 @@ export class ProductenlijstComponent implements OnInit, OnDestroy {
     this.productService.apiPageFilter.direction = this.productFilter.direction;
     this.GetProducts();
   }
-  Changecollapsedcursussen(){
-    this.collapsedCursussen != this.collapsedCursussen;
-  }
-  Changecollapsedctrajecten(){
-    this.collapsedTrajecten != this.collapsedTrajecten;
-  }
 }
 export class Filter{
   types: string[];

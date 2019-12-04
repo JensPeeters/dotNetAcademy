@@ -12,7 +12,7 @@ namespace Business_layer
     {
         private readonly IAdminRepository _repositoryAdmin;
 
-        public AdminFacade(AdminRepository repositoryAdmin)
+        public AdminFacade(IAdminRepository repositoryAdmin)
         {
             this._repositoryAdmin = repositoryAdmin;
         }
@@ -52,6 +52,26 @@ namespace Business_layer
                 throw new Exception(e.Message);
             }
             return ConvertAdminToDTO(createdAdmin);
+        }
+
+        public AdminDTO DeleteAdmin(string AdminId)
+        {
+            var deletedAdmin = _repositoryAdmin.DeleteAdmin(AdminId);
+            if (deletedAdmin == null)
+                return null;
+            try
+            {
+                _repositoryAdmin.SaveChanges();
+            }
+            catch (DbUpdateException)
+            {
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            return ConvertAdminToDTO(deletedAdmin);
         }
 
         public AdminDTO GetAdmin(string adminId)

@@ -8,12 +8,12 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class DeleteUserComponent implements OnInit {
 
-  azureIdParam;
-  confirmDelete;
-  azureIdEmpty;
-  confirmNotChecked;
-  deleteUserSucces;
-  userDoesntExists;
+  azureIdParam: string;
+  confirmDelete: boolean;
+  azureIdEmpty: boolean;
+  confirmNotChecked: boolean;
+  deleteUserSucces: boolean;
+  userDoesntExists: boolean;
 
   constructor(private userService: UserService) { }
 
@@ -45,30 +45,40 @@ export class DeleteUserComponent implements OnInit {
         this.confirmNotChecked = false;
 
         this.userService.isadmin(this.azureIdParam).subscribe(res => {
-          this.userService.deleteAdminInDb(this.azureIdParam).subscribe(res => {
-            this.deleteUserSucces = true;
-            this.userDoesntExists = false;
-          },
-            err => {
-              this.deleteUserSucces = false;
-              if (err.status === 404) {
-                this.userDoesntExists = true;
-              }
-            });
+          this.DeleteAdmin();
         },
           err => {
-            this.userService.deleteKlantInDb(this.azureIdParam).subscribe(res => {
-              this.deleteUserSucces = true;
-              this.userDoesntExists = false;
-            },
-              err => {
-                this.deleteUserSucces = false;
-                if (err.status === 404) {
-                  this.userDoesntExists = true;
-                }
-              });
+            if (err.status === 404) {
+              this.DeleteKlant();
+            }
           });
       }
     }
+  }
+
+  DeleteAdmin() {
+    this.userService.deleteAdminInDb(this.azureIdParam).subscribe(res => {
+      this.deleteUserSucces = true;
+      this.userDoesntExists = false;
+    },
+      err => {
+        this.deleteUserSucces = false;
+        if (err.status === 404) {
+          this.userDoesntExists = true;
+        }
+      });
+  }
+
+  DeleteKlant() {
+    this.userService.deleteKlantInDb(this.azureIdParam).subscribe(res => {
+      this.deleteUserSucces = true;
+      this.userDoesntExists = false;
+    },
+      err => {
+        this.deleteUserSucces = false;
+        if (err.status === 404) {
+          this.userDoesntExists = true;
+        }
+      });
   }
 }

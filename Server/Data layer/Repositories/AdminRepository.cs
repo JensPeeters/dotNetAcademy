@@ -1,5 +1,6 @@
 ﻿using Data_layer.Interfaces;
 using Data_layer.Model;
+using System;
 using System.Linq;
 
 namespace Data_layer.Repositories
@@ -31,6 +32,22 @@ namespace Data_layer.Repositories
             _context.Admins.Add(admin);
 
             return admin;
+        }
+
+        public Admin DeleteAdmin(string AdminId)
+        {
+            var deletedAdmin = _context.Admins.FirstOrDefault(a => a.AzureId == AdminId);
+            if (deletedAdmin == null)
+                return null;
+            try
+            {
+                _context.Admins.Remove(deletedAdmin);
+            }
+            catch (ArgumentNullException)
+            {
+                return null;
+            }
+            return deletedAdmin;
         }
 
         public void SaveChanges()

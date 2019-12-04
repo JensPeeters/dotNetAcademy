@@ -8,11 +8,11 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class CreateUserComponent implements OnInit {
 
-  azureIdParam;
-  userType;
-  azureIdEmpty;
-  createUserSucces;
-  userAlreadyExists;
+  azureIdParam: string;
+  userType: string;
+  azureIdEmpty: boolean;
+  createUserSucces: boolean;
+  userAlreadyExists: boolean;
 
   constructor(private userService: UserService) { }
 

@@ -56,12 +56,12 @@ namespace Business_layer
 
         public KlantDTO DeleteKlant(string klantId)
         {
-            var deletedKlant = _klantRepository.DeleteKlant(klantId);
+            var deletedKlant = _repositoryKlant.DeleteKlant(klantId);
             if (deletedKlant == null)
                 return null;
             try
             {
-                _klantRepository.SaveChanges();
+                _repositoryKlant.SaveChanges();
             }
             catch (DbUpdateException)
             {

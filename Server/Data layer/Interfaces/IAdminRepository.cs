@@ -6,6 +6,7 @@ namespace Data_layer.Interfaces
     {
         Admin GetAdminByID(string adminId);
         Admin CreateAdmin(Admin admin);
+        Admin DeleteAdmin(string AdminId);
         void SaveChanges();
     }
 }

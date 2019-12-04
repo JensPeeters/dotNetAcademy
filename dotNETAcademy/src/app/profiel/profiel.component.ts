@@ -19,8 +19,11 @@ export class ProfielComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.msalService.isLoggedIn())
+    {
     this.userFirstName = this.msalService.getUserFirstName();
     this.userFamilyName = this.msalService.getUserFamilyName();
     this.userEmail = this.msalService.getUserEmail();
+    }
   }
 }

@@ -10,22 +10,29 @@ import { BestellingenService } from '../services/bestellingen.service';
   styleUrls: ['./winkelmand.component.scss']
 })
 export class WinkelmandComponent implements OnInit {
-  Winkelmand : IWinkelmand;
-  UserId : string;
+  Winkelmand: IWinkelmand;
+  UserId: string;
   constructor(private winkelmandService: WinkelmandService,
     private msalService: MsalService, private bestellingService: BestellingenService) { }
 
   ngOnInit() {
-    if(this.msalService.isLoggedIn()){
+    if (this.msalService.isLoggedIn()) {
       this.GetUserObjectId();
     }
     this.GetWinkelmandUser();
   }
-  GetUserObjectId(){
+  Login() {
+    this.msalService.login();
+
+  }
+  Registreer() {
+    this.msalService.signup();
+  }
+  GetUserObjectId() {
     this.UserId = this.msalService.getUserObjectId();
   }
 
-  BerekenTotaalprijs(){
+  BerekenTotaalprijs() {
     let Totaalprijs = 0;
      if(this.Winkelmand){
        this.Winkelmand.producten.map(product =>{
@@ -37,7 +44,7 @@ export class WinkelmandComponent implements OnInit {
   HerlaadWinkelmand(event){
     this.GetWinkelmandUser();
   }
-  Herbereken(event){
+  Herbereken(event) {
     this.BerekenTotaalprijs();
   }
 
@@ -48,10 +55,16 @@ export class WinkelmandComponent implements OnInit {
       this.BerekenTotaalprijs();
     });
   }
-
-  CreateBestelling(){
+  GetId() {
+    if (this.msalService.isLoggedIn()) {
+      this.GetUserObjectId();
+    }
+  }
+  CreateBestelling() {
+    this.GetId();
     this.bestellingService.PostBestelling(this.UserId).subscribe(res => {
       console.log(res);
+      this.GetWinkelmandUser();
     });
   }
 }

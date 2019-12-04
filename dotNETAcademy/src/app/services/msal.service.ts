@@ -6,9 +6,13 @@ import { UserService } from './user.service';
 @Injectable()
 export class MsalService {
 
-    constructor(private userService: UserService) { }
+    constructor(private userService: UserService) {
+        this.isAdmin();
+    }
 
     B2CTodoAccessTokenKey = 'b2c.access.token';
+
+    admin: boolean = false;
 
     tenantConfig = environment.tenantConfig;
 
@@ -75,8 +79,9 @@ export class MsalService {
     saveAccessTokenToCache(accessToken: string): void {
         sessionStorage.setItem(this.B2CTodoAccessTokenKey, accessToken);
         if (this.isNew()) {
-            this.userService.saveUserInDb(this.getUserObjectId()).subscribe();
+            this.userService.saveKlantInDb(this.getUserObjectId()).subscribe();
         }
+        this.isAdmin();
     }
 
     logout(): void {
@@ -93,19 +98,21 @@ export class MsalService {
 
     isNew() {
         if (this.getUser().idToken['newUser']) {
-          return true;
+            return true;
         }
         return false;
     }
 
     isAdmin() {
-        this.userService.isadmin(this.getUserObjectId()).subscribe(res => {
-          return true;
-        },
-        err => {
-          return false;
-        });
-      }
+        if (this.isLoggedIn()) {
+            this.userService.isadmin(this.getUserObjectId()).subscribe(res => {
+                this.admin = true;
+            },
+                err => {
+                    this.admin = false;
+                });
+        }
+    }
 
     getUserObjectId() {
         return this.getUser().idToken['oid'];

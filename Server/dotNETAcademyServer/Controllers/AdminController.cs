@@ -25,6 +25,16 @@ namespace dotNETAcademyServer.Controllers
         }
 
         [Route("{adminId}")]
+        [HttpDelete]
+        public ActionResult DeleteAdmin(string adminId)
+        {
+            var deletedAdmin = _adminFacade.DeleteAdmin(adminId);
+            if (deletedAdmin == null)
+                return NotFound("Admin bestaat niet.");
+            return Ok("Admin succesvol verwijderd.");
+        }
+
+        [Route("{adminId}")]
         [HttpGet]
         public ActionResult<AdminDTO> GetAdmin(string adminId)
         {

@@ -11,7 +11,7 @@ import { WinkelmandService } from '../services/winkelmand.service';
 export class ToolbarComponent implements OnInit {
 
   constructor(private router: Router, private msalService: MsalService,
-    private winkelmandService: WinkelmandService) {
+              private winkelmandService: WinkelmandService) {
     this.winkelmandService.aantalItems.subscribe(aantal => {
         this.aantalItems = Number(aantal);
     });
@@ -37,12 +37,12 @@ export class ToolbarComponent implements OnInit {
     this.router.navigateByUrl(`producten/zoekresultaten/${this.searchParam}`);
   }
 
-  userfirstname() {
+  get userfirstname() {
     return this.msalService.getUserFirstName();
   }
 
   useremail() {
-    let useremail = this.msalService.getUserEmail();
+    const useremail = this.msalService.getUserEmail();
     return useremail;
   }
 
@@ -60,6 +60,10 @@ export class ToolbarComponent implements OnInit {
 
   isUserLoggedIn() {
     return this.msalService.isLoggedIn();
+  }
+
+  isAdmin() {
+    return this.msalService.admin;
   }
 
 }

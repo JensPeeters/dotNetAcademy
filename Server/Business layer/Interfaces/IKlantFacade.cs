@@ -5,6 +5,7 @@ namespace Business_layer.Interfaces
     public interface IKlantFacade
     {
         KlantDTO CreateKlant(string klantId);
+        KlantDTO DeleteKlant(string klantId);
         KlantDTO GetKlant(string klantId);
     }
 }

@@ -6,6 +6,8 @@ namespace Data_layer.Interfaces
     {
         Klant GetKlantByID(string klantId);
         Klant CreateKlant(Klant klant);
+        Klant CreateNewWinkelwagenForKlant(Klant klant);
+        Klant DeleteKlant(string klantId);
         void SaveChanges();
     }
 }

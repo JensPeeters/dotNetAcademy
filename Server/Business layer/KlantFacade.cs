@@ -54,6 +54,26 @@ namespace Business_layer
             return ConvertKlantToDTO(createdKlant);
         }
 
+        public KlantDTO DeleteKlant(string klantId)
+        {
+            var deletedKlant = _repositoryKlant.DeleteKlant(klantId);
+            if (deletedKlant == null)
+                return null;
+            try
+            {
+                _repositoryKlant.SaveChanges();
+            }
+            catch (DbUpdateException)
+            {
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            return ConvertKlantToDTO(deletedKlant);
+        }
+
         public KlantDTO GetKlant(string klantId)
         {
             var klant = _repositoryKlant.GetKlantByID(klantId);

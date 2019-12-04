@@ -20,7 +20,6 @@ describe('ProfielComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProfielComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {

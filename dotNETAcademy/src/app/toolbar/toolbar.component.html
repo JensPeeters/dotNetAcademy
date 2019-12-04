@@ -38,13 +38,14 @@
                   
                     <div class="center dropdown" *ngIf="isUserLoggedIn()">
                       <div class="dropdown-toggle mr-4" id="dropdownMenuUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <p>Welkom {{userfirstname()}}</p>
+                          <p>Welkom {{userfirstname}}</p>
                           <a class="icon-user ml-2"><i class="far fa-user"></i></a>
                       </div>
                       
                       <div class="dropdown-menu" aria-labelledby="dropdownMenuUser">
                         <button class="dropdown-item ml-0" type="button" [routerLink]="['/profiel']">Mijn account</button>
                         <button class="dropdown-item ml-0" type="button" [routerLink]="['/bestellingen']">Mijn bestellingen</button>
+                        <button *ngIf="isAdmin()" class="dropdown-item ml-0" type="button" [routerLink]="['/adminpanel']">Admin Panel</button>
                         <div class="dropdown-divider"></div>
                         <button class="dropdown-item ml-0" (click)="logout()">Logout</button>
                       </div>

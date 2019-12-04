@@ -8,17 +8,17 @@ namespace dotNETAcademyServer.Controllers
     [ApiController]
     public class KlantController : ControllerBase
     {
-        private readonly IKlantFacade _facade;
-        public KlantController(IKlantFacade facade)
+        private readonly IKlantFacade _klantFacade;
+        public KlantController(IKlantFacade klantFacade)
         {
-            this._facade = facade;
+            this._klantFacade = klantFacade;
         }
 
         [Route("{klantId}")]
         [HttpPost]
         public ActionResult<KlantDTO> CreateKlant(string klantId)
         {
-            var createdKlant = _facade.CreateKlant(klantId);
+            var createdKlant = _klantFacade.CreateKlant(klantId);
             if (createdKlant == null)
                 return Conflict("Klant met die ID bestaat al.");
             return Created("", createdKlant);
@@ -28,7 +28,7 @@ namespace dotNETAcademyServer.Controllers
         [HttpGet]
         public ActionResult<KlantDTO> GetKlant(string klantId)
         {
-            var klant = _facade.GetKlant(klantId);
+            var klant = _klantFacade.GetKlant(klantId);
             if (klant == null)
                 return NotFound($"Klant met id:{klantId} bestaat niet.");
             return klant;

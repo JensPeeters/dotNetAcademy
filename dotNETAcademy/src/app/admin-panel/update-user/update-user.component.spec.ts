@@ -20,7 +20,6 @@ describe('UpdateUserComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(UpdateUserComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {

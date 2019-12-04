@@ -16,7 +16,6 @@ describe('NoAdminComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(NoAdminComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {

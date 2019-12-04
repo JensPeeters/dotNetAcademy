@@ -18,7 +18,6 @@ describe('AdminPanelComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AdminPanelComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {

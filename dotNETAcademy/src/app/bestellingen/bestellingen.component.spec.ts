@@ -22,7 +22,6 @@ describe('BestellingenComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(BestellingenComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {

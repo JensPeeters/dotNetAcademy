@@ -1,5 +1,6 @@
 ﻿using Data_layer.Interfaces;
 using Data_layer.Model;
+using System;
 using System.Linq;
 
 namespace Data_layer.Repositories
@@ -31,6 +32,22 @@ namespace Data_layer.Repositories
             _context.Klanten.Add(klant);
 
             return klant;
+        }
+
+        public Klant DeleteKlant(string klantId)
+        {
+            var deletedKlant = _context.Klanten.FirstOrDefault(a => a.AzureId == klantId);
+            var deletedWinkelmand = _context.Winkelwagens.FirstOrDefault(a => a.Klant == deletedKlant);
+            try
+            {
+                _context.Winkelwagens.Remove(deletedWinkelmand);
+                _context.Klanten.Remove(deletedKlant);
+            }
+            catch (ArgumentNullException)
+            {
+                return null;
+            }
+            return deletedKlant;
         }
 
         public void SaveChanges()

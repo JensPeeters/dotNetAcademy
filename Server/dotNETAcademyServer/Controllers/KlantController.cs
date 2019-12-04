@@ -25,6 +25,16 @@ namespace dotNETAcademyServer.Controllers
         }
 
         [Route("{klantId}")]
+        [HttpDelete]
+        public ActionResult DeleteKlant(string klantId)
+        {
+            var deletedKlant = _facade.DeleteKlant(klantId);
+            if (deletedKlant == null)
+                return NotFound("Klant bestaat niet.");
+            return Ok("Klant succesvol verwijderd.");
+        }
+
+        [Route("{klantId}")]
         [HttpGet]
         public ActionResult<KlantDTO> GetKlant(string klantId)
         {

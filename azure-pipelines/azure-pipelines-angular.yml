@@ -35,6 +35,11 @@ steps:
     ng build --prod
   displayName: 'ng build'
 
+- script: |
+    cd dotNETAcademy
+    ng test --watch=false --browsers=ChromeHeadless --codeCoverage=true
+  displayName: 'Running Tests'
+
 - task: ArchiveFiles@2
   inputs:
     rootFolderOrFile: 'dotNETAcademy/dist/dotNETAcademy'

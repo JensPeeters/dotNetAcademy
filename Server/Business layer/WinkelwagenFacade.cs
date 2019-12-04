@@ -8,13 +8,13 @@ namespace Business_layer
 {
     public class WinkelwagenFacade : IWinkelwagenFacade
     {
-        private readonly ICostCalculator calculator;
+        private readonly ICostCalculator _calculator;
         private readonly IWinkelwagenRepository _repositoryWinkelwagen;
 
         public WinkelwagenFacade(ICostCalculator calculator,
             IWinkelwagenRepository repositoryWinkelwagen)
         {
-            this.calculator = calculator;
+            this._calculator = calculator;
             this._repositoryWinkelwagen = repositoryWinkelwagen;
         }
 
@@ -50,7 +50,7 @@ namespace Business_layer
         {
             var winkelwagen = _repositoryWinkelwagen.AddProduct(userId, prodId, count, type);
             //Herberekenen van de totaal prijs
-            winkelwagen.TotaalPrijs = calculator.CalculateCost(winkelwagen);
+            winkelwagen.TotaalPrijs = _calculator.CalculateCost(winkelwagen);
             try
             {
                 _repositoryWinkelwagen.SaveChanges();
@@ -73,7 +73,7 @@ namespace Business_layer
         {
             var winkelwagen = _repositoryWinkelwagen.UpdateProduct(userId, prodId, count);
             //Herberekenen van de totaal prijs
-            winkelwagen.TotaalPrijs = calculator.CalculateCost(winkelwagen);
+            winkelwagen.TotaalPrijs = _calculator.CalculateCost(winkelwagen);
             try
             {
                 _repositoryWinkelwagen.SaveChanges();
@@ -96,7 +96,7 @@ namespace Business_layer
             var winkelwagen = _repositoryWinkelwagen.DeleteProduct(userId, prodId);
 
             //Herberekenen van de totaal prijs
-            winkelwagen.TotaalPrijs = calculator.CalculateCost(winkelwagen);
+            winkelwagen.TotaalPrijs = _calculator.CalculateCost(winkelwagen);
             try
             {
                 _repositoryWinkelwagen.SaveChanges();

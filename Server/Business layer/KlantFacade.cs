@@ -8,11 +8,11 @@ namespace Business_layer
 {
     public class KlantFacade : IKlantFacade
     {
-        private readonly IKlantRepository _klantRepository;
+        private readonly IKlantRepository _repositoryKlant;
 
-        public KlantFacade(IKlantRepository repository)
+        public KlantFacade(IKlantRepository repositoryKlant)
         {
-            this._klantRepository = repository;
+            this._repositoryKlant = repositoryKlant;
         }
 
         private static Klant ConvertCreateUpdateDTOToKlant(string klantId)
@@ -34,14 +34,14 @@ namespace Business_layer
 
         public KlantDTO CreateKlant(string klantId)
         {
-            var klant = _klantRepository.GetKlantByID(klantId);
+            var klant = _repositoryKlant.GetKlantByID(klantId);
             if (klant != null)
                 return null;
             var newKlant = ConvertCreateUpdateDTOToKlant(klantId);
-            var createdKlant = _klantRepository.CreateKlant(newKlant);
+            var createdKlant = _repositoryKlant.CreateKlant(newKlant);
             try
             {
-                _klantRepository.SaveChanges();
+                _repositoryKlant.SaveChanges();
             }
             catch (DbUpdateException)
             {
@@ -76,7 +76,7 @@ namespace Business_layer
 
         public KlantDTO GetKlant(string klantId)
         {
-            var klant = _klantRepository.GetKlantByID(klantId);
+            var klant = _repositoryKlant.GetKlantByID(klantId);
             if (klant == null)
                 return null;
             return ConvertKlantToDTO(klant);

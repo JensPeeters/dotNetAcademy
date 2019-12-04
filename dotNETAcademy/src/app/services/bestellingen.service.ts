@@ -17,4 +17,9 @@ export class BestellingenService {
     .get<IBestelling[]>(`${this.domain}/bestelling/${UserId}`)
     .toPromise();
   }
+
+  PostBestelling(UserId: string){
+    return this.http
+    .post<IBestelling>(`${this.domain}/bestelling/${UserId}`,"");
+  }
 }

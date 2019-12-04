@@ -8,38 +8,38 @@ namespace dotNETAcademyServer.Controllers
     [ApiController]
     public class WinkelwagenController : ControllerBase
     {
-        private readonly IWinkelwagenFacade _facade;
+        private readonly IWinkelwagenFacade _winkelwagenFacade;
 
-        public WinkelwagenController(IWinkelwagenFacade facade)
+        public WinkelwagenController(IWinkelwagenFacade winkelwagenFacade)
         {
-            this._facade = facade;
+            this._winkelwagenFacade = winkelwagenFacade;
         }
 
         [Route("{userId}/product/{type}/{prodId}/{count}")]
         [HttpPost]
         public WinkelwagenDTO AddProduct(string userId, int prodId, int count, string type)
         {
-            return _facade.AddProduct(userId, prodId, count, type);
+            return _winkelwagenFacade.AddProduct(userId, prodId, count, type);
         }
 
         [Route("{userId}/product/{prodId}")]
         [HttpDelete]
         public WinkelwagenDTO DeleteProduct(string userId, int prodId)
         {
-            return _facade.DeleteProduct(userId, prodId);
+            return _winkelwagenFacade.DeleteProduct(userId, prodId);
         }
 
         [Route("{userId}/product/{prodId}/{count}")]
         [HttpPut]
         public WinkelwagenDTO UpdateProductAantal(string userId, int prodId, int count)
         {
-            return _facade.UpdateProductAantal(userId, prodId, count);
+            return _winkelwagenFacade.UpdateProductAantal(userId, prodId, count);
         }
 
         [Route("{id}")]
         public WinkelwagenDTO GetBagForCustomer(string id)
         {
-            return _facade.GetBagForCustomer(id);
+            return _winkelwagenFacade.GetBagForCustomer(id);
         }
     }
 }

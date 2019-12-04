@@ -6,5 +6,7 @@ namespace Data_layer.Interfaces
     public interface IBestellingRepository
     {
         List<Bestelling> GetBestellingenByCustomerId(string custId);
+        Bestelling AddBestellingToCustomer(Bestelling bestelling);
+        void SaveChanges();
     }
 }

@@ -34,14 +34,14 @@ export class WinkelmandComponent implements OnInit {
 
   BerekenTotaalprijs() {
     let Totaalprijs = 0;
-    if (this.Winkelmand) {
-      for (let product of this.Winkelmand.producten) {
-        Totaalprijs += product.aantal * product.product.prijs;
-      }
-      this.Winkelmand.totaalPrijs = Totaalprijs;
-    }
+     if(this.Winkelmand){
+       this.Winkelmand.producten.map(product =>{
+         Totaalprijs += product.aantal * product.product.prijs;
+       });
+       this.Winkelmand.totaalPrijs = Totaalprijs;
+     }
   }
-  HerlaadWinkelmand(event) {
+  HerlaadWinkelmand(event){
     this.GetWinkelmandUser();
   }
   Herbereken(event) {

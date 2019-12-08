@@ -52,7 +52,7 @@ namespace Data_layer.Repositories
 
         public void SaveChanges()
         {
-            if (_context.SaveChanges() > 0)
+            if (_context.SaveChanges() == 0)
             {
                 _context.SaveChanges();
             }

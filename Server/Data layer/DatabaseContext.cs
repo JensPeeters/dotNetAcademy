@@ -10,6 +10,10 @@ namespace Data_layer
         {
 
         }
+        public DatabaseContext()
+        {
+
+        }
         public virtual DbSet<Cursus> Cursussen { get; set; }
         public virtual DbSet<Traject> Trajecten { get; set; }
 

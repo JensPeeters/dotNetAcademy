@@ -6,11 +6,13 @@ import { ProductComponent } from './product/product.component';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Params, ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
+import { ProductenService } from '../services/producten.service';
 
 describe('ProductenlijstComponent', () => {
   let component: ProductenlijstComponent;
   let fixture: ComponentFixture<ProductenlijstComponent>;
   let params: Subject<Params>;
+  let testProductservice: ProductenService = new ProductenService(null);
 
   beforeEach(async(() => {
     params = new Subject<Params>();
@@ -32,6 +34,8 @@ describe('ProductenlijstComponent', () => {
   });
 
   it('Should get cursussen when route is cursussen', () => {
+    spyOn(testProductservice, 'GetCursusTypes').and.returnValue(null);
+    spyOn(testProductservice, 'GetCursussen').and.returnValue(null);
     fixture.detectChanges();
     spyOn(component,'GetProducts').and.callThrough();
     spyOn(component,'GetCursussen').and.callThrough();
@@ -41,6 +45,8 @@ describe('ProductenlijstComponent', () => {
   });
 
   it('Should get trajecten when route is trajecten', () => {
+    spyOn(testProductservice, 'GetTrajectTypes').and.returnValue(null);
+    spyOn(testProductservice, 'GetTrajecten').and.returnValue(null);
     fixture.detectChanges();
     spyOn(component,'GetProducts').and.callThrough();
     spyOn(component,'GetTrajecten').and.callThrough();
@@ -50,6 +56,10 @@ describe('ProductenlijstComponent', () => {
   });
 
   it('Should get zoekresultaten when route is zoekresultaten', () => {
+    spyOn(testProductservice, 'GetCursusTypes').and.returnValue(null);
+    spyOn(testProductservice, 'GetCursussen').and.returnValue(null);
+    spyOn(testProductservice, 'GetTrajectTypes').and.returnValue(null);
+    spyOn(testProductservice, 'GetTrajecten').and.returnValue(null);
     fixture.detectChanges();
     spyOn(component,'GetProducts').and.callThrough();
     spyOn(component,'GetCursussen').and.callThrough();

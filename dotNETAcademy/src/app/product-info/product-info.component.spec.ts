@@ -6,11 +6,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { MsalService } from '../services/msal.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subject } from 'rxjs';
+import { ProductenService } from '../services/producten.service';
 
 describe('ProductInfoComponent', () => {
   let component: ProductInfoComponent;
   let fixture: ComponentFixture<ProductInfoComponent>;
   let params: Subject<Params>;
+  let testProductservice: ProductenService = new ProductenService(null);
 
   beforeEach(async(() => {
     params = new Subject<Params>();
@@ -18,7 +20,8 @@ describe('ProductInfoComponent', () => {
       imports : [ RouterTestingModule, HttpClientModule ],
       declarations: [ ProductInfoComponent ],
       providers : [ MsalService,
-        { provide: ActivatedRoute, useValue: { params: params }}
+        { provide: ActivatedRoute, useValue: { params: params }},
+        { provide: ProductenService, useValue: testProductservice }
       ]
     })
     .compileComponents();
@@ -34,6 +37,7 @@ describe('ProductInfoComponent', () => {
   });
 
   it('Should get a cursus when route is Cursus', () => {
+    spyOn(testProductservice, 'GetCursusById').and.returnValue(null);
     fixture.detectChanges();
     spyOn(component,'GetCursus').and.callThrough();
     params.next({ 'currentRoute': 'Cursus' });
@@ -41,6 +45,7 @@ describe('ProductInfoComponent', () => {
   });
 
   it('Should get a traject when route is Traject', () => {
+    spyOn(testProductservice, 'GetTrajectById').and.returnValue(null);
     fixture.detectChanges();
     spyOn(component,'GetTraject').and.callThrough();
     params.next({ 'currentRoute': 'Traject' });

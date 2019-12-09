@@ -5,8 +5,11 @@ import { FormsModule } from '@angular/forms';
 import { ProductComponent } from './product/product.component';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Params, ActivatedRoute } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { ProductenService } from '../services/producten.service';
+import { ICursus } from '../Interfaces/ICursus';
+import { promise } from 'protractor';
+import { ITraject } from '../Interfaces/ITraject';
 
 describe('ProductenlijstComponent', () => {
   let component: ProductenlijstComponent;
@@ -19,7 +22,10 @@ describe('ProductenlijstComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ProductenlijstComponent, ProductComponent],
       imports: [FormsModule, HttpClientModule, RouterModule.forRoot([])],
-      providers: [{ provide: ActivatedRoute, useValue: { params: params }}]
+      providers: [
+        { provide: ActivatedRoute, useValue: { params: params }},
+        { provide: ProductenService, useValue: testProductservice }
+      ]
     })
     .compileComponents();
   }));
@@ -34,8 +40,10 @@ describe('ProductenlijstComponent', () => {
   });
 
   it('Should get cursussen when route is cursussen', () => {
-    spyOn(testProductservice, 'GetCursusTypes').and.returnValue(null);
-    spyOn(testProductservice, 'GetCursussen').and.returnValue(null);
+    let types = new Observable<string[]>();
+    let cursussen = new Promise<ICursus[]>((resolve, reject) => {});
+    spyOn(testProductservice, 'GetCursusTypes').and.returnValue(types)
+    spyOn(testProductservice, 'GetCursussen').and.returnValue(cursussen);
     fixture.detectChanges();
     spyOn(component,'GetProducts').and.callThrough();
     spyOn(component,'GetCursussen').and.callThrough();
@@ -45,8 +53,10 @@ describe('ProductenlijstComponent', () => {
   });
 
   it('Should get trajecten when route is trajecten', () => {
-    spyOn(testProductservice, 'GetTrajectTypes').and.returnValue(null);
-    spyOn(testProductservice, 'GetTrajecten').and.returnValue(null);
+    let types = new Observable<string[]>();
+    let trajecten = new Promise<ITraject[]>((resolve, reject) => {});
+    spyOn(testProductservice, 'GetTrajectTypes').and.returnValue(types);
+    spyOn(testProductservice, 'GetTrajecten').and.returnValue(trajecten);
     fixture.detectChanges();
     spyOn(component,'GetProducts').and.callThrough();
     spyOn(component,'GetTrajecten').and.callThrough();
@@ -56,10 +66,13 @@ describe('ProductenlijstComponent', () => {
   });
 
   it('Should get zoekresultaten when route is zoekresultaten', () => {
-    spyOn(testProductservice, 'GetCursusTypes').and.returnValue(null);
-    spyOn(testProductservice, 'GetCursussen').and.returnValue(null);
-    spyOn(testProductservice, 'GetTrajectTypes').and.returnValue(null);
-    spyOn(testProductservice, 'GetTrajecten').and.returnValue(null);
+    let types = new Observable<string[]>();
+    let cursussen = new Promise<ICursus[]>((resolve, reject) => {});
+    let trajecten = new Promise<ITraject[]>((resolve, reject) => {});
+    spyOn(testProductservice, 'GetCursusTypes').and.returnValue(types)
+    spyOn(testProductservice, 'GetCursussen').and.returnValue(cursussen);
+    spyOn(testProductservice, 'GetTrajectTypes').and.returnValue(types);
+    spyOn(testProductservice, 'GetTrajecten').and.returnValue(trajecten);
     fixture.detectChanges();
     spyOn(component,'GetProducts').and.callThrough();
     spyOn(component,'GetCursussen').and.callThrough();

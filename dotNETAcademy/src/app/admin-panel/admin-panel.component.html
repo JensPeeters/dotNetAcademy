@@ -1,29 +1,35 @@
 <div class="container">
-    <div class="card">
-        <div class="card-body">
-            <h1 class="card-title">Admin Panel</h1>
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarAdminPanel"
-                    aria-controls="navbarAdminPanel" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarAdminPanel">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" [routerLinkActive]="['active']"
-                                [routerLink]="['/adminpanel/createUser']">Create User</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" [routerLinkActive]="['active']"
-                                [routerLink]="['/adminpanel/updateUser']">Update User</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" [routerLinkActive]="['active']"
-                                [routerLink]="['/adminpanel/deleteUser']">Delete User</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
+  <div class="card">
+    <div class="card-body">
+      <h1 class="card-title">Admin Panel</h1>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarAdminPanel"
+          aria-controls="navbarAdminPanel" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarAdminPanel">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" [routerLinkActive]="['active']"
+              [routerLink]="[{outlets:{'admin': ['create-user']}}]">Create User</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" [routerLinkActive]="['active']" 
+              [routerLink]="[{outlets:{'admin': ['update-user']}}]">Update User</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" [routerLinkActive]="['active']"
+              [routerLink]="[{outlets:{'admin': ['delete-user']}}]">Delete User</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" [routerLinkActive]="['active']" 
+              [routerLink]="[{outlets:{'admin': ['producten-beheer']}}]">Beheer
+                producten</a>
+            </li>
+          </ul>
         </div>
+      </nav>
     </div>
+  </div>
 </div>
+<router-outlet name="admin"></router-outlet>

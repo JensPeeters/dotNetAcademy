@@ -54,7 +54,8 @@ export class ProductenlijstComponent implements OnInit, OnDestroy {
     });
   }
   ngOnDestroy(){
-    this.subscription.unsubscribe(); //pipe kan niet gebruikt (refrehed de objecten niet wanneer je van cursussen naar trajecten gaat)
+    if(this.subscription)
+      this.subscription.unsubscribe();
   }
 
   async GetProducts(){

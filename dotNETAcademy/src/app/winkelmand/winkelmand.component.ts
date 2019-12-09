@@ -63,7 +63,6 @@ export class WinkelmandComponent implements OnInit {
   CreateBestelling() {
     this.GetId();
     this.bestellingService.PostBestelling(this.UserId).subscribe(res => {
-      console.log(res);
       this.GetWinkelmandUser();
     });
   }

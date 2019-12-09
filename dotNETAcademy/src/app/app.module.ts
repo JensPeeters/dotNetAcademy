@@ -27,6 +27,7 @@ import { AdminGuard } from './guard/admin.guard';
 import { CreateUserComponent } from './admin-panel/create-user/create-user.component';
 import { UpdateUserComponent } from './admin-panel/update-user/update-user.component';
 import { DeleteUserComponent } from './admin-panel/delete-user/delete-user.component';
+import { ProductenBeheerComponent } from './admin-panel/producten-beheer/producten-beheer.component';
 
 
 @NgModule({
@@ -41,13 +42,15 @@ import { DeleteUserComponent } from './admin-panel/delete-user/delete-user.compo
     WinkelmandItemComponent,
     ProductInfoComponent,
     BestellingenComponent,
-    BestellingComponent,
-    ProfielComponent,
     AdminPanelComponent,
-    NoAdminComponent,
+    BestellingComponent,
     CreateUserComponent,
     UpdateUserComponent,
-    DeleteUserComponent
+    DeleteUserComponent,
+    ProductenBeheerComponent,
+    ProfielComponent,
+    NoAdminComponent,
+    
   ],
   imports: [
     BrowserModule,

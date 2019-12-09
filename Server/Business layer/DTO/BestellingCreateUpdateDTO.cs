@@ -1,11 +1,10 @@
 ﻿using Data_layer.Model;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Business_layer.DTO
 {
-    class BestellingCreateUpdateDTO
+    public class BestellingCreateUpdateDTO
     {
         public DateTime Datum { get; set; }
         public ICollection<BestellingItem> Producten { get; set; }

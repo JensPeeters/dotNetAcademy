@@ -23,7 +23,6 @@ describe('WinkelmandComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(WinkelmandComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {

@@ -4,10 +4,48 @@
       <h1 class="card-title">Winkelwagen</h1>
       <hr>
       <app-winkelmand-item *ngFor="let product of Winkelmand.producten" (childEvent)="Herbereken($event)"
-      (updateEvent)="HerlaadWinkelmand($event)" [product]="product"></app-winkelmand-item>
+        (updateEvent)="HerlaadWinkelmand($event)" [product]="product"></app-winkelmand-item>
       <hr>
       <h3>Totaalprijs : {{Winkelmand.totaalPrijs | currency:' € '}}</h3>
-      <button class="btn btn-primary">Ga verder met bestellen</button>
+      <button *ngIf="UserId" [disabled]="Winkelmand.producten.length == 0" href="#bestelModal" class="btn btn-primary"
+        (click)="CreateBestelling()" data-toggle="modal">Ga verder met bestellen</button>
+      <a *ngIf="!UserId" href="#loginRegistreerModal" (click)="GetId()" class="btn btn-primary" data-toggle="modal">Ga
+        verder met bestellen</a>
+    </div>
+  </div>
+</div>
+<div id="bestelModal" class="modal fade">
+  <div class="modal-dialog modal-confirm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="icon-box">
+          <i class="material-icons">&#xE876;</i>
+        </div>
+        <h4 class="modal-title">Geweldig!</h4>
+      </div>
+      <div class="modal-body">
+        <p class="text-center">Uw bestelling is geplaatst. Gelieve uw mail te controleren.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-success btn-block" data-dismiss="modal" [routerLink]="['/bestellingen']">Ga naar mijn
+          bestellingen</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="loginRegistreerModal" class="modal fade">
+  <div class="modal-dialog modal-confirm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title title">Log in of registreer.</h4>
+      </div>
+      <div class="modal-body">
+        <p class="text-center">Gelieve in te registreren of in te loggen om te kunnen bestellen.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" (click)="Login()" data-dismiss="modal">Log in</button>
+        <button class="btn btn-primary" (click)="Registreer()" data-dismiss="modal">Registreer</button>
+      </div>
     </div>
   </div>
 </div>

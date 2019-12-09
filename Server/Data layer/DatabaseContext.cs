@@ -10,11 +10,16 @@ namespace Data_layer
         {
 
         }
+        public DatabaseContext()
+        {
+
+        }
         public virtual DbSet<Cursus> Cursussen { get; set; }
         public virtual DbSet<Traject> Trajecten { get; set; }
 
         public virtual DbSet<Winkelwagen> Winkelwagens { get; set; }
         public virtual DbSet<Klant> Klanten { get; set; }
+        public virtual DbSet<Admin> Admins { get; set; }
         public virtual DbSet<Bestelling> Bestellingen { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -25,6 +30,8 @@ namespace Data_layer
             modelBuilder.Entity<Traject>()
                 .HasIndex(b => b.Titel)
                 .IsUnique();
+
+
         }
     }
 }

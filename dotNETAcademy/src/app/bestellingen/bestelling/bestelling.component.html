@@ -2,9 +2,9 @@
     <div class="card-body">
         <h4 class="card-title"></h4>
         <p class="card-text">
-            {{ bestelling.datum | date: 'd MMMM yyyy' }}
+            <span>{{ bestelling.datum | date: 'd MMMM yyyy' }} </span>
             <span class="mr-1 verticalLine"></span>
-            Bestellingsnummer: {{bestelling.id}}
+            <span>Bestellingsnummer: {{bestelling.id}}</span>
         </p>
         <div *ngFor="let product of bestelling.producten">
             <div class="d-flex" >

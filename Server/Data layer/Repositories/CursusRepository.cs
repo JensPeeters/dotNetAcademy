@@ -1,12 +1,9 @@
-﻿using Data_layer.Filter;
-using Data_layer.Filter.ProductenFilters;
+﻿using Data_layer.Filter.ProductenFilters;
 using Data_layer.Interfaces;
 using Data_layer.Model;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Data_layer.Repositories
 {
@@ -55,7 +52,7 @@ namespace Data_layer.Repositories
 
         public void SaveChanges()
         {
-            if (_context.SaveChanges() > 0)
+            if (_context.SaveChanges() != 0)
             {
                 _context.SaveChanges();
             }

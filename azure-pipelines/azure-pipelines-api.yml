@@ -25,7 +25,14 @@ steps:
     projects: 'Server/dotNETAcademyServer/dotNETAcademyServer.csproj'
     arguments: '--configuration $(BuildConfiguration)'
 
+- task: CopyFiles@2
+  inputs:
+    sourceFolder: Server/dotNETAcademyServer/sql
+    contents: '**' 
+    targetFolder: $(Build.ArtifactStagingDirectory)
+
 - task: DotNetCoreCLI@2
+  displayName: Zip Artifacts
   inputs:
     command: publish
     publishWebProjects: True

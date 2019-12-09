@@ -1,9 +1,7 @@
 ﻿using Data_layer.Model;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Data_layer
 {
@@ -129,6 +127,10 @@ namespace Data_layer
                     new Klant()
                     {
                         AzureId = "b3ce667f-2829-481a-8ebb-f6bea8cde84b"
+                    },
+                    new Klant()
+                    {
+                        AzureId = "e798f80f-a4e4-4042-8d47-0c9695b42e59"
                     }
                 };
 
@@ -162,7 +164,7 @@ namespace Data_layer
                 {
                     new Bestelling()
                     {
-                        Klant = klanten[1],
+                        Klant = klanten[2],
                         Datum = DateTime.Now,
                         TotaalPrijs = 100,
                         Producten = new List<BestellingItem>()
@@ -186,7 +188,7 @@ namespace Data_layer
                     },
                     new Bestelling()
                     {
-                        Klant = klanten[1],
+                        Klant = klanten[2],
                         Datum = DateTime.Now,
                         TotaalPrijs = 100,
                         Producten = new List<BestellingItem>()
@@ -205,7 +207,7 @@ namespace Data_layer
                     },
                     new Bestelling()
                     {
-                        Klant = klanten[1],
+                        Klant = klanten[2],
                         Datum = DateTime.Now,
                         TotaalPrijs = 100,
                         Producten = new List<BestellingItem>()

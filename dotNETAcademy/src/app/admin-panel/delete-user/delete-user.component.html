@@ -1,0 +1,73 @@
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <h1 class="card-title">Admin Panel</h1>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarAdminPanel"
+                    aria-controls="navbarAdminPanel" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarAdminPanel">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" [routerLinkActive]="['active']"
+                                [routerLink]="['/adminpanel/createUser']">Create User</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" [routerLinkActive]="['active']"
+                                [routerLink]="['/adminpanel/updateUser']">Update User</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" [routerLinkActive]="['active']"
+                                [routerLink]="['/adminpanel/deleteUser']">Delete User</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title">Delete User</h1>
+                    <div *ngIf="!deleteUserSucces">
+                        <ol>
+                            <li>Kopieer het Object ID van de user vanuit Azure.</li>
+                            <li>Plak het Object ID hieronder.</li>
+                            <li>Bevestig of u zeker bent.</li>
+                            <li>Klik op verwijderen.</li>
+                            <li>Verwijder de user uit Azure B2C.</li>
+                        </ol>
+                        <br>
+                        <div class="warnings" *ngIf="userDoesntExists">
+                            <p>User bestaat niet!</p>
+                        </div>
+                        <div class="warnings" *ngIf="azureIdEmpty">
+                            <p>Azure Object ID mag niet leeg zijn!</p>
+                        </div>
+                        <div class="mr-sm-2 input-search">
+                            <input class="azureId" placeholder="Azure Object ID" aria-label="AzureId"
+                                [(ngModel)]="azureIdParam" name="DeleteUser">
+                        </div>
+                        <br>
+                        <div class="warnings" *ngIf="confirmNotChecked">
+                            <p>Bevestig dat u zeker bent!</p>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="true" id="confirmCheck"
+                                [(ngModel)]="confirmDelete">
+                            <label class="form-check-label" for="confirmCheck">
+                                Weet u zeker dat u deze user wilt verwijderen?
+                            </label>
+                        </div>
+                        <br>
+                        <button (click)="DeleteUser()" class="btn btn-warning my-2 my-sm-0"
+                            type="submit">Verwijderen</button>
+                    </div>
+                    <div class="center" *ngIf="deleteUserSucces">
+                        <p>User is succesvol verwijderd.</p>
+                        <button (click)="DeleteAnother()" class="btn btn-warning my-2 my-sm-0">Andere
+                            Verwijderen</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

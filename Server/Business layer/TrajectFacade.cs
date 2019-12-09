@@ -1,31 +1,27 @@
 ﻿using Business_layer.DTO;
 using Business_layer.Interfaces;
-using Data_layer;
-using Data_layer.Filter;
 using Data_layer.Filter.ProductenFilters;
 using Data_layer.Interfaces;
 using Data_layer.Model;
-using Data_layer.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Business_layer
 {
     public class TrajectFacade : ITrajectFacade
     {
-        private readonly ITrajectRepository _repository;
+        private readonly ITrajectRepository _repositoryTraject;
 
-        public TrajectFacade(ITrajectRepository repository)
+        public TrajectFacade(ITrajectRepository repositoryTraject)
         {
-            this._repository = repository;
+            this._repositoryTraject = repositoryTraject;
         }
 
         public List<TrajectDTO> GetTrajecten(TrajectFilter filter)
         {
-            return _repository.GetTrajecten(filter)
+            return _repositoryTraject.GetTrajecten(filter)
                         .Select(traject => ConvertTrajectToDTO(traject))
                         .ToList();
         }
@@ -48,7 +44,7 @@ namespace Business_layer
 
         public TrajectDTO GetTraject(int id)
         {
-            var traject = _repository.GetTrajectById(id);
+            var traject = _repositoryTraject.GetTrajectById(id);
             if (traject == null)
                 return null;
             return ConvertTrajectToDTO(traject);
@@ -57,10 +53,10 @@ namespace Business_layer
         public TrajectDTO AddTraject(TrajectCreateUpdateDTO traject)
         {
             var newTraject = ConvertCreateUpdateDTOToTraject(traject);
-            var createdTraject = _repository.AddTraject(newTraject);
+            var createdTraject = _repositoryTraject.AddTraject(newTraject);
             try
             {
-                _repository.SaveChanges();
+                _repositoryTraject.SaveChanges();
             }
             catch (DbUpdateException)
             {
@@ -90,12 +86,12 @@ namespace Business_layer
 
         public TrajectDTO DeleteTraject(int id)
         {
-            var deletedTraject = _repository.DeleteTraject(id);
+            var deletedTraject = _repositoryTraject.DeleteTraject(id);
             if (deletedTraject == null)
                 return null;
             try
             {
-                _repository.SaveChanges();
+                _repositoryTraject.SaveChanges();
             }
             catch (Exception e)
             {
@@ -108,12 +104,12 @@ namespace Business_layer
         {
             var newTraject = ConvertCreateUpdateDTOToTraject(traject);
             newTraject.ID = id;
-            var updatedTraject = _repository.UpdateTraject(newTraject);
+            var updatedTraject = _repositoryTraject.UpdateTraject(newTraject);
             if (updatedTraject == null)
                 return null;
             try
             {
-                _repository.SaveChanges();
+                _repositoryTraject.SaveChanges();
             }
             catch (Exception e)
             {

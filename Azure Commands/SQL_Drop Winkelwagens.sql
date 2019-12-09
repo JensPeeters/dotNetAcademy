@@ -1,1 +1,1 @@
-DROP TABLE [dbo].[Winkelwagens];
+DROP TABLE [dbo].[__EFMigrationsHistory];

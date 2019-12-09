@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { WinkelmandService, IWinkelmand } from '../services/winkelmand.service';
+import { WinkelmandService } from '../services/winkelmand.service';
 import { MsalService } from '../services/msal.service';
+import { IWinkelmand } from '../Interfaces/IWinkelmand';
+import { BestellingenService } from '../services/bestellingen.service';
 
 @Component({
   selector: 'app-winkelmand',
@@ -8,34 +10,41 @@ import { MsalService } from '../services/msal.service';
   styleUrls: ['./winkelmand.component.scss']
 })
 export class WinkelmandComponent implements OnInit {
-  Winkelmand : IWinkelmand;
-  UserId : string;
+  Winkelmand: IWinkelmand;
+  UserId: string;
   constructor(private winkelmandService: WinkelmandService,
-    private msalService: MsalService) { }
+    private msalService: MsalService, private bestellingService: BestellingenService) { }
 
   ngOnInit() {
-    if(this.msalService.isLoggedIn()){
+    if (this.msalService.isLoggedIn()) {
       this.GetUserObjectId();
     }
     this.GetWinkelmandUser();
   }
-  GetUserObjectId(){
+  Login() {
+    this.msalService.login();
+
+  }
+  Registreer() {
+    this.msalService.signup();
+  }
+  GetUserObjectId() {
     this.UserId = this.msalService.getUserObjectId();
   }
 
-  BerekenTotaalprijs(){
+  BerekenTotaalprijs() {
     let Totaalprijs = 0;
      if(this.Winkelmand){
-       for (let product of this.Winkelmand.producten){
+       this.Winkelmand.producten.map(product =>{
          Totaalprijs += product.aantal * product.product.prijs;
-       }
+       });
        this.Winkelmand.totaalPrijs = Totaalprijs;
      }
   }
   HerlaadWinkelmand(event){
     this.GetWinkelmandUser();
   }
-  Herbereken(event){
+  Herbereken(event) {
     this.BerekenTotaalprijs();
   }
 
@@ -44,6 +53,17 @@ export class WinkelmandComponent implements OnInit {
       this.Winkelmand = res;
       this.winkelmandService.ChangeAantal(res.producten.length.toString());
       this.BerekenTotaalprijs();
+    });
+  }
+  GetId() {
+    if (this.msalService.isLoggedIn()) {
+      this.GetUserObjectId();
+    }
+  }
+  CreateBestelling() {
+    this.GetId();
+    this.bestellingService.PostBestelling(this.UserId).subscribe(res => {
+      this.GetWinkelmandUser();
     });
   }
 }

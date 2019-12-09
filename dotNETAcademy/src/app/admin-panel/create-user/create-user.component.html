@@ -1,0 +1,74 @@
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <h1 class="card-title">Admin Panel</h1>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarAdminPanel"
+                    aria-controls="navbarAdminPanel" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarAdminPanel">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" [routerLinkActive]="['active']"
+                                [routerLink]="['/adminpanel/createUser']">Create User</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" [routerLinkActive]="['active']"
+                                [routerLink]="['/adminpanel/updateUser']">Update User</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" [routerLinkActive]="['active']"
+                                [routerLink]="['/adminpanel/deleteUser']">Delete User</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title">Create User</h1>
+                    <div *ngIf="!createUserSucces">
+                        <ol>
+                            <li>Maak een nieuwe user in Azure B2C aan.</li>
+                            <li>Kopieer het Object ID van de user vanuit Azure.</li>
+                            <li>Plak het Object ID hieronder.</li>
+                            <li>Kies of het een user of admin moet worden.</li>
+                            <li>Klik op aanmaken.</li>
+                        </ol>
+                            <br>
+                            <div class="warnings" *ngIf="userAlreadyExists">
+                                <p>User bestaat al!</p>
+                            </div>
+                            <div class="warnings" *ngIf="azureIdEmpty">
+                                <p>Azure Object ID mag niet leeg zijn!</p>
+                            </div>
+                            <div class="mr-sm-2 input-search">
+                                <input class="azureId" placeholder="Azure Object ID" aria-label="AzureId" [(ngModel)]="azureIdParam"
+                                    name="CreateUser">
+                            </div>
+                            <br>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="radioUser" id="radioKlant" value="klant" [(ngModel)]="userType">
+                                <label class="form-check-label" for="radioKlant">
+                                  Klant
+                                </label>
+                              </div>
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="radioUser" id="radioAdmin" value="admin" [(ngModel)]="userType">
+                                <label class="form-check-label" for="radioAdmin">
+                                  Admin
+                                </label>
+                              </div>
+                            <br>
+                            <button (click)="CreateUser()" class="btn btn-warning my-2 my-sm-0"
+                                type="submit">Aanmaken</button>
+                    </div>
+                    <div class="center" *ngIf="createUserSucces">
+                        <p>User is succesvol aangemaakt.</p>
+                        <button (click)="CreateNew()" class="btn btn-warning my-2 my-sm-0">Nieuwe Aanmaken</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

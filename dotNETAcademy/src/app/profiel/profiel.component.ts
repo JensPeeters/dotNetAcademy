@@ -8,29 +8,22 @@ import { MsalService } from '../services/msal.service';
 })
 export class ProfielComponent implements OnInit {
 
+  userFirstName: string;
+  userFamilyName: string;
+  userEmail: string;
+
   constructor(private msalService: MsalService) { }
-
-  isUserLoggedIn() {
-    return this.msalService.isLoggedIn();
-  }
-
-  userfirstname() {
-    return this.msalService.getUserFirstName();
-  }
-
-  userfamilyname() {
-    return this.msalService.getUserFamilyName();
-  }
-
-  useremail() {
-    return this.msalService.getUserEmail();
-  }
 
   editprofile() {
     return this.msalService.editProfile();
   }
 
   ngOnInit() {
+    if (this.msalService.isLoggedIn())
+    {
+    this.userFirstName = this.msalService.getUserFirstName();
+    this.userFamilyName = this.msalService.getUserFamilyName();
+    this.userEmail = this.msalService.getUserEmail();
+    }
   }
-
 }

@@ -25,11 +25,11 @@ steps:
     projects: 'Server/dotNETAcademyServer/dotNETAcademyServer.csproj'
     arguments: '--configuration $(BuildConfiguration)'
 
-- task: CopyFiles@2
+- task: DotNetCoreCLI@2
   inputs:
-    sourceFolder: Server/dotNETAcademyServer/sql
-    contents: '**' 
-    targetFolder: $(Build.ArtifactStagingDirectory)
+    command: test
+    projects: 'Server/UnitTestDotNET/UnitTestDotNET.csproj'
+    arguments: '--configuration $(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
   displayName: Zip Artifacts

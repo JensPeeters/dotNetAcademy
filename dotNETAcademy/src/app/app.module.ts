@@ -28,6 +28,7 @@ import { CreateUserComponent } from './admin-panel/create-user/create-user.compo
 import { UpdateUserComponent } from './admin-panel/update-user/update-user.component';
 import { DeleteUserComponent } from './admin-panel/delete-user/delete-user.component';
 import { ProductenBeheerComponent } from './admin-panel/producten-beheer/producten-beheer.component';
+import { BestellingInfoComponent } from './bestelling-info/bestelling-info.component';
 
 
 @NgModule({
@@ -50,7 +51,7 @@ import { ProductenBeheerComponent } from './admin-panel/producten-beheer/product
     ProductenBeheerComponent,
     ProfielComponent,
     NoAdminComponent,
-    
+    BestellingInfoComponent
   ],
   imports: [
     BrowserModule,

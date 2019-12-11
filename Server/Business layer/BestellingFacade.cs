@@ -39,6 +39,14 @@ namespace Business_layer
                          }).ToList();
         }
 
+        public BestellingDTO GetBestellingById(int bestellingId)
+        {
+            var bestelling = _repositoryBestelling.GetBestellingById(bestellingId);
+            if (bestelling == null)
+                return null;
+            return ConvertBestellingToDTO(bestelling);
+        }
+
         public BestellingDTO AddBestellingToCustomer(string custId)
         {
             var bestelling = new BestellingCreateUpdateDTO

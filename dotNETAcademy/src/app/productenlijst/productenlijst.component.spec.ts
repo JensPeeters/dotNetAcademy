@@ -34,30 +34,30 @@ describe('ProductenlijstComponent', () => {
   it('Should get cursussen when route is cursussen', () => {
     fixture.detectChanges();
     spyOn(component,'GetProducts').and.callThrough();
-    spyOn(component,'GetCursussen').and.callThrough();
+    spyOn(component,'GetBuyableCursussen').and.callThrough();
     params.next({ 'currentRoute': 'cursussen' });
     expect(component.GetProducts).toHaveBeenCalled();
-    expect(component.GetCursussen).toHaveBeenCalled();
+    expect(component.GetBuyableCursussen).toHaveBeenCalled();
   });
 
   it('Should get trajecten when route is trajecten', () => {
     fixture.detectChanges();
     spyOn(component,'GetProducts').and.callThrough();
-    spyOn(component,'GetTrajecten').and.callThrough();
+    spyOn(component,'GetBuyableTrajecten').and.callThrough();
     params.next({ 'currentRoute': 'trajecten' });
     expect(component.GetProducts).toHaveBeenCalled();
-    expect(component.GetTrajecten).toHaveBeenCalled();
+    expect(component.GetBuyableTrajecten).toHaveBeenCalled();
   });
 
   it('Should get zoekresultaten when route is zoekresultaten', () => {
     fixture.detectChanges();
     spyOn(component,'GetProducts').and.callThrough();
-    spyOn(component,'GetCursussen').and.callThrough();
-    spyOn(component,'GetTrajecten').and.callThrough();
+    spyOn(component,'GetBuyableCursussen').and.callThrough();
+    spyOn(component,'GetBuyableTrajecten').and.callThrough();
     params.next({ 'currentRoute': 'zoekresultaten' });
     expect(component.GetProducts).toHaveBeenCalled();
-    expect(component.GetTrajecten).toHaveBeenCalled();
-    expect(component.GetCursussen).toHaveBeenCalled();
+    expect(component.GetBuyableTrajecten).toHaveBeenCalled();
+    expect(component.GetBuyableCursussen).toHaveBeenCalled();
   });
 
   it('Should change direction when clicked on button with direction icon', () => {

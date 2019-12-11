@@ -10,7 +10,6 @@ export class AdminGuard implements CanActivate {
   constructor(private msalService: MsalService, private router: Router) {}
 
   canActivate() {
-    return true;
     if (this.msalService.isLoggedIn()) {
       if (this.msalService.admin) {
         return true;

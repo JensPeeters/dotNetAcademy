@@ -22,6 +22,19 @@ export class ProductenBeheerComponent implements OnInit {
     langeBeschrijving: null,
     titel: null,
   }
+
+  productUpdate: IProduct = {
+    cursussen: null,
+    id: null,
+    prijs: null,
+    categorie: null,
+    isBuyable: true,
+    fotoURLCard: null,
+    type: null,
+    beschrijving: null,
+    langeBeschrijving: null,
+    titel: null,
+  }
   RadioSelected: string = "Cursus";
   CursusTitel: string = "";
   VisibleProducten: IProduct[] = [];
@@ -45,16 +58,44 @@ export class ProductenBeheerComponent implements OnInit {
     });
   }
 
+  ChooseProduct(product: IProduct) {
+    if (product.categorie == "Traject"){
+      this.productUpdate.cursussen = product.cursussen;
+    }
+    else{
+      this.productUpdate.cursussen = null;
+    }
+    this.productUpdate.id = product.id;
+    this.productUpdate.beschrijving = product.beschrijving;
+    this.productUpdate.categorie = product.categorie;
+    this.productUpdate.fotoURLCard = product.fotoURLCard;
+    this.productUpdate.langeBeschrijving = product.langeBeschrijving;
+    this.productUpdate.titel = product.titel;
+    this.productUpdate.prijs = product.prijs;
+    this.productUpdate.type = product.type;
+  }
+
+  UpdateProduct() {
+    this.productenService.UpdateProduct(this.productUpdate).subscribe(res => {
+      this.GetProducten();
+    })
+  }
+
   AddProductToDb() {
     this.productAdd.categorie = this.RadioSelected;
-    if(this.productAdd.categorie == "Traject"){
-      console.log(this.ToeTeVoegenCursussen);
+    if (this.productAdd.categorie == "Traject") {
       this.productAdd.cursussen = this.ToeTeVoegenCursussen;
     }
-    console.log(this.productAdd);
-    this.productenService.AddProduct(this.productAdd).subscribe(res =>{
-      console.log("Succes");
-      console.log(res);
+    this.productenService.AddProduct(this.productAdd).subscribe(res => {
+      this.productAdd.cursussen = null;
+      this.productAdd.beschrijving = null;
+      this.productAdd.categorie = null;
+      this.productAdd.fotoURLCard = null;
+      this.productAdd.langeBeschrijving = null;
+      this.productAdd.titel = null;
+      this.productAdd.prijs = null;
+      this.productAdd.type = null;
+      this.GetProducten();
     })
   }
 
@@ -66,7 +107,6 @@ export class ProductenBeheerComponent implements OnInit {
         this.CursusTitel = "";
       }
     });
-    console.log(this.ToeTeVoegenCursussen);
   }
 
   DeleteProduct(product: IProduct) {

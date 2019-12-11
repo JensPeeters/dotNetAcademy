@@ -108,10 +108,15 @@ namespace Data_layer.Repositories
             var existingTraject = _context.Trajecten.FirstOrDefault(a => a.ID == traject.ID);
             if (existingTraject == null)
                 return null;
+            var tempList = traject.Cursussen;
+            existingTraject.Cursussen = new List<Cursus>();
+            foreach (var cursus in tempList)
+            {
+                existingTraject.Cursussen.Add(_context.Cursussen.Where(a => a.ID == cursus.ID).FirstOrDefault());
+            }
             existingTraject.Beschrijving = traject.Beschrijving;
             existingTraject.Categorie = traject.Categorie;
             existingTraject.FotoURLCard = traject.FotoURLCard;
-            existingTraject.Cursussen = traject.Cursussen;
             existingTraject.LangeBeschrijving = traject.LangeBeschrijving;
             existingTraject.Prijs = traject.Prijs;
             existingTraject.Titel = traject.Titel;

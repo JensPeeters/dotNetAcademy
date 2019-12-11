@@ -27,7 +27,7 @@
           <td>{{product.prijs | currency:' € '}} </td>
           <td>
             <div class="flex">
-              <a [attr.href]="'#editProductModal'+id" class="edit" data-toggle="modal"><i class="material-icons"
+              <a [attr.href]="'#editProductModal'+id" (click)="ChooseProduct(product)" class="edit" data-toggle="modal"><i class="material-icons"
                   data-toggle="tooltip" title="Edit">&#xE254;</i></a>
               <a *ngIf="product.isBuyable" [attr.href]="'#visibleProductModal'+id" class="delete" data-toggle="modal"><i
                   class="fas fa-eye" data-toggle="tooltip" title="Visibility"></i></a>
@@ -40,7 +40,7 @@
           <div id="addProductModal" class="modal fade">
             <div class="modal-dialog">
               <div class="modal-content">
-                <form #addForm="ngForm"  >
+                <form #addForm="ngForm">
                   <div class="modal-header">
                     <h4 class="modal-title">Voeg product toe</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -61,7 +61,8 @@
                       <div class="cursussen-lijst mb-3" *ngFor="let cursus of ToeTeVoegenCursussen">
                         <div class="flex">
                           <span>{{cursus.titel}}</span>
-                          <button type="button" (click)="VerwijderVanLijst(cursus)" class="btn btn-danger">Verwijder</button>
+                          <button type="button" (click)="VerwijderVanLijst(cursus)"
+                            class="btn btn-danger">Verwijder</button>
                         </div>
                       </div>
                       <div class="flex">
@@ -81,22 +82,23 @@
                       <input name="fotoURLCard" class="form-control" [(ngModel)]="productAdd.fotoURLCard" required>
                     </div>
                     <div class="form-group">
-                        <label>Type</label>
-                        <input name="type" class="form-control" [(ngModel)]="productAdd.type" required>
-                      </div>
+                      <label>Type</label>
+                      <input name="type" class="form-control" [(ngModel)]="productAdd.type" required>
+                    </div>
                     <div class="form-group">
                       <label>Korte beschrijving</label>
                       <input name="beschrijving" class="form-control" [(ngModel)]="productAdd.beschrijving" required>
                     </div>
                     <div class="form-group">
                       <label>Lange Beschrijving</label><br>
-                      <textarea name="langeBeschrijving" class="form-control" [(ngModel)]="productAdd.langeBeschrijving" required></textarea>
+                      <textarea name="langeBeschrijving" class="form-control" [(ngModel)]="productAdd.langeBeschrijving"
+                        required></textarea>
                     </div>
                   </div>
                   <div class="modal-footer">
                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                    <input type="button" class="btn btn-primary" (click)="AddProductToDb()" data-dismiss="modal" 
-                     [disabled]="!addForm.valid" value="Voeg toe">
+                    <input type="button" class="btn btn-primary" (click)="AddProductToDb()" data-dismiss="modal"
+                      [disabled]="!addForm.valid" value="Voeg toe">
                   </div>
                 </form>
               </div>
@@ -106,28 +108,42 @@
           <div [attr.id]="'editProductModal'+id" class="modal fade">
             <div class="modal-dialog">
               <div class="modal-content">
-                <form>
+                <form #updateForm="ngForm">
                   <div class="modal-header">
-                    <h4 class="modal-title">Edit Product</h4>
+                    <h4 class="modal-title">Pas product aan</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                   </div>
                   <div class="modal-body">
                     <div class="form-group">
                       <label>Titel</label>
-                      <input type="text" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                      <label>Categorie</label>
-                      <input type="text" class="form-control" required>
+                      <input type="text" name="titel" [(ngModel)]="productUpdate.titel" class="form-control" required>
                     </div>
                     <div class="form-group">
                       <label>Prijs</label>
-                      <input type="text" class="form-control" required>
+                      <input type="text" name="prijs" [(ngModel)]="productUpdate.prijs" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                      <label>Type</label>
+                      <input type="text" name="type" [(ngModel)]="productUpdate.type" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                      <label>Foto Url Card</label>
+                      <input name="fotoURLCard" class="form-control" [(ngModel)]="productUpdate.fotoURLCard" required>
+                    </div>
+                    <div class="form-group">
+                      <label>Korte beschrijving</label>
+                      <input name="beschrijving" class="form-control" [(ngModel)]="productUpdate.beschrijving" required>
+                    </div>
+                    <div class="form-group">
+                      <label>Lange Beschrijving</label><br>
+                      <textarea name="langeBeschrijving" class="form-control"
+                        [(ngModel)]="productUpdate.langeBeschrijving" required></textarea>
                     </div>
                   </div>
                   <div class="modal-footer">
                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                    <input type="submit" class="btn btn-info" value="Save">
+                    <input type="submit" class="btn btn-primary" [disabled]="!updateForm.valid" (click)="UpdateProduct()"
+                      data-dismiss="modal" value="Save">
                   </div>
                 </form>
               </div>

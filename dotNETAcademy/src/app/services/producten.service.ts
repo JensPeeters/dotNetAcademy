@@ -25,12 +25,22 @@ export class ProductenService {
     .get<IProduct[]>(`${this.domain}/traject/buyable?${filter}&pageSize=${this.apiPageFilter.pageSize}&sortBy=${this.apiPageFilter.sortBy}&direction=${this.apiPageFilter.direction}&pageNumber=${this.apiPageFilter.pageNumber}`)
     .toPromise();
   }
+  public UpdateProduct(product : IProduct){
+    // let id = product.id;
+    // product.id = null;
+    if(product.categorie == "Cursus"){
+      return this.http.put<IProduct>(`${this.domain}/cursus/${product.id}`, product);
+    }
+    else {
+      return this.http.put<IProduct>(`${this.domain}/traject/${product.id}`, product);
+    }
+  }
 
   public AddProduct(product : IProduct){
     if(product.categorie == "Cursus"){
       return this.http.post<IProduct>(`${this.domain}/cursus`, product);
     }
-    else {//(product.categorie == "traject"){
+    else {
       return this.http.post<IProduct>(`${this.domain}/traject`, product);
     }
 

@@ -42,6 +42,7 @@ namespace Business_layer
                 Categorie = cursus.Categorie,
                 FotoURLCard = cursus.FotoURLCard,
                 ID = cursus.ID,
+                IsBuyable = cursus.IsBuyable,
                 LangeBeschrijving = cursus.LangeBeschrijving,
                 Prijs = cursus.Prijs,
                 Titel = cursus.Titel,
@@ -76,6 +77,7 @@ namespace Business_layer
                 Categorie = cursus.Categorie,
                 FotoURLCard = cursus.FotoURLCard,
                 LangeBeschrijving = cursus.LangeBeschrijving,
+                IsBuyable = cursus.IsBuyable,
                 Prijs = cursus.Prijs,
                 Titel = cursus.Titel,
                 Type = cursus.Type

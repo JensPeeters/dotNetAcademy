@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { ICursus } from '../Interfaces/ICursus';
 import { ITraject } from '../Interfaces/ITraject';
+import { IProduct } from '../Interfaces/IProduct';
 
 @Injectable({
   providedIn: 'root'
@@ -16,12 +17,12 @@ export class ProductenService {
 
   public GetCursussen(filter?: string) {
     return this.http
-    .get<ICursus[]>(`${this.domain}/cursus?${filter}&pageSize=${this.apiPageFilter.pageSize}&sortBy=${this.apiPageFilter.sortBy}&direction=${this.apiPageFilter.direction}&pageNumber=${this.apiPageFilter.pageNumber}`)
+    .get<IProduct[]>(`${this.domain}/cursus?${filter}&pageSize=${this.apiPageFilter.pageSize}&sortBy=${this.apiPageFilter.sortBy}&direction=${this.apiPageFilter.direction}&pageNumber=${this.apiPageFilter.pageNumber}`)
     .toPromise();
   }
   public GetTrajecten(filter?: string) {
     return this.http
-    .get<ITraject[]>(`${this.domain}/traject?${filter}&pageSize=${this.apiPageFilter.pageSize}&sortBy=${this.apiPageFilter.sortBy}&direction=${this.apiPageFilter.direction}&pageNumber=${this.apiPageFilter.pageNumber}`)
+    .get<IProduct[]>(`${this.domain}/traject?${filter}&pageSize=${this.apiPageFilter.pageSize}&sortBy=${this.apiPageFilter.sortBy}&direction=${this.apiPageFilter.direction}&pageNumber=${this.apiPageFilter.pageNumber}`)
     .toPromise();
   }
 
@@ -34,6 +35,11 @@ export class ProductenService {
     return this.http
     .get<ITraject>(`${this.domain}/traject/${id}`)
     .toPromise();
+  }
+
+  DeleteProduct(product : IProduct){
+    console.log(`${this.domain}/${product.categorie}/${product.id}`);
+    return this.http.delete(`${this.domain}/${product.categorie}/${product.id}`);
   }
 
   GetCursusTypes(){

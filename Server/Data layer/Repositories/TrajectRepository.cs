@@ -26,6 +26,7 @@ namespace Data_layer.Repositories
                 Beschrijving = traject.Beschrijving,
                 Categorie = traject.Categorie,
                 FotoURLCard = traject.FotoURLCard,
+                IsBuyable = traject.IsBuyable,
                 Cursussen = (traject as Traject).Cursussen,
                 ID = traject.ID,
                 LangeBeschrijving = traject.LangeBeschrijving,
@@ -66,7 +67,7 @@ namespace Data_layer.Repositories
             var deletedTraject = _context.Trajecten.FirstOrDefault(a => a.ID == id);
             try
             {
-                _context.Trajecten.Remove(deletedTraject);
+                deletedTraject.IsBuyable = !deletedTraject.IsBuyable;
             }
             catch (ArgumentNullException)
             {

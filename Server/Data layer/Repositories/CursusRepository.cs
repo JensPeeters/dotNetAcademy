@@ -27,6 +27,7 @@ namespace Data_layer.Repositories
                 Categorie = cursus.Categorie,
                 FotoURLCard = cursus.FotoURLCard,
                 ID = cursus.ID,
+                IsBuyable = cursus.IsBuyable,
                 LangeBeschrijving = cursus.LangeBeschrijving,
                 Prijs = cursus.Prijs,
                 Titel = cursus.Titel,
@@ -64,7 +65,7 @@ namespace Data_layer.Repositories
             var deletedCursus = _context.Cursussen.FirstOrDefault(a => a.ID == id);
             try
             {
-                _context.Cursussen.Remove(deletedCursus);
+                deletedCursus.IsBuyable = !deletedCursus.IsBuyable;
             }
             catch (ArgumentNullException)
             {

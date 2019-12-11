@@ -74,6 +74,17 @@ namespace Business_layer
             return ConvertKlantToDTO(deletedKlant);
         }
 
+        public KlantDTO MakeKlantAdmin(string klantId)
+        {
+            var klant = _repositoryKlant.GetKlantByID(klantId);
+            if (klant == null)
+                return null;
+
+
+
+            return ConvertKlantToDTO(klant);
+        }
+
         public KlantDTO GetKlant(string klantId)
         {
             var klant = _repositoryKlant.GetKlantByID(klantId);

@@ -6,6 +6,7 @@ namespace Business_layer.Interfaces
     {
         KlantDTO CreateKlant(string klantId);
         KlantDTO DeleteKlant(string klantId);
+        KlantDTO MakeKlantAdmin(string klantId);
         KlantDTO GetKlant(string klantId);
     }
 }

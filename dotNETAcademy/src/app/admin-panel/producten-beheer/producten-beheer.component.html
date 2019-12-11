@@ -3,11 +3,11 @@
     <div class="table-title">
       <div class="row">
         <div class="col-sm-6">
-          <h2>Manage <b>Producten</b></h2>
+          <h2>Beheer <b>Producten</b></h2>
         </div>
         <div class="col-sm-6">
           <a href="#addProductModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i>
-            <span>Add New Product</span></a>
+            <span>Voeg product toe</span></a>
         </div>
       </div>
     </div>
@@ -40,28 +40,63 @@
           <div id="addProductModal" class="modal fade">
             <div class="modal-dialog">
               <div class="modal-content">
-                <form>
+                <form #addForm="ngForm"  >
                   <div class="modal-header">
-                    <h4 class="modal-title">Add Product</h4>
+                    <h4 class="modal-title">Voeg product toe</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                   </div>
                   <div class="modal-body">
                     <div class="form-group">
                       <label>Titel</label>
-                      <input type="text" class="form-control" required>
+                      <input type="text" name="titel" [(ngModel)]="productAdd.titel" class="form-control" required>
                     </div>
                     <div class="form-group">
-                      <label>Categorie</label>
-                      <input type="email" class="form-control" required>
+                      <label>Categorie</label><br>
+                      <input [(ngModel)]="RadioSelected" type="radio" name="categorie" value="Cursus" checked>
+                      Cursus<br>
+                      <input [(ngModel)]="RadioSelected" type="radio" name="categorie" value="Traject"> Traject<br>
+                    </div>
+                    <div *ngIf="RadioSelected == 'Traject'" class="form-group">
+                      <label>Cursussen</label><br>
+                      <div class="cursussen-lijst mb-3" *ngFor="let cursus of ToeTeVoegenCursussen">
+                        <div class="flex">
+                          <span>{{cursus.titel}}</span>
+                          <button type="button" (click)="VerwijderVanLijst(cursus)" class="btn btn-danger">Verwijder</button>
+                        </div>
+                      </div>
+                      <div class="flex">
+                        <select class="float-left" name="cursus" [(ngModel)]="CursusTitel">
+                          <option value="" selected>Kies een cursus</option>
+                          <option *ngFor="let cursus of Cursussen" [value]="cursus.titel">{{cursus.titel}}</option>
+                        </select><br>
+                        <button type="button" class="btn btn-primary" (click)="VoegCursusToe()">Voeg toe</button>
+                      </div>
                     </div>
                     <div class="form-group">
                       <label>Prijs</label>
-                      <textarea class="form-control" required></textarea>
+                      <input name="prijs" class="form-control" [(ngModel)]="productAdd.prijs" required>
+                    </div>
+                    <div class="form-group">
+                      <label>Foto Url Card</label>
+                      <input name="fotoURLCard" class="form-control" [(ngModel)]="productAdd.fotoURLCard" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Type</label>
+                        <input name="type" class="form-control" [(ngModel)]="productAdd.type" required>
+                      </div>
+                    <div class="form-group">
+                      <label>Korte beschrijving</label>
+                      <input name="beschrijving" class="form-control" [(ngModel)]="productAdd.beschrijving" required>
+                    </div>
+                    <div class="form-group">
+                      <label>Lange Beschrijving</label><br>
+                      <textarea name="langeBeschrijving" class="form-control" [(ngModel)]="productAdd.langeBeschrijving" required></textarea>
                     </div>
                   </div>
                   <div class="modal-footer">
                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                    <input type="submit" class="btn btn-success" value="Add">
+                    <input type="button" class="btn btn-primary" (click)="AddProductToDb()" data-dismiss="modal" 
+                     [disabled]="!addForm.valid" value="Voeg toe">
                   </div>
                 </form>
               </div>
@@ -83,11 +118,11 @@
                     </div>
                     <div class="form-group">
                       <label>Categorie</label>
-                      <input type="email" class="form-control" required>
+                      <input type="text" class="form-control" required>
                     </div>
                     <div class="form-group">
                       <label>Prijs</label>
-                      <textarea class="form-control" required></textarea>
+                      <input type="text" class="form-control" required>
                     </div>
                   </div>
                   <div class="modal-footer">
@@ -109,12 +144,14 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                   </div>
                   <div class="modal-body">
-                    <p>Bent u zeker dat u het product: ' {{product.titel}} ' <span *ngIf="product.isBuyable">onzichtbaar</span><span
-                        *ngIf="!product.isBuyable">zichtbaar</span> wilt maken?</p>
+                    <p>Bent u zeker dat u het product: ' {{product.titel}} ' <span
+                        *ngIf="product.isBuyable">onzichtbaar</span><span *ngIf="!product.isBuyable">zichtbaar</span>
+                      wilt maken?</p>
                   </div>
                   <div class="modal-footer">
                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                    <input type="submit" class="btn btn-danger" data-dismiss="modal" value="Update" (click)="DeleteProduct(product)">
+                    <input type="submit" class="btn btn-danger" data-dismiss="modal" value="Update"
+                      (click)="DeleteProduct(product)">
                   </div>
                 </form>
               </div>

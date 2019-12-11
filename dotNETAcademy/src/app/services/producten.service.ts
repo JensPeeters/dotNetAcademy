@@ -26,6 +26,16 @@ export class ProductenService {
     .toPromise();
   }
 
+  public AddProduct(product : IProduct){
+    if(product.categorie == "Cursus"){
+      return this.http.post<IProduct>(`${this.domain}/cursus`, product);
+    }
+    else {//(product.categorie == "traject"){
+      return this.http.post<IProduct>(`${this.domain}/traject`, product);
+    }
+
+  }
+
   public GetCursussenAdmin(filter?: string) {
     return this.http
     .get<IProduct[]>(`${this.domain}/cursus?${filter}&pageSize=${this.apiPageFilter.pageSize}&sortBy=${this.apiPageFilter.sortBy}&direction=${this.apiPageFilter.direction}&pageNumber=${this.apiPageFilter.pageNumber}`)

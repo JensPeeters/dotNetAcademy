@@ -70,6 +70,12 @@ namespace Data_layer.Repositories
 
         public Traject AddTraject(Traject traject)
         {
+            var tempList = traject.Cursussen;
+            traject.Cursussen = new List<Cursus>();
+            foreach (var cursus in tempList)
+            {
+                traject.Cursussen.Add(_context.Cursussen.Where(a => a.ID == cursus.ID).FirstOrDefault());
+            }
             _context.Trajecten.Add(traject);
             return traject;
         }

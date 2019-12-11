@@ -35,6 +35,24 @@ namespace Data_layer.Repositories
             }).ToList();
         }
 
+        public List<Cursus> GetBuyableCursussen(CursusFilter filter)
+        {
+            IQueryable<Product> query = _context.Cursussen.Where(a => a.IsBuyable == true);
+            query = _sortFilter.Filter(filter, query);
+            return query.Select(cursus => new Cursus
+            {
+                Beschrijving = cursus.Beschrijving,
+                Categorie = cursus.Categorie,
+                FotoURLCard = cursus.FotoURLCard,
+                ID = cursus.ID,
+                IsBuyable = cursus.IsBuyable,
+                LangeBeschrijving = cursus.LangeBeschrijving,
+                Prijs = cursus.Prijs,
+                Titel = cursus.Titel,
+                Type = cursus.Type
+            }).ToList();
+        }
+
         public Cursus GetCursusByTitel(string titel)
         {
             return _context.Cursussen.FirstOrDefault(a => a.Titel == titel);

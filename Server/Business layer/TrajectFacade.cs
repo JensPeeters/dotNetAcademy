@@ -26,6 +26,13 @@ namespace Business_layer
                         .ToList();
         }
 
+        public List<TrajectDTO> GetBuyableTrajecten(TrajectFilter filter)
+        {
+            return _repositoryTraject.GetBuyableTrajecten(filter)
+                        .Select(traject => ConvertTrajectToDTO(traject))
+                        .ToList();
+        }
+
         private static TrajectDTO ConvertTrajectToDTO(Traject traject)
         {
             return new TrajectDTO()

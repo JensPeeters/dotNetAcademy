@@ -26,6 +26,13 @@ namespace Business_layer
                         .ToList();
         }
 
+        public List<CursusDTO> GetBuyableCursussen(CursusFilter filter)
+        {
+            return _repositoryCursus.GetBuyableCursussen(filter)
+                        .Select(cursus => ConvertCursusToDTO(cursus))
+                        .ToList();
+        }
+
         public CursusDTO GetCursus(int id)
         {
             var cursus = _repositoryCursus.GetCursusById(id);

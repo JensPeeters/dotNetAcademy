@@ -15,12 +15,23 @@ export class ProductenService {
   domain: string = environment.domain;
   apiPageFilter: APIPageFilter = new APIPageFilter();
 
-  public GetCursussen(filter?: string) {
+  public GetBuyableCursussen(filter?: string) {
+    return this.http
+    .get<IProduct[]>(`${this.domain}/cursus/buyable?${filter}&pageSize=${this.apiPageFilter.pageSize}&sortBy=${this.apiPageFilter.sortBy}&direction=${this.apiPageFilter.direction}&pageNumber=${this.apiPageFilter.pageNumber}`)
+    .toPromise();
+  }
+  public GetBuyableTrajecten(filter?: string) {
+    return this.http
+    .get<IProduct[]>(`${this.domain}/traject/buyable?${filter}&pageSize=${this.apiPageFilter.pageSize}&sortBy=${this.apiPageFilter.sortBy}&direction=${this.apiPageFilter.direction}&pageNumber=${this.apiPageFilter.pageNumber}`)
+    .toPromise();
+  }
+
+  public GetCursussenAdmin(filter?: string) {
     return this.http
     .get<IProduct[]>(`${this.domain}/cursus?${filter}&pageSize=${this.apiPageFilter.pageSize}&sortBy=${this.apiPageFilter.sortBy}&direction=${this.apiPageFilter.direction}&pageNumber=${this.apiPageFilter.pageNumber}`)
     .toPromise();
   }
-  public GetTrajecten(filter?: string) {
+  public GetTrajectenAdmin(filter?: string) {
     return this.http
     .get<IProduct[]>(`${this.domain}/traject?${filter}&pageSize=${this.apiPageFilter.pageSize}&sortBy=${this.apiPageFilter.sortBy}&direction=${this.apiPageFilter.direction}&pageNumber=${this.apiPageFilter.pageNumber}`)
     .toPromise();

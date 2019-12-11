@@ -29,8 +29,8 @@ export class ProductenBeheerComponent implements OnInit {
 
   async GetProducten(){
     this.Producten = [];
-    this.Producten = await this.productenService.GetCursussen();
-    this.Producten = this.Producten.concat(await this.productenService.GetTrajecten());
+    this.Producten = await this.productenService.GetCursussenAdmin();
+    this.Producten = this.Producten.concat(await this.productenService.GetTrajectenAdmin());
   }
 
 }

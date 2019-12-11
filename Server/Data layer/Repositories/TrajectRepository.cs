@@ -36,6 +36,27 @@ namespace Data_layer.Repositories
             }).ToList();
         }
 
+        public List<Traject> GetBuyableTrajecten(TrajectFilter filter)
+        {
+            IQueryable<Product> query = _context.Trajecten
+                                                .Where(a => a.IsBuyable == true)
+                                                .Include(a => a.Cursussen);
+            query = _sortFilter.Filter(filter, query);
+            return query.Select(traject => new Traject
+            {
+                Beschrijving = traject.Beschrijving,
+                Categorie = traject.Categorie,
+                FotoURLCard = traject.FotoURLCard,
+                IsBuyable = traject.IsBuyable,
+                Cursussen = (traject as Traject).Cursussen,
+                ID = traject.ID,
+                LangeBeschrijving = traject.LangeBeschrijving,
+                Prijs = traject.Prijs,
+                Titel = traject.Titel,
+                Type = traject.Type
+            }).ToList();
+        }
+
         public Traject GetTrajectByTitel(string titel)
         {
             return _context.Trajecten.FirstOrDefault(a => a.Titel == titel);

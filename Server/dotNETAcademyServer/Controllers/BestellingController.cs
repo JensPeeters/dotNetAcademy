@@ -16,14 +16,20 @@ namespace dotNETAcademyServer.Controllers
             this._bestellingFacade = bestellingFacade;
         }
 
-        [Route("{custId}")]
+        [Route("klant/{custId}")]
         [HttpGet]
         public List<BestellingDTO> GetBestellingenByCustomerId(string custId)
         {
             return _bestellingFacade.GetBestellingenByCustomerId(custId);
         }
+        [Route("{bestellingId}")]
+        [HttpGet]
+        public BestellingDTO GetBestellingenById(int bestellingId)
+        {
+            return _bestellingFacade.GetBestellingById(bestellingId);
+        }
 
-        [Route("{custId}")]
+        [Route("klant/{custId}")]
         [HttpPost]
         public ActionResult<BestellingDTO> AddBestellingToCustomer(string custId)
         {

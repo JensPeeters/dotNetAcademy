@@ -15,6 +15,7 @@ import { CreateUserComponent } from './admin-panel/create-user/create-user.compo
 import { UpdateUserComponent } from './admin-panel/update-user/update-user.component';
 import { DeleteUserComponent } from './admin-panel/delete-user/delete-user.component';
 import { ProductenBeheerComponent } from './admin-panel/producten-beheer/producten-beheer.component';
+import { BestellingInfoComponent } from './bestelling-info/bestelling-info.component';
 
 
 const routes: Routes = [
@@ -24,12 +25,13 @@ const routes: Routes = [
   { path: 'product/:currentRoute/:productId/:productName', component: ProductInfoComponent },
   { path: 'winkelmand', component: WinkelmandComponent },
   { path: 'bestellingen', component: BestellingenComponent },
+  { path: 'bestelling/:bestellingId', component: BestellingInfoComponent },
   { path: 'profiel', component: ProfielComponent, canActivate: [MsalGuard] },
-  { path: 'adminpanel',component:AdminPanelComponent, canActivate: [AdminGuard], children:[
-    { path: 'create-user', component: CreateUserComponent, canActivate: [AdminGuard], outlet:'admin' },
-    { path: 'update-user', component: UpdateUserComponent, canActivate: [AdminGuard], outlet:'admin' },
-    { path: 'delete-user', component: DeleteUserComponent, canActivate: [AdminGuard], outlet:'admin' },
-    { path: 'producten-beheer', component: ProductenBeheerComponent, canActivate: [AdminGuard], outlet:'admin' }
+  { path: 'adminpanel', component: AdminPanelComponent, canActivate: [AdminGuard], children: [
+    { path: 'create-user', component: CreateUserComponent, canActivate: [AdminGuard], outlet: 'admin' },
+    { path: 'update-user', component: UpdateUserComponent, canActivate: [AdminGuard], outlet: 'admin' },
+    { path: 'delete-user', component: DeleteUserComponent, canActivate: [AdminGuard], outlet: 'admin' },
+    { path: 'producten-beheer', component: ProductenBeheerComponent, canActivate: [AdminGuard], outlet: 'admin' }
   ]},
   { path: 'no-admin', component: NoAdminComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },

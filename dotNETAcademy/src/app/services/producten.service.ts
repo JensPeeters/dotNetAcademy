@@ -26,8 +26,6 @@ export class ProductenService {
     .toPromise();
   }
   public UpdateProduct(product : IProduct){
-    // let id = product.id;
-    // product.id = null;
     if(product.categorie == "Cursus"){
       return this.http.put<IProduct>(`${this.domain}/cursus/${product.id}`, product);
     }
@@ -69,7 +67,6 @@ export class ProductenService {
   }
 
   DeleteProduct(product : IProduct){
-    console.log(`${this.domain}/${product.categorie}/${product.id}`);
     return this.http.delete(`${this.domain}/${product.categorie}/${product.id}`);
   }
 

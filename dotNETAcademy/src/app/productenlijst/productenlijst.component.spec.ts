@@ -30,7 +30,7 @@ describe('ProductenlijstComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
+ 
   it('Should get cursussen when route is cursussen', () => {
     fixture.detectChanges();
     spyOn(component,'GetProducts').and.callThrough();

@@ -29,6 +29,15 @@ namespace Data_layer.Repositories
                     .ToList();
         }
 
+        public Bestelling GetBestellingById(int bestellingId)
+        {
+            return _context.Bestellingen
+                    .Where(d => d.Id == bestellingId)
+                    .Include(b => b.Producten)
+                    .ThenInclude(i => i.Product)
+                    .FirstOrDefault();
+        }
+
         public void SaveChanges()
         {
             if (_context.SaveChanges() > 0)

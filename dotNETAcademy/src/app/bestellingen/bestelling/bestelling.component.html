@@ -17,6 +17,6 @@
             <hr/>
         </div>
         <p class="float-right fullWidth">Totaalprijs: {{bestelling.totaalPrijs | currency:' € '}}</p>
-        <a [routerLink]="" class="fullWidth">Bekijk bestelling >></a>
+        <a [routerLink]="['/bestelling',bestelling.id]" class="fullWidth">Bekijk bestelling >></a>
     </div>
 </div>

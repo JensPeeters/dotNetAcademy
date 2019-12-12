@@ -6,6 +6,7 @@ namespace Business_layer.Interfaces
     public interface IBestellingFacade
     {
         List<BestellingDTO> GetBestellingenByCustomerId(string custId);
+        BestellingDTO GetBestellingById(int bestellingId);
         BestellingDTO AddBestellingToCustomer(string custId);
     }
 }

@@ -27,6 +27,25 @@ namespace Data_layer.Repositories
                 Categorie = cursus.Categorie,
                 FotoURLCard = cursus.FotoURLCard,
                 ID = cursus.ID,
+                IsBuyable = cursus.IsBuyable,
+                LangeBeschrijving = cursus.LangeBeschrijving,
+                Prijs = cursus.Prijs,
+                Titel = cursus.Titel,
+                Type = cursus.Type
+            }).ToList();
+        }
+
+        public List<Cursus> GetBuyableCursussen(CursusFilter filter)
+        {
+            IQueryable<Product> query = _context.Cursussen.Where(a => a.IsBuyable == true);
+            query = _sortFilter.Filter(filter, query);
+            return query.Select(cursus => new Cursus
+            {
+                Beschrijving = cursus.Beschrijving,
+                Categorie = cursus.Categorie,
+                FotoURLCard = cursus.FotoURLCard,
+                ID = cursus.ID,
+                IsBuyable = cursus.IsBuyable,
                 LangeBeschrijving = cursus.LangeBeschrijving,
                 Prijs = cursus.Prijs,
                 Titel = cursus.Titel,
@@ -64,7 +83,7 @@ namespace Data_layer.Repositories
             var deletedCursus = _context.Cursussen.FirstOrDefault(a => a.ID == id);
             try
             {
-                _context.Cursussen.Remove(deletedCursus);
+                deletedCursus.IsBuyable = !deletedCursus.IsBuyable;
             }
             catch (ArgumentNullException)
             {

@@ -26,6 +26,13 @@ namespace Business_layer
                         .ToList();
         }
 
+        public List<TrajectDTO> GetBuyableTrajecten(TrajectFilter filter)
+        {
+            return _repositoryTraject.GetBuyableTrajecten(filter)
+                        .Select(traject => ConvertTrajectToDTO(traject))
+                        .ToList();
+        }
+
         private static TrajectDTO ConvertTrajectToDTO(Traject traject)
         {
             return new TrajectDTO()
@@ -35,6 +42,7 @@ namespace Business_layer
                 FotoURLCard = traject.FotoURLCard,
                 ID = traject.ID,
                 LangeBeschrijving = traject.LangeBeschrijving,
+                IsBuyable = traject.IsBuyable,
                 Prijs = traject.Prijs,
                 Titel = traject.Titel,
                 Type = traject.Type,
@@ -77,6 +85,7 @@ namespace Business_layer
                 Categorie = traject.Categorie,
                 FotoURLCard = traject.FotoURLCard,
                 LangeBeschrijving = traject.LangeBeschrijving,
+                IsBuyable = traject.IsBuyable,
                 Prijs = traject.Prijs,
                 Titel = traject.Titel,
                 Cursussen = traject.Cursussen,

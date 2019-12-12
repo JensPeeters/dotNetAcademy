@@ -33,6 +33,13 @@ namespace dotNETAcademyServer.Controllers
             return _cursusFacade.GetCursussen(filter);
         }
 
+        [Route("buyable")]
+        [HttpGet]
+        public List<CursusDTO> GetBuyableCursussen([FromQuery]CursusFilter filter)
+        {
+            return _cursusFacade.GetBuyableCursussen(filter);
+        }
+
         [Route("{id}")]
         [HttpGet]
         public ActionResult<CursusDTO> GetCursus(int id)

@@ -44,6 +44,7 @@ namespace UnitTestDotNET
                     Type = ".NET",
                     Prijs = 15.45,
                     Categorie = "Cursus",
+                     IsBuyable = true,
                     Beschrijving = "Some example text some ...",
                     LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                     FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg"
@@ -53,6 +54,7 @@ namespace UnitTestDotNET
                     Titel = "dotNET cursus 2",
                     Type = ".NET",
                     Prijs = 18.45,
+                     IsBuyable = true,
                     Beschrijving = "Some example text some ...",
                     Categorie = "Cursus",
                     LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
@@ -89,6 +91,7 @@ namespace UnitTestDotNET
                 Titel = "dotNET cursus 2",
                 Type = ".NET",
                 Prijs = 18.45,
+                IsBuyable = true,
                 Beschrijving = "Some example text some ...",
                 Categorie = "Cursus",
                 LangeBeschrijving = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",

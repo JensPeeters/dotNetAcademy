@@ -4,14 +4,16 @@ using Data_layer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Data_layer.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20191211154058_boolBuyable")]
+    partial class boolBuyable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -94,8 +96,6 @@ namespace Data_layer.Migrations
                         .IsRequired();
 
                     b.Property<string>("FotoURLCard");
-
-                    b.Property<bool>("IsBuyable");
 
                     b.Property<string>("LangeBeschrijving");
 

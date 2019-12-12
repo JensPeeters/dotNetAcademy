@@ -10,6 +10,7 @@ import { ProductenService } from '../services/producten.service';
 import { ICursus } from '../Interfaces/ICursus';
 import { promise } from 'protractor';
 import { ITraject } from '../Interfaces/ITraject';
+import { IProduct } from '../Interfaces/IProduct';
 
 describe('ProductenlijstComponent', () => {
   let component: ProductenlijstComponent;
@@ -38,49 +39,48 @@ describe('ProductenlijstComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
+ 
   it('Should get cursussen when route is cursussen', () => {
     let types = new Observable<string[]>();
-    let cursussen = new Promise<ICursus[]>((resolve, reject) => {});
+    let producten = new Promise<IProduct[]>((resolve, reject) => {});
     spyOn(testProductservice, 'GetCursusTypes').and.returnValue(types)
-    spyOn(testProductservice, 'GetCursussen').and.returnValue(cursussen);
+    spyOn(testProductservice, 'GetBuyableCursussen').and.returnValue(producten);
     fixture.detectChanges();
     spyOn(component,'GetProducts').and.callThrough();
-    spyOn(component,'GetCursussen').and.callThrough();
+    spyOn(component,'GetBuyableCursussen').and.callThrough();
     params.next({ 'currentRoute': 'cursussen' });
     expect(component.GetProducts).toHaveBeenCalled();
-    expect(component.GetCursussen).toHaveBeenCalled();
+    expect(component.GetBuyableCursussen).toHaveBeenCalled();
   });
 
   it('Should get trajecten when route is trajecten', () => {
     let types = new Observable<string[]>();
-    let trajecten = new Promise<ITraject[]>((resolve, reject) => {});
+    let producten = new Promise<IProduct[]>((resolve, reject) => {});
     spyOn(testProductservice, 'GetTrajectTypes').and.returnValue(types);
-    spyOn(testProductservice, 'GetTrajecten').and.returnValue(trajecten);
+    spyOn(testProductservice, 'GetBuyableTrajecten').and.returnValue(producten);
     fixture.detectChanges();
     spyOn(component,'GetProducts').and.callThrough();
-    spyOn(component,'GetTrajecten').and.callThrough();
+    spyOn(component,'GetBuyableTrajecten').and.callThrough();
     params.next({ 'currentRoute': 'trajecten' });
     expect(component.GetProducts).toHaveBeenCalled();
-    expect(component.GetTrajecten).toHaveBeenCalled();
+    expect(component.GetBuyableTrajecten).toHaveBeenCalled();
   });
 
   it('Should get zoekresultaten when route is zoekresultaten', () => {
     let types = new Observable<string[]>();
-    let cursussen = new Promise<ICursus[]>((resolve, reject) => {});
-    let trajecten = new Promise<ITraject[]>((resolve, reject) => {});
+    let producten = new Promise<IProduct[]>((resolve, reject) => {});
     spyOn(testProductservice, 'GetCursusTypes').and.returnValue(types)
-    spyOn(testProductservice, 'GetCursussen').and.returnValue(cursussen);
+    spyOn(testProductservice, 'GetBuyableCursussen').and.returnValue(producten);
     spyOn(testProductservice, 'GetTrajectTypes').and.returnValue(types);
-    spyOn(testProductservice, 'GetTrajecten').and.returnValue(trajecten);
+    spyOn(testProductservice, 'GetBuyableTrajecten').and.returnValue(producten);
     fixture.detectChanges();
     spyOn(component,'GetProducts').and.callThrough();
-    spyOn(component,'GetCursussen').and.callThrough();
-    spyOn(component,'GetTrajecten').and.callThrough();
+    spyOn(component,'GetBuyableCursussen').and.callThrough();
+    spyOn(component,'GetBuyableTrajecten').and.callThrough();
     params.next({ 'currentRoute': 'zoekresultaten' });
     expect(component.GetProducts).toHaveBeenCalled();
-    expect(component.GetTrajecten).toHaveBeenCalled();
-    expect(component.GetCursussen).toHaveBeenCalled();
+    expect(component.GetBuyableTrajecten).toHaveBeenCalled();
+    expect(component.GetBuyableCursussen).toHaveBeenCalled();
   });
 
   it('Should change direction when clicked on button with direction icon', () => {

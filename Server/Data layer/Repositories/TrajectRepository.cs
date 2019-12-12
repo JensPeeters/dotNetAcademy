@@ -26,6 +26,28 @@ namespace Data_layer.Repositories
                 Beschrijving = traject.Beschrijving,
                 Categorie = traject.Categorie,
                 FotoURLCard = traject.FotoURLCard,
+                IsBuyable = traject.IsBuyable,
+                Cursussen = (traject as Traject).Cursussen,
+                ID = traject.ID,
+                LangeBeschrijving = traject.LangeBeschrijving,
+                Prijs = traject.Prijs,
+                Titel = traject.Titel,
+                Type = traject.Type
+            }).ToList();
+        }
+
+        public List<Traject> GetBuyableTrajecten(TrajectFilter filter)
+        {
+            IQueryable<Product> query = _context.Trajecten
+                                                .Where(a => a.IsBuyable == true)
+                                                .Include(a => a.Cursussen);
+            query = _sortFilter.Filter(filter, query);
+            return query.Select(traject => new Traject
+            {
+                Beschrijving = traject.Beschrijving,
+                Categorie = traject.Categorie,
+                FotoURLCard = traject.FotoURLCard,
+                IsBuyable = traject.IsBuyable,
                 Cursussen = (traject as Traject).Cursussen,
                 ID = traject.ID,
                 LangeBeschrijving = traject.LangeBeschrijving,
@@ -48,6 +70,12 @@ namespace Data_layer.Repositories
 
         public Traject AddTraject(Traject traject)
         {
+            var tempList = traject.Cursussen;
+            traject.Cursussen = new List<Cursus>();
+            foreach (var cursus in tempList)
+            {
+                traject.Cursussen.Add(_context.Cursussen.Where(a => a.ID == cursus.ID).FirstOrDefault());
+            }
             _context.Trajecten.Add(traject);
             return traject;
         }
@@ -66,7 +94,7 @@ namespace Data_layer.Repositories
             var deletedTraject = _context.Trajecten.FirstOrDefault(a => a.ID == id);
             try
             {
-                _context.Trajecten.Remove(deletedTraject);
+                deletedTraject.IsBuyable = !deletedTraject.IsBuyable;
             }
             catch (ArgumentNullException)
             {
@@ -80,10 +108,15 @@ namespace Data_layer.Repositories
             var existingTraject = _context.Trajecten.FirstOrDefault(a => a.ID == traject.ID);
             if (existingTraject == null)
                 return null;
+            var tempList = traject.Cursussen;
+            existingTraject.Cursussen = new List<Cursus>();
+            foreach (var cursus in tempList)
+            {
+                existingTraject.Cursussen.Add(_context.Cursussen.Where(a => a.ID == cursus.ID).FirstOrDefault());
+            }
             existingTraject.Beschrijving = traject.Beschrijving;
             existingTraject.Categorie = traject.Categorie;
             existingTraject.FotoURLCard = traject.FotoURLCard;
-            existingTraject.Cursussen = traject.Cursussen;
             existingTraject.LangeBeschrijving = traject.LangeBeschrijving;
             existingTraject.Prijs = traject.Prijs;
             existingTraject.Titel = traject.Titel;

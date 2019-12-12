@@ -5,6 +5,7 @@ export interface IProduct {
     id: number;
     prijs: number;
     categorie: string;
+    isBuyable: boolean;
     fotoURLCard: string;
     type: string;
     beschrijving: string;

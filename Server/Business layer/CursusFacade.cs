@@ -26,6 +26,13 @@ namespace Business_layer
                         .ToList();
         }
 
+        public List<CursusDTO> GetBuyableCursussen(CursusFilter filter)
+        {
+            return _repositoryCursus.GetBuyableCursussen(filter)
+                        .Select(cursus => ConvertCursusToDTO(cursus))
+                        .ToList();
+        }
+
         public CursusDTO GetCursus(int id)
         {
             var cursus = _repositoryCursus.GetCursusById(id);
@@ -42,6 +49,7 @@ namespace Business_layer
                 Categorie = cursus.Categorie,
                 FotoURLCard = cursus.FotoURLCard,
                 ID = cursus.ID,
+                IsBuyable = cursus.IsBuyable,
                 LangeBeschrijving = cursus.LangeBeschrijving,
                 Prijs = cursus.Prijs,
                 Titel = cursus.Titel,
@@ -76,6 +84,7 @@ namespace Business_layer
                 Categorie = cursus.Categorie,
                 FotoURLCard = cursus.FotoURLCard,
                 LangeBeschrijving = cursus.LangeBeschrijving,
+                IsBuyable = cursus.IsBuyable,
                 Prijs = cursus.Prijs,
                 Titel = cursus.Titel,
                 Type = cursus.Type

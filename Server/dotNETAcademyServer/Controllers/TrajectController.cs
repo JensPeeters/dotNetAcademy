@@ -33,6 +33,12 @@ namespace dotNETAcademyServer.Controllers
         {
             return _trajectFacade.GetTrajecten(filter);
         }
+        [Route("buyable")]
+        [HttpGet]
+        public List<TrajectDTO> GetBuyableTrajecten([FromQuery]TrajectFilter filter)
+        {
+            return _trajectFacade.GetBuyableTrajecten(filter);
+        }
 
         [Route("{id}")]
         [HttpGet]

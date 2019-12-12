@@ -10,6 +10,7 @@ import { ProductenService } from '../services/producten.service';
 import { ICursus } from '../Interfaces/ICursus';
 import { promise } from 'protractor';
 import { ITraject } from '../Interfaces/ITraject';
+import { IProduct } from '../Interfaces/IProduct';
 
 describe('ProductenlijstComponent', () => {
   let component: ProductenlijstComponent;
@@ -41,9 +42,9 @@ describe('ProductenlijstComponent', () => {
  
   it('Should get cursussen when route is cursussen', () => {
     let types = new Observable<string[]>();
-    let cursussen = new Promise<ICursus[]>((resolve, reject) => {});
+    let producten = new Promise<IProduct[]>((resolve, reject) => {});
     spyOn(testProductservice, 'GetCursusTypes').and.returnValue(types)
-    spyOn(testProductservice, 'GetCursussen').and.returnValue(cursussen);
+    spyOn(testProductservice, 'GetBuyableCursussen').and.returnValue(producten);
     fixture.detectChanges();
     spyOn(component,'GetProducts').and.callThrough();
     spyOn(component,'GetBuyableCursussen').and.callThrough();
@@ -54,9 +55,9 @@ describe('ProductenlijstComponent', () => {
 
   it('Should get trajecten when route is trajecten', () => {
     let types = new Observable<string[]>();
-    let trajecten = new Promise<ITraject[]>((resolve, reject) => {});
+    let producten = new Promise<IProduct[]>((resolve, reject) => {});
     spyOn(testProductservice, 'GetTrajectTypes').and.returnValue(types);
-    spyOn(testProductservice, 'GetTrajecten').and.returnValue(trajecten);
+    spyOn(testProductservice, 'GetBuyableTrajecten').and.returnValue(producten);
     fixture.detectChanges();
     spyOn(component,'GetProducts').and.callThrough();
     spyOn(component,'GetBuyableTrajecten').and.callThrough();
@@ -67,12 +68,11 @@ describe('ProductenlijstComponent', () => {
 
   it('Should get zoekresultaten when route is zoekresultaten', () => {
     let types = new Observable<string[]>();
-    let cursussen = new Promise<ICursus[]>((resolve, reject) => {});
-    let trajecten = new Promise<ITraject[]>((resolve, reject) => {});
+    let producten = new Promise<IProduct[]>((resolve, reject) => {});
     spyOn(testProductservice, 'GetCursusTypes').and.returnValue(types)
-    spyOn(testProductservice, 'GetCursussen').and.returnValue(cursussen);
+    spyOn(testProductservice, 'GetBuyableCursussen').and.returnValue(producten);
     spyOn(testProductservice, 'GetTrajectTypes').and.returnValue(types);
-    spyOn(testProductservice, 'GetTrajecten').and.returnValue(trajecten);
+    spyOn(testProductservice, 'GetBuyableTrajecten').and.returnValue(producten);
     fixture.detectChanges();
     spyOn(component,'GetProducts').and.callThrough();
     spyOn(component,'GetBuyableCursussen').and.callThrough();

@@ -5,12 +5,19 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { MsalService } from '../services/msal.service';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
+import { ProductenService } from '../services/producten.service';
+import { ICursus } from '../Interfaces/ICursus';
+import { ITraject } from '../Interfaces/ITraject';
+import { WinkelmandService } from '../services/winkelmand.service';
+import { IWinkelmand } from '../Interfaces/IWinkelmand';
 
 describe('ProductInfoComponent', () => {
   let component: ProductInfoComponent;
   let fixture: ComponentFixture<ProductInfoComponent>;
   let params: Subject<Params>;
+  let testProductservice: ProductenService = new ProductenService(null);
+  let testWinkelmandService: WinkelmandService = new WinkelmandService(null);
 
   beforeEach(async(() => {
     params = new Subject<Params>();
@@ -18,7 +25,9 @@ describe('ProductInfoComponent', () => {
       imports : [ RouterTestingModule, HttpClientModule ],
       declarations: [ ProductInfoComponent ],
       providers : [ MsalService,
-        { provide: ActivatedRoute, useValue: { params: params }}
+        { provide: ActivatedRoute, useValue: { params: params }},
+        { provide: ProductenService, useValue: testProductservice },
+        { provide: WinkelmandService, useValue: testWinkelmandService }
       ]
     })
     .compileComponents();
@@ -34,6 +43,8 @@ describe('ProductInfoComponent', () => {
   });
 
   it('Should get a cursus when route is Cursus', () => {
+    let cursus = new Promise<ICursus>((resolve, reject) => {});
+    spyOn(testProductservice, 'GetCursusById').and.returnValue(cursus);
     fixture.detectChanges();
     spyOn(component,'GetCursus').and.callThrough();
     params.next({ 'currentRoute': 'Cursus' });
@@ -41,6 +52,8 @@ describe('ProductInfoComponent', () => {
   });
 
   it('Should get a traject when route is Traject', () => {
+    let traject = new Promise<ITraject>((resolve, reject) => {});
+    spyOn(testProductservice, 'GetTrajectById').and.returnValue(traject);
     fixture.detectChanges();
     spyOn(component,'GetTraject').and.callThrough();
     params.next({ 'currentRoute': 'Traject' });
@@ -48,6 +61,8 @@ describe('ProductInfoComponent', () => {
   });
 
   it('Should add product to winkelmand when clicked on button named Toevoegen aan winkelwagen', () => {
+    let product = new Observable<IWinkelmand>();
+    spyOn(testWinkelmandService, 'AddToWinkelmand').and.returnValue(product);
     component.product = [
       {id: 2},
       {prijs: 50},

@@ -1,4 +1,6 @@
 using Business_layer;
+using Business_layer.Interfaces.Mapping;
+using Business_layer.Mapping;
 using Data_layer;
 using Data_layer.Model;
 using Data_layer.Repositories;
@@ -12,6 +14,7 @@ namespace UnitTestDotNET
     [TestClass]
     public class WinkelwagenTest
     {
+
         [DataTestMethod()]
         [DataRow(5, 1, 5)]
         [DataRow(23, 1, 23)]
@@ -61,6 +64,8 @@ namespace UnitTestDotNET
              .UseSqlite("DataSource=:memory:")
              .Options;
 
+            IWinkelwagenMapper mapper = new WinkelwagenMapper();
+
             // Run the test against one instance of the context
             using (var context = new DatabaseContext(options))
             {
@@ -83,7 +88,8 @@ namespace UnitTestDotNET
                 }
                 context.SaveChanges();
 
-                var facade = new WinkelwagenFacade(new CostCalculator(), new WinkelwagenRepository(context));
+                var facade = new WinkelwagenFacade(new CostCalculator(), new WinkelwagenRepository(context),
+                            new KlantRepository(context), mapper);
                 var winkelwagen = facade.GetBagForCustomer("TestUser");
 
                 for (int f = 1; f <= products; f++)
@@ -120,6 +126,8 @@ namespace UnitTestDotNET
              .UseSqlite("DataSource=:memory:")
              .Options;
 
+            IWinkelwagenMapper mapper = new WinkelwagenMapper();
+
             // Run the test against one instance of the context
             using (var context = new DatabaseContext(options))
             {
@@ -140,7 +148,8 @@ namespace UnitTestDotNET
 
                 context.SaveChanges();
 
-                var facade = new WinkelwagenFacade(new CostCalculator(), new WinkelwagenRepository(context));
+                var facade = new WinkelwagenFacade(new CostCalculator(), new WinkelwagenRepository(context),
+                                        new KlantRepository(context), mapper);
                 var winkelwagen = facade.GetBagForCustomer("TestUser");
 
                 //Add the same product twice
@@ -169,6 +178,8 @@ namespace UnitTestDotNET
              .UseSqlite("DataSource=:memory:")
              .Options;
 
+            IWinkelwagenMapper mapper = new WinkelwagenMapper();
+
             // Run the test against one instance of the context
             using (var context = new DatabaseContext(options))
             {
@@ -190,7 +201,8 @@ namespace UnitTestDotNET
                 }
                 context.SaveChanges();
 
-                var facade = new WinkelwagenFacade(new CostCalculator(), new WinkelwagenRepository(context));
+                var facade = new WinkelwagenFacade(new CostCalculator(), new WinkelwagenRepository(context),
+                                    new KlantRepository(context), mapper);
                 var winkelwagen = facade.GetBagForCustomer("TestUser");
 
                 //Add each product 3 times 

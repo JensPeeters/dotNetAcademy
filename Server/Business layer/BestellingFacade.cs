@@ -1,5 +1,6 @@
 ﻿using Business_layer.DTO;
 using Business_layer.Interfaces;
+using Business_layer.Interfaces.Mapping;
 using Data_layer.Interfaces;
 using Data_layer.Model;
 using Microsoft.EntityFrameworkCore;
@@ -15,16 +16,19 @@ namespace Business_layer
         private readonly IWinkelwagenRepository _repositoryWinkelwagen;
         private readonly IKlantRepository _klantRepository;
         private readonly ICostCalculator _costCalculator;
+        private readonly IBestellingMapper _bestellingMapper;
 
         public BestellingFacade(IBestellingRepository repositoryBestelling,
             IWinkelwagenRepository repositoryWinkelwagen,
             IKlantRepository klantRepository,
-            ICostCalculator costCalculator)
+            ICostCalculator costCalculator,
+            IBestellingMapper bestellingMapper)
         {
             _repositoryBestelling = repositoryBestelling;
             _repositoryWinkelwagen = repositoryWinkelwagen;
             _klantRepository = klantRepository;
             _costCalculator = costCalculator;
+            _bestellingMapper = bestellingMapper;
         }
         public List<BestellingDTO> GetBestellingenByCustomerId(string custId)
         {
@@ -44,7 +48,7 @@ namespace Business_layer
             var bestelling = _repositoryBestelling.GetBestellingById(bestellingId);
             if (bestelling == null)
                 return null;
-            return ConvertBestellingToDTO(bestelling);
+            return _bestellingMapper.MapToDTO(bestelling);
         }
 
         public BestellingDTO AddBestellingToCustomer(string custId)
@@ -61,7 +65,7 @@ namespace Business_layer
                 bestelling.Producten.Add(new BestellingItem() { Aantal = item.Aantal,Product = item.Product });
             }
             bestelling.TotaalPrijs = _costCalculator.CalculateCost(winkelwagenGebruiker);
-            var newBestelling = ConvertCreateUpdateDTOToBestelling(bestelling);
+            var newBestelling = _bestellingMapper.MapToModel(bestelling);
             var createdBestelling = _repositoryBestelling.AddBestellingToCustomer(newBestelling);
 
             winkelwagenGebruiker.TotaalPrijs = 0.0;
@@ -79,31 +83,7 @@ namespace Business_layer
             {
                 throw new Exception(e.Message);
             }
-            return ConvertBestellingToDTO(createdBestelling);
-        }
-
-
-        private static Bestelling ConvertCreateUpdateDTOToBestelling(BestellingCreateUpdateDTO bestelling)
-        {
-            return new Bestelling()
-            {
-                Datum = bestelling.Datum,
-                Klant = bestelling.Klant,
-                Producten = bestelling.Producten,
-                TotaalPrijs = bestelling.TotaalPrijs
-            };
-        }
-
-        private static BestellingDTO ConvertBestellingToDTO(Bestelling bestelling)
-        {
-            return new BestellingDTO()
-            {
-                Id = bestelling.Id,
-                Datum = bestelling.Datum,
-                Klant = bestelling.Klant,
-                Producten = bestelling.Producten,
-                TotaalPrijs = bestelling.TotaalPrijs
-            };
+            return _bestellingMapper.MapToDTO(createdBestelling);
         }
     }
 }

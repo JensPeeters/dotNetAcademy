@@ -1,5 +1,6 @@
 ﻿using Business_layer.DTO;
 using Business_layer.Interfaces;
+using Business_layer.Interfaces.Mapping;
 using Data_layer.Filter.ProductenFilters;
 using Data_layer.Interfaces;
 using Data_layer.Model;
@@ -13,23 +14,26 @@ namespace Business_layer
     public class CursusFacade : ICursusFacade
     {
         private readonly ICursusRepository _repositoryCursus;
+        private readonly ICursusMapper _cursusMapper;
 
-        public CursusFacade(ICursusRepository repositoryCursus)
+        public CursusFacade(ICursusRepository repositoryCursus,
+                            ICursusMapper cursusMapper)
         {
+            _cursusMapper = cursusMapper;
             _repositoryCursus = repositoryCursus;
         }
 
         public List<CursusDTO> GetCursussen(CursusFilter filter)
         {
             return _repositoryCursus.GetCursussen(filter)
-                        .Select(cursus => ConvertCursusToDTO(cursus))
+                        .Select(cursus => _cursusMapper.MapToDTO(cursus))
                         .ToList();
         }
 
         public List<CursusDTO> GetBuyableCursussen(CursusFilter filter)
         {
             return _repositoryCursus.GetBuyableCursussen(filter)
-                        .Select(cursus => ConvertCursusToDTO(cursus))
+                        .Select(cursus => _cursusMapper.MapToDTO(cursus))
                         .ToList();
         }
 
@@ -38,28 +42,12 @@ namespace Business_layer
             var cursus = _repositoryCursus.GetCursusById(id);
             if (cursus == null)
                 return null;
-            return ConvertCursusToDTO(cursus);
-        }
-
-        private static CursusDTO ConvertCursusToDTO(Cursus cursus)
-        {
-            return new CursusDTO()
-            {
-                Beschrijving = cursus.Beschrijving,
-                Categorie = cursus.Categorie,
-                FotoURLCard = cursus.FotoURLCard,
-                ID = cursus.ID,
-                IsBuyable = cursus.IsBuyable,
-                LangeBeschrijving = cursus.LangeBeschrijving,
-                Prijs = cursus.Prijs,
-                Titel = cursus.Titel,
-                Type = cursus.Type
-            };
+            return _cursusMapper.MapToDTO(cursus);
         }
 
         public CursusDTO AddCursus(CursusCreateUpdateDTO cursus)
         {
-            var newCursus = ConvertCreateUpdateDTOToCursus(cursus);
+            var newCursus = _cursusMapper.MapToModel(cursus);
             var createdCursus = _repositoryCursus.AddCursus(newCursus);
             try
             {
@@ -73,22 +61,7 @@ namespace Business_layer
             {
                 throw new Exception(e.Message);
             }
-            return ConvertCursusToDTO(createdCursus);
-        }
-
-        private static Cursus ConvertCreateUpdateDTOToCursus(CursusCreateUpdateDTO cursus)
-        {
-            return new Cursus()
-            {
-                Beschrijving = cursus.Beschrijving,
-                Categorie = cursus.Categorie,
-                FotoURLCard = cursus.FotoURLCard,
-                LangeBeschrijving = cursus.LangeBeschrijving,
-                IsBuyable = cursus.IsBuyable,
-                Prijs = cursus.Prijs,
-                Titel = cursus.Titel,
-                Type = cursus.Type
-            };
+            return _cursusMapper.MapToDTO(createdCursus);
         }
 
         public CursusDTO DeleteCursus(int id)
@@ -104,12 +77,12 @@ namespace Business_layer
             {
                 throw new Exception(e.Message);
             }
-            return ConvertCursusToDTO(deletedCursus);
+            return _cursusMapper.MapToDTO(deletedCursus);
         }
 
         public CursusDTO UpdateCursus(CursusCreateUpdateDTO cursus, int id)
         {
-            var newCursus = ConvertCreateUpdateDTOToCursus(cursus);
+            var newCursus = _cursusMapper.MapToModel(cursus);
             newCursus.ID = id;
             var updatedCursus = _repositoryCursus.UpdateCursus(newCursus);
             if (updatedCursus == null)
@@ -122,7 +95,7 @@ namespace Business_layer
             {
                 throw new Exception(e.Message);
             }
-            return ConvertCursusToDTO(updatedCursus);
+            return _cursusMapper.MapToDTO(updatedCursus);
         }
     }
 }

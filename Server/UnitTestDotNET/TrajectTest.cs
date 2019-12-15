@@ -1,5 +1,7 @@
 ﻿using Business_layer;
 using Business_layer.Interfaces;
+using Business_layer.Interfaces.Mapping;
+using Business_layer.Mapping;
 using Data_layer;
 using Data_layer.Filter;
 using Data_layer.Filter.ProductenFilters;
@@ -25,13 +27,13 @@ namespace UnitTestDotNET
         public class CursusTest
         {
             TrajectFilter trajectFilter;
-
+            ITrajectMapper mapper;
             IContextFilter contextFilter;
             [SetUp]
             public void SetUp()
             {
                 trajectFilter = new TrajectFilter();
-
+                mapper = new TrajectMapper();
                 contextFilter = new ContextFilter();
             }
 
@@ -105,7 +107,7 @@ namespace UnitTestDotNET
                 mockContext.Setup(c => c.GetTrajecten(trajectFilter)).Returns(trajecten.ToList());
 
                 // Act
-                ITrajectFacade facade = new TrajectFacade(mockContext.Object);
+                ITrajectFacade facade = new TrajectFacade(mockContext.Object,mapper);
                 var actual = facade.GetTrajecten(trajectFilter);
 
                 // Assert

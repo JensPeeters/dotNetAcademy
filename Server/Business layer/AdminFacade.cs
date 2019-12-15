@@ -1,5 +1,6 @@
 ﻿using Business_layer.DTO;
 using Business_layer.Interfaces;
+using Business_layer.Interfaces.Mapping;
 using Data_layer.Interfaces;
 using Data_layer.Model;
 using Data_layer.Repositories;
@@ -11,25 +12,13 @@ namespace Business_layer
     public class AdminFacade : IAdminFacade
     {
         private readonly IAdminRepository _repositoryAdmin;
+        private readonly IAdminMapper _adminMapper;
 
-        public AdminFacade(IAdminRepository repositoryAdmin)
+        public AdminFacade(IAdminRepository repositoryAdmin,
+                            IAdminMapper adminMapper)
         {
             _repositoryAdmin = repositoryAdmin;
-        }
-
-        private static Admin ConvertCreateUpdateDTOToAdmin(string adminId)
-        {
-            return new Admin()
-            {
-                AzureId = adminId
-            };
-        }
-        private static AdminDTO ConvertAdminToDTO(Admin admin)
-        {
-            return new AdminDTO()
-            {
-                AzureId = admin.AzureId
-            };
+            _adminMapper = adminMapper;
         }
 
         public AdminDTO CreateAdmin(string adminId)
@@ -37,7 +26,7 @@ namespace Business_layer
             var admin = _repositoryAdmin.GetAdminByID(adminId);
             if (admin != null)
                 return null;
-            var newAdmin = ConvertCreateUpdateDTOToAdmin(adminId);
+            var newAdmin = _adminMapper.MapToModel(adminId);
             var createdAdmin = _repositoryAdmin.CreateAdmin(newAdmin);
             try
             {
@@ -51,7 +40,7 @@ namespace Business_layer
             {
                 throw new Exception(e.Message);
             }
-            return ConvertAdminToDTO(createdAdmin);
+            return _adminMapper.MapToDTO(createdAdmin);
         }
 
         public AdminDTO DeleteAdmin(string AdminId)
@@ -71,7 +60,7 @@ namespace Business_layer
             {
                 throw new Exception(e.Message);
             }
-            return ConvertAdminToDTO(deletedAdmin);
+            return _adminMapper.MapToDTO(deletedAdmin);
         }
 
         public AdminDTO GetAdmin(string adminId)
@@ -79,7 +68,7 @@ namespace Business_layer
             var admin = _repositoryAdmin.GetAdminByID(adminId);
             if (admin == null)
                 return null;
-            return ConvertAdminToDTO(admin);
+            return _adminMapper.MapToDTO(admin);
         }
     }
 }

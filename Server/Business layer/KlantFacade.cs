@@ -1,5 +1,6 @@
 ﻿using Business_layer.DTO;
 using Business_layer.Interfaces;
+using Business_layer.Interfaces.Mapping;
 using Data_layer.Interfaces;
 using Data_layer.Model;
 using Microsoft.EntityFrameworkCore;
@@ -9,27 +10,13 @@ namespace Business_layer
     public class KlantFacade : IKlantFacade
     {
         private readonly IKlantRepository _repositoryKlant;
+        private readonly IKlantMapper _klantMapper;
 
-        public KlantFacade(IKlantRepository repositoryKlant)
+        public KlantFacade(IKlantRepository repositoryKlant,
+                        IKlantMapper klantMapper)
         {
             _repositoryKlant = repositoryKlant;
-        }
-
-        private static Klant ConvertCreateUpdateDTOToKlant(string klantId)
-        {
-            return new Klant()
-            {
-                AzureId = klantId
-            };
-        }
-        private static KlantDTO ConvertKlantToDTO(Klant klant)
-        {
-            return new KlantDTO()
-            {
-                AzureId = klant.AzureId,
-                Bestellingen = klant.Bestellingen,
-                Winkelwagens = klant.Winkelwagens
-            };
+            _klantMapper = klantMapper;
         }
 
         public KlantDTO CreateKlant(string klantId)
@@ -37,7 +24,7 @@ namespace Business_layer
             var klant = _repositoryKlant.GetKlantByID(klantId);
             if (klant != null)
                 return null;
-            var newKlant = ConvertCreateUpdateDTOToKlant(klantId);
+            var newKlant = _klantMapper.MapToModel(klantId);
             var createdKlant = _repositoryKlant.CreateKlant(newKlant);
             try
             {
@@ -51,7 +38,7 @@ namespace Business_layer
             {
                 throw new Exception(e.Message);
             }
-            return ConvertKlantToDTO(createdKlant);
+            return _klantMapper.MapToDTO(createdKlant);
         }
 
         public KlantDTO DeleteKlant(string klantId)
@@ -71,7 +58,7 @@ namespace Business_layer
             {
                 throw new Exception(e.Message);
             }
-            return ConvertKlantToDTO(deletedKlant);
+            return _klantMapper.MapToDTO(deletedKlant);
         }
 
         public KlantDTO GetKlant(string klantId)
@@ -79,7 +66,7 @@ namespace Business_layer
             var klant = _repositoryKlant.GetKlantByID(klantId);
             if (klant == null)
                 return null;
-            return ConvertKlantToDTO(klant);
+            return _klantMapper.MapToDTO(klant);
         }
     }
 }

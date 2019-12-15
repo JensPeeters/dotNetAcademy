@@ -16,7 +16,7 @@ namespace Business_layer
 
         public TrajectFacade(ITrajectRepository repositoryTraject)
         {
-            this._repositoryTraject = repositoryTraject;
+            _repositoryTraject = repositoryTraject;
         }
 
         public List<TrajectDTO> GetTrajecten(TrajectFilter filter)

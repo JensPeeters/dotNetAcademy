@@ -21,10 +21,10 @@ namespace Business_layer
             IKlantRepository klantRepository,
             ICostCalculator costCalculator)
         {
-            this._repositoryBestelling = repositoryBestelling;
-            this._repositoryWinkelwagen = repositoryWinkelwagen;
-            this._klantRepository = klantRepository;
-            this._costCalculator = costCalculator;
+            _repositoryBestelling = repositoryBestelling;
+            _repositoryWinkelwagen = repositoryWinkelwagen;
+            _klantRepository = klantRepository;
+            _costCalculator = costCalculator;
         }
         public List<BestellingDTO> GetBestellingenByCustomerId(string custId)
         {

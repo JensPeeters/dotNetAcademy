@@ -14,8 +14,8 @@ namespace Business_layer
         public WinkelwagenFacade(ICostCalculator calculator,
             IWinkelwagenRepository repositoryWinkelwagen)
         {
-            this._calculator = calculator;
-            this._repositoryWinkelwagen = repositoryWinkelwagen;
+            _calculator = calculator;
+            _repositoryWinkelwagen = repositoryWinkelwagen;
         }
 
         /// <summary>

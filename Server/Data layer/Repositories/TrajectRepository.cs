@@ -15,8 +15,8 @@ namespace Data_layer.Repositories
 
         public TrajectRepository(DatabaseContext context, IContextFilter sortFilter)
         {
-            this._context = context;
-            this._sortFilter = sortFilter;
+            _context = context;
+            _sortFilter = sortFilter;
         }
         public List<Traject> GetTrajecten(TrajectFilter filter)
         {

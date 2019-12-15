@@ -10,7 +10,7 @@ namespace Data_layer.Repositories
         private readonly DatabaseContext _context;
         public AdminRepository(DatabaseContext context)
         {
-            this._context = context;
+            _context = context;
         }
 
         public Admin GetAdminByID(string adminId)

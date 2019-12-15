@@ -11,7 +11,7 @@ namespace dotNETAcademyServer.Controllers
         private readonly IAdminFacade _adminFacade;
         public AdminController(IAdminFacade adminFacade)
         {
-            this._adminFacade = adminFacade;
+            _adminFacade = adminFacade;
         }
 
         [Route("{adminId}")]

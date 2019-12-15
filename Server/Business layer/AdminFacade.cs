@@ -14,7 +14,7 @@ namespace Business_layer
 
         public AdminFacade(IAdminRepository repositoryAdmin)
         {
-            this._repositoryAdmin = repositoryAdmin;
+            _repositoryAdmin = repositoryAdmin;
         }
 
         private static Admin ConvertCreateUpdateDTOToAdmin(string adminId)

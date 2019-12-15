@@ -12,7 +12,7 @@ namespace Data_layer.Repositories
         private readonly DatabaseContext _context;
         public WinkelwagenRepository(DatabaseContext context)
         {
-            this._context = context;
+            _context = context;
         }
 
         public Winkelwagen GetWinkelwagenByKlantId(string custId)

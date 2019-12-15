@@ -16,7 +16,7 @@ namespace Business_layer
 
         public CursusFacade(ICursusRepository repositoryCursus)
         {
-            this._repositoryCursus = repositoryCursus;
+            _repositoryCursus = repositoryCursus;
         }
 
         public List<CursusDTO> GetCursussen(CursusFilter filter)

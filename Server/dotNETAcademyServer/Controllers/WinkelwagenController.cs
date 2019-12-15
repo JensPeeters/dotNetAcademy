@@ -12,7 +12,7 @@ namespace dotNETAcademyServer.Controllers
 
         public WinkelwagenController(IWinkelwagenFacade winkelwagenFacade)
         {
-            this._winkelwagenFacade = winkelwagenFacade;
+            _winkelwagenFacade = winkelwagenFacade;
         }
 
         [Route("{userId}/product/{type}/{prodId}/{count}")]

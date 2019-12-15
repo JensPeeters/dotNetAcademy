@@ -10,7 +10,7 @@ namespace Data_layer.Repositories
         private readonly DatabaseContext _context;
         public BestellingRepository(DatabaseContext context)
         {
-            this._context = context;
+            _context = context;
         }
 
         public Bestelling AddBestellingToCustomer(Bestelling bestelling)

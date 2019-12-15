@@ -14,8 +14,8 @@ namespace Data_layer.Repositories
 
         public CursusRepository(DatabaseContext context, IContextFilter sortFilter)
         {
-            this._context = context;
-            this._sortFilter = sortFilter;
+            _context = context;
+            _sortFilter = sortFilter;
         }
         public List<Cursus> GetCursussen(CursusFilter filter)
         {

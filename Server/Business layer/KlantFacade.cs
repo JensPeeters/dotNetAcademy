@@ -12,7 +12,7 @@ namespace Business_layer
 
         public KlantFacade(IKlantRepository repositoryKlant)
         {
-            this._repositoryKlant = repositoryKlant;
+            _repositoryKlant = repositoryKlant;
         }
 
         private static Klant ConvertCreateUpdateDTOToKlant(string klantId)

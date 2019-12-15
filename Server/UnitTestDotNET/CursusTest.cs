@@ -73,12 +73,14 @@ namespace UnitTestDotNET
             mockSet.As<IQueryable<Cursus>>().Setup(m => m.ElementType).Returns(cursussen.ElementType);
             mockSet.As<IQueryable<Cursus>>().Setup(m => m.GetEnumerator()).Returns(cursussen.GetEnumerator());
 
-            var mockContext = new Mock<ICursusRepository>();
-            mockContext.Setup(c => c.GetCursussen(cursusFilter)).Returns(cursussen.ToList());
+            var mockContext = new Mock<DatabaseContext>();
+            mockContext.Setup(c => c.Cursussen).Returns(mockSet.Object);
 
+            var mockRepo = new Mock<ICursusRepository>();
+            mockRepo.Setup(a => a.GetCursussen(cursusFilter)).Returns(mockContext.Object.Cursussen.ToList());
             // Act
-            ICursusFacade facade = new CursusFacade(mockContext.Object,cursusMapper);
-            var actual = facade.GetCursussen(cursusFilter);
+            //ICursusRepository repo = new CursusRepository(mockContext.Object, contextFilter);
+            var actual = mockRepo.Object.GetCursussen(cursusFilter);
 
             // Assert
             Assert.AreEqual(2, actual.Count());

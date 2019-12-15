@@ -75,6 +75,7 @@ namespace UnitTestDotNET
                 context.Klanten.Add(new Klant()
                 {
                     AzureId = "TestUser",
+                    Winkelwagens = new List<Winkelwagen>()
                 });
 
                 for (int f = 1; f <= products; f++)
@@ -136,7 +137,8 @@ namespace UnitTestDotNET
 
                 context.Klanten.Add(new Klant()
                 {
-                    AzureId = "TestUser"
+                    AzureId = "TestUser",
+                    Winkelwagens = new List<Winkelwagen>()
                 });
 
                 context.Cursussen.Add(new Cursus()
@@ -188,7 +190,8 @@ namespace UnitTestDotNET
 
                 context.Klanten.Add(new Klant()
                 {
-                    AzureId = "TestUser"
+                    AzureId = "TestUser",
+                    Winkelwagens = new List<Winkelwagen>()
                 });
 
                 for (int f = 1; f <= products; f++)

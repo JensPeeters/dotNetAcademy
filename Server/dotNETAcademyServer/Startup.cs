@@ -10,6 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Data_layer.Filter;
+using Business_layer.Mapping;
+using Business_layer.Interfaces.Mapping;
 
 namespace dotNETAcademyServer
 {
@@ -48,6 +50,12 @@ namespace dotNETAcademyServer
             services.AddTransient<IKlantRepository, KlantRepository>();
             services.AddScoped<ICostCalculator, CostCalculator>();
             services.AddScoped<IContextFilter, ContextFilter>();
+            services.AddScoped<ICursusMapper, CursusMapper>();
+            services.AddScoped<ITrajectMapper, TrajectMapper>();
+            services.AddScoped<IBestellingMapper, BestellingMapper>();
+            services.AddScoped<IWinkelwagenMapper, WinkelwagenMapper>();
+            services.AddScoped<IAdminMapper, AdminMapper>();
+            services.AddScoped<IKlantMapper, KlantMapper>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

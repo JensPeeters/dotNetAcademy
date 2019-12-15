@@ -1,8 +1,10 @@
 ﻿using Business_layer.DTO;
 using Business_layer.Interfaces;
+using Business_layer.Interfaces.Mapping;
 using Data_layer.Interfaces;
 using Data_layer.Model;
 using System;
+using System.Collections.Generic;
 
 namespace Business_layer
 {
@@ -10,12 +12,18 @@ namespace Business_layer
     {
         private readonly ICostCalculator _calculator;
         private readonly IWinkelwagenRepository _repositoryWinkelwagen;
+        private readonly IKlantRepository _repositoryKlant;
+        private readonly IWinkelwagenMapper _winkelwagenMapper;
 
         public WinkelwagenFacade(ICostCalculator calculator,
-            IWinkelwagenRepository repositoryWinkelwagen)
+            IWinkelwagenRepository repositoryWinkelwagen,
+            IKlantRepository repositoryKlant,
+            IWinkelwagenMapper winkelwagenMapper)
         {
-            this._calculator = calculator;
-            this._repositoryWinkelwagen = repositoryWinkelwagen;
+            _calculator = calculator;
+            _repositoryWinkelwagen = repositoryWinkelwagen;
+            _repositoryKlant = repositoryKlant;
+            _winkelwagenMapper = winkelwagenMapper;
         }
 
         /// <summary>
@@ -26,6 +34,19 @@ namespace Business_layer
         /// <returns></returns>
         public WinkelwagenDTO GetBagForCustomer(string custId)
         {
+            var klant = _repositoryKlant.GetKlantByID(custId);
+            if (klant == null)
+            {
+                _repositoryKlant.CreateKlant(new Klant()
+                {
+                    AzureId = custId,
+                    Winkelwagens = new List<Winkelwagen>()
+                });
+            }
+            if (klant.Winkelwagens == null || klant.Winkelwagens.Count == 0)
+            {
+                _repositoryWinkelwagen.CreateWinkelwagen(klant);
+            }
             var winkelwagen = _repositoryWinkelwagen.GetWinkelwagenByKlantId(custId);
             try
             {
@@ -35,7 +56,7 @@ namespace Business_layer
             {
                 throw new Exception(e.Message);
             }
-            return ConvertWinkelwagenToDTO(winkelwagen);
+            return _winkelwagenMapper.MapToDTO(winkelwagen);
         }
 
         /// <summary>
@@ -48,6 +69,7 @@ namespace Business_layer
         /// <returns></returns>
         public WinkelwagenDTO AddProduct(string userId, int prodId, int count,string type)
         {
+            CheckIfKlantExists(userId);
             var winkelwagen = _repositoryWinkelwagen.AddProduct(userId, prodId, count, type);
             //Herberekenen van de totaal prijs
             winkelwagen.TotaalPrijs = _calculator.CalculateCost(winkelwagen);
@@ -59,7 +81,7 @@ namespace Business_layer
             {
                 throw new Exception(e.Message);
             }
-            return ConvertWinkelwagenToDTO(winkelwagen);
+            return _winkelwagenMapper.MapToDTO(winkelwagen);
         }
 
         /// <summary>
@@ -71,6 +93,7 @@ namespace Business_layer
         /// <returns></returns>
         public WinkelwagenDTO UpdateProductAantal(string userId, int prodId, int count)
         {
+            CheckIfKlantExists(userId);
             var winkelwagen = _repositoryWinkelwagen.UpdateProduct(userId, prodId, count);
             //Herberekenen van de totaal prijs
             winkelwagen.TotaalPrijs = _calculator.CalculateCost(winkelwagen);
@@ -82,7 +105,7 @@ namespace Business_layer
             {
                 throw new Exception(e.Message);
             }
-            return ConvertWinkelwagenToDTO(winkelwagen);
+            return _winkelwagenMapper.MapToDTO(winkelwagen);
         }
 
         /// <summary>
@@ -93,6 +116,7 @@ namespace Business_layer
         /// <returns></returns>
         public WinkelwagenDTO DeleteProduct(string userId, int prodId)
         {
+            CheckIfKlantExists(userId);
             var winkelwagen = _repositoryWinkelwagen.DeleteProduct(userId, prodId);
 
             //Herberekenen van de totaal prijs
@@ -105,19 +129,24 @@ namespace Business_layer
             {
                 throw new Exception(e.Message);
             }
-            return ConvertWinkelwagenToDTO(winkelwagen);
+            return _winkelwagenMapper.MapToDTO(winkelwagen);
         }
 
-        private static WinkelwagenDTO ConvertWinkelwagenToDTO(Winkelwagen winkelwagen)
+        private void CheckIfKlantExists(string userId)
         {
-            return new WinkelwagenDTO()
+            var klant = _repositoryKlant.GetKlantByID(userId);
+            if (klant == null)
             {
-                Datum = winkelwagen.Datum,
-                Id = winkelwagen.Id,
-                Klant = winkelwagen.Klant,
-                Producten = winkelwagen.Producten,
-                TotaalPrijs = winkelwagen.TotaalPrijs
-            };
+                _repositoryKlant.CreateKlant(new Klant()
+                {
+                    AzureId = userId,
+                    Winkelwagens = new List<Winkelwagen>()
+                });
+            }
+            if (klant.Winkelwagens == null || klant.Winkelwagens.Count == 0)
+            {
+                _repositoryWinkelwagen.CreateWinkelwagen(klant);
+            }
         }
 
         

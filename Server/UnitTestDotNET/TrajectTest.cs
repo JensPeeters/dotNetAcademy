@@ -1,5 +1,7 @@
 ﻿using Business_layer;
 using Business_layer.Interfaces;
+using Business_layer.Interfaces.Mapping;
+using Business_layer.Mapping;
 using Data_layer;
 using Data_layer.Filter;
 using Data_layer.Filter.ProductenFilters;
@@ -21,22 +23,19 @@ namespace UnitTestDotNET
     [TestClass]
     public class TrajectTest
     {
-        [TestClass]
-        public class CursusTest
-        {
             TrajectFilter trajectFilter;
-
+            ITrajectMapper mapper;
             IContextFilter contextFilter;
             [SetUp]
             public void SetUp()
             {
                 trajectFilter = new TrajectFilter();
-
+                mapper = new TrajectMapper();
                 contextFilter = new ContextFilter();
             }
 
             [DataTestMethod()]
-            public void OphalenCursussen()
+            public void OphalenTrajecten()
             {
                 // Arrange - We're mocking our dbSet & dbContext
                 // in-memory data
@@ -101,12 +100,14 @@ namespace UnitTestDotNET
                 mockSet.As<IQueryable<Traject>>().Setup(m => m.ElementType).Returns(trajecten.ElementType);
                 mockSet.As<IQueryable<Traject>>().Setup(m => m.GetEnumerator()).Returns(trajecten.GetEnumerator());
 
-                var mockContext = new Mock<ITrajectRepository>();
-                mockContext.Setup(c => c.GetTrajecten(trajectFilter)).Returns(trajecten.ToList());
+            var mockContext = new Mock<DatabaseContext>();
+            mockContext.Setup(c => c.Trajecten).Returns(mockSet.Object);
 
-                // Act
-                ITrajectFacade facade = new TrajectFacade(mockContext.Object);
-                var actual = facade.GetTrajecten(trajectFilter);
+            var mockRepo = new Mock<ITrajectRepository>();
+            mockRepo.Setup(a => a.GetTrajecten(trajectFilter)).Returns(mockContext.Object.Trajecten.ToList());
+            // Act
+            //ICursusRepository repo = new CursusRepository(mockContext.Object, contextFilter);
+            var actual = mockRepo.Object.GetTrajecten(trajectFilter);
 
                 // Assert
                 Assert.AreEqual(2, actual.Count());
@@ -177,6 +178,6 @@ namespace UnitTestDotNET
                 // Assert
                 mockSet.Verify(m => m.Add(It.IsAny<Traject>()), Times.Once);
             }
-        }
     }
+    
 }

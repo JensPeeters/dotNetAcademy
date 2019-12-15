@@ -14,8 +14,8 @@ namespace dotNETAcademyServer.Controllers
         private List<string> cursusTypes;
         public CursusController(ICursusFacade cursusFacade)
         {
-            this._cursusFacade = cursusFacade;
-            this.cursusTypes = new List<string>() {
+            _cursusFacade = cursusFacade;
+            cursusTypes = new List<string>() {
                 "Aanbevolen", ".NET", "Web"
             };
         }
@@ -24,7 +24,7 @@ namespace dotNETAcademyServer.Controllers
         [HttpGet]
         public List<string> GetCursusTypes()
         {
-            return this.cursusTypes;
+            return cursusTypes;
         }
 
         [HttpGet]

@@ -1,6 +1,7 @@
 ﻿using Business_layer.DTO;
 using Business_layer.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace dotNETAcademyServer.Controllers
 {
@@ -12,7 +13,7 @@ namespace dotNETAcademyServer.Controllers
 
         public WinkelwagenController(IWinkelwagenFacade winkelwagenFacade)
         {
-            this._winkelwagenFacade = winkelwagenFacade;
+            _winkelwagenFacade = winkelwagenFacade;
         }
 
         [Route("{userId}/product/{type}/{prodId}/{count}")]
@@ -37,9 +38,16 @@ namespace dotNETAcademyServer.Controllers
         }
 
         [Route("{id}")]
-        public WinkelwagenDTO GetBagForCustomer(string id)
+        public ActionResult<WinkelwagenDTO> GetBagForCustomer(string id)
         {
-            return _winkelwagenFacade.GetBagForCustomer(id);
+            try
+            {
+                return _winkelwagenFacade.GetBagForCustomer(id);
+            }
+            catch (Exception e)
+            {
+                return Conflict(e.Message);
+            }
         }
     }
 }

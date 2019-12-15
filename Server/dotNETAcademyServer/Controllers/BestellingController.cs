@@ -13,7 +13,7 @@ namespace dotNETAcademyServer.Controllers
         private readonly IBestellingFacade _bestellingFacade;
         public BestellingController(IBestellingFacade bestellingFacade)
         {
-            this._bestellingFacade = bestellingFacade;
+            _bestellingFacade = bestellingFacade;
         }
 
         [Route("klant/{custId}")]

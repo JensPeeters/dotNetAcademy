@@ -11,7 +11,7 @@ namespace dotNETAcademyServer.Controllers
         private readonly IKlantFacade _klantFacade;
         public KlantController(IKlantFacade klantFacade)
         {
-            this._klantFacade = klantFacade;
+            _klantFacade = klantFacade;
         }
 
         [Route("{klantId}")]

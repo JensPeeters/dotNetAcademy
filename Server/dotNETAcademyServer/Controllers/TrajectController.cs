@@ -15,8 +15,8 @@ namespace dotNETAcademyServer.Controllers
 
         public TrajectController(ITrajectFacade trajectFacade)
         {
-            this._trajectFacade = trajectFacade;
-            this.trajectTypes = new List<string>() {
+            _trajectFacade = trajectFacade;
+            trajectTypes = new List<string>() {
                 "Aanbevolen", "Full Stack", "Visual Studio", "Angular"
             };
         }
@@ -25,7 +25,7 @@ namespace dotNETAcademyServer.Controllers
         [HttpGet]
         public List<string> GetTrajectTypes()
         {
-            return this.trajectTypes;
+            return trajectTypes;
         }
 
         [HttpGet]

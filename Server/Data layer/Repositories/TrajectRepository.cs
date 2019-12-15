@@ -15,8 +15,8 @@ namespace Data_layer.Repositories
 
         public TrajectRepository(DatabaseContext context, IContextFilter sortFilter)
         {
-            this._context = context;
-            this._sortFilter = sortFilter;
+            _context = context;
+            _sortFilter = sortFilter;
         }
         public List<Traject> GetTrajecten(TrajectFilter filter)
         {
@@ -82,9 +82,17 @@ namespace Data_layer.Repositories
 
         public void SaveChanges()
         {
-            if (_context.SaveChanges() > 0)
+            try
             {
-                _context.SaveChanges();
+                var changes = _context.SaveChanges();
+                if (changes == 0)
+                {
+                    throw new Exception();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
             }
         }
 

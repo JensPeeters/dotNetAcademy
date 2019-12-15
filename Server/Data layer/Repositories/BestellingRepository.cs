@@ -1,6 +1,7 @@
 ﻿using Data_layer.Interfaces;
 using Data_layer.Model;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 namespace Data_layer.Repositories
@@ -10,7 +11,7 @@ namespace Data_layer.Repositories
         private readonly DatabaseContext _context;
         public BestellingRepository(DatabaseContext context)
         {
-            this._context = context;
+            _context = context;
         }
 
         public Bestelling AddBestellingToCustomer(Bestelling bestelling)
@@ -40,9 +41,17 @@ namespace Data_layer.Repositories
 
         public void SaveChanges()
         {
-            if (_context.SaveChanges() > 0)
+            try
             {
-                _context.SaveChanges();
+                var changes = _context.SaveChanges();
+                if (changes == 0)
+                {
+                    throw new Exception();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
             }
 
         }

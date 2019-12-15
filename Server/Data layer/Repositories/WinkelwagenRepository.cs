@@ -121,9 +121,9 @@ namespace Data_layer.Repositories
             try
             {
                 var changes = _context.SaveChanges();
-                if (changes != 0)
+                if (changes == 0)
                 {
-                    _context.SaveChanges();
+                    throw new Exception();
                 }
             }
             catch (Exception e)

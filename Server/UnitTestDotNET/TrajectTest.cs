@@ -48,7 +48,7 @@ namespace UnitTestDotNET
                         Type = ".NET",
                         Prijs = 15.45,
                         Categorie = "Cursus",
-                         IsBuyable = true,
+                        IsBuyable = true,
                         Beschrijving = "Some example text some ...",
                         LangeBeschrijving = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                         FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg"
@@ -58,7 +58,7 @@ namespace UnitTestDotNET
                         Titel = "dotNET cursus 2",
                         Type = ".NET",
                         Prijs = 18.45,
-                         IsBuyable = true,
+                        IsBuyable = true,
                         Beschrijving = "Some example text some ...",
                         Categorie = "Cursus",
                         LangeBeschrijving = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
@@ -178,6 +178,93 @@ namespace UnitTestDotNET
                 // Assert
                 mockSet.Verify(m => m.Add(It.IsAny<Traject>()), Times.Once);
             }
+        [DataTestMethod()]
+        public void DeleteTrajectTest()
+        {
+            IQueryable<Traject> trajecten = new List<Traject>()
+            {
+                new Traject()
+                {
+                    ID = 1,
+                    Titel = "dotNET cursus 2",
+                    Type = ".NET",
+                    Prijs = 18.45,
+                    IsBuyable = false,
+                    Cursussen = new List<Cursus>(),
+                    Beschrijving = "Some example text some ...",
+                    Categorie = "Cursus",
+                    LangeBeschrijving = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                    FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg"
+                }
+            }.AsQueryable();
+
+            var mockSet = new Mock<DbSet<Traject>>();
+            mockSet.As<IQueryable<Traject>>().Setup(m => m.Provider).Returns(trajecten.Provider);
+            mockSet.As<IQueryable<Traject>>().Setup(m => m.Expression).Returns(trajecten.Expression);
+            mockSet.As<IQueryable<Traject>>().Setup(m => m.ElementType).Returns(trajecten.ElementType);
+            mockSet.As<IQueryable<Traject>>().Setup(m => m.GetEnumerator()).Returns(trajecten.GetEnumerator());
+
+            var mockContext = new Mock<DatabaseContext>();
+            mockContext.Setup(m => m.Trajecten).Returns(mockSet.Object);
+
+            var mockRepo = new Mock<ITrajectRepository>();
+            mockRepo.Setup(m => m.DeleteTraject(1)).Returns(trajecten.First());
+            var deletedTraject = mockRepo.Object.DeleteTraject(1);
+
+            mockRepo.Verify(m => m.DeleteTraject(It.IsAny<int>()), Times.Once);
+            Assert.AreEqual(deletedTraject.IsBuyable, false);
+            // Assert
+        }
+        [DataTestMethod()]
+        public void UpdateTrajactTest()
+        {
+            IQueryable<Traject> trajecten = new List<Traject>()
+            {
+                new Traject()
+                {
+                    ID = 1,
+                    Titel = "dotNET cursus 2",
+                    Type = ".NET",
+                    Prijs = 18.45,
+                    Cursussen = new List<Cursus>(),
+                    IsBuyable = false,
+                    Beschrijving = "Some example text some ...",
+                    Categorie = "Cursus",
+                    LangeBeschrijving = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                    FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg"
+                }
+            }.AsQueryable();
+
+            var traject = new Traject()
+            {
+                ID = 1,
+                Titel = "dotNET cursus 2",
+                Type = ".NET",
+                Cursussen = new List<Cursus>(),
+                Prijs = 12,
+                IsBuyable = false,
+                Beschrijving = "Some example text some ...",
+                Categorie = "Cursus",
+                LangeBeschrijving = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg"
+            };
+
+            var mockSet = new Mock<DbSet<Traject>>();
+            mockSet.As<IQueryable<Traject>>().Setup(m => m.Provider).Returns(trajecten.Provider);
+            mockSet.As<IQueryable<Traject>>().Setup(m => m.Expression).Returns(trajecten.Expression);
+            mockSet.As<IQueryable<Traject>>().Setup(m => m.ElementType).Returns(trajecten.ElementType);
+            mockSet.As<IQueryable<Traject>>().Setup(m => m.GetEnumerator()).Returns(trajecten.GetEnumerator());
+
+            var mockContext = new Mock<DatabaseContext>();
+            mockContext.Setup(m => m.Trajecten).Returns(mockSet.Object);
+
+            var mockRepo = new Mock<ITrajectRepository>();
+            mockRepo.Setup(m => m.UpdateTraject(It.IsAny<Traject>())).Returns(traject);
+            var updatedTraject = mockRepo.Object.UpdateTraject(traject);
+            // Assert
+            mockRepo.Verify(m => m.UpdateTraject(It.IsAny<Traject>()), Times.Once);
+            Assert.AreEqual(updatedTraject.Prijs, 12);
+        }
     }
     
 }

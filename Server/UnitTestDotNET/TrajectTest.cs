@@ -1,5 +1,7 @@
 ﻿using Business_layer;
 using Business_layer.Interfaces;
+using Business_layer.Interfaces.Mapping;
+using Business_layer.Mapping;
 using Data_layer;
 using Data_layer.Filter;
 using Data_layer.Filter.ProductenFilters;
@@ -21,22 +23,19 @@ namespace UnitTestDotNET
     [TestClass]
     public class TrajectTest
     {
-        [TestClass]
-        public class CursusTest
-        {
             TrajectFilter trajectFilter;
-
+            ITrajectMapper mapper;
             IContextFilter contextFilter;
             [SetUp]
             public void SetUp()
             {
                 trajectFilter = new TrajectFilter();
-
+                mapper = new TrajectMapper();
                 contextFilter = new ContextFilter();
             }
 
             [DataTestMethod()]
-            public void OphalenCursussen()
+            public void OphalenTrajecten()
             {
                 // Arrange - We're mocking our dbSet & dbContext
                 // in-memory data
@@ -49,6 +48,7 @@ namespace UnitTestDotNET
                         Type = ".NET",
                         Prijs = 15.45,
                         Categorie = "Cursus",
+                         IsBuyable = true,
                         Beschrijving = "Some example text some ...",
                         LangeBeschrijving = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                         FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg"
@@ -58,13 +58,13 @@ namespace UnitTestDotNET
                         Titel = "dotNET cursus 2",
                         Type = ".NET",
                         Prijs = 18.45,
+                         IsBuyable = true,
                         Beschrijving = "Some example text some ...",
                         Categorie = "Cursus",
                         LangeBeschrijving = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                         FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg"
                     }
                 };
-
                 IQueryable<Traject> trajecten = new List<Traject>()
                 {
                     new Traject()
@@ -73,6 +73,7 @@ namespace UnitTestDotNET
                         Type = ".NET",
                         Prijs = 45.45,
                         Categorie = "Traject",
+                         IsBuyable = true,
                         Cursussen = cursussen,
                         Beschrijving = "Some example text some ...",
                         LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
@@ -83,6 +84,7 @@ namespace UnitTestDotNET
                         Titel = "dotNET cursus 2",
                         Type = ".NET",
                         Prijs = 48.45,
+                         IsBuyable = true,
                         Cursussen = cursussen,
                         Beschrijving = "Some example text some ...",
                         Categorie = "Cursus",
@@ -98,12 +100,14 @@ namespace UnitTestDotNET
                 mockSet.As<IQueryable<Traject>>().Setup(m => m.ElementType).Returns(trajecten.ElementType);
                 mockSet.As<IQueryable<Traject>>().Setup(m => m.GetEnumerator()).Returns(trajecten.GetEnumerator());
 
-                var mockContext = new Mock<ITrajectRepository>();
-                mockContext.Setup(c => c.GetTrajecten(trajectFilter)).Returns(trajecten.ToList());
+            var mockContext = new Mock<DatabaseContext>();
+            mockContext.Setup(c => c.Trajecten).Returns(mockSet.Object);
 
-                // Act
-                ITrajectFacade facade = new TrajectFacade(mockContext.Object);
-                var actual = facade.GetTrajecten(trajectFilter);
+            var mockRepo = new Mock<ITrajectRepository>();
+            mockRepo.Setup(a => a.GetTrajecten(trajectFilter)).Returns(mockContext.Object.Trajecten.ToList());
+            // Act
+            //ICursusRepository repo = new CursusRepository(mockContext.Object, contextFilter);
+            var actual = mockRepo.Object.GetTrajecten(trajectFilter);
 
                 // Assert
                 Assert.AreEqual(2, actual.Count());
@@ -116,7 +120,7 @@ namespace UnitTestDotNET
             [DataTestMethod()]
             public void CreateTrajectTest()
             {
-                List<Cursus> cursussen = new List<Cursus>()
+                IQueryable<Cursus> cursussen = new List<Cursus>()
                 {
                     new Cursus()
                     {
@@ -124,6 +128,7 @@ namespace UnitTestDotNET
                         Type = ".NET",
                         Prijs = 15.45,
                         Categorie = "Cursus",
+                        IsBuyable = true,
                         Beschrijving = "Some example text some ...",
                         LangeBeschrijving = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                         FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg"
@@ -133,18 +138,20 @@ namespace UnitTestDotNET
                         Titel = "dotNET cursus 2",
                         Type = ".NET",
                         Prijs = 18.45,
+                         IsBuyable = true,
                         Beschrijving = "Some example text some ...",
                         Categorie = "Cursus",
                         LangeBeschrijving = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                         FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg"
                     }
-                };
+                }.AsQueryable();
                 var traject = new Traject()
                 {
                     Titel = "dotNET cursus 2",
                     Type = ".NET",
                     Prijs = 18.45,
-                    Cursussen = cursussen,
+                    Cursussen = cursussen.ToList(),
+                    IsBuyable = true,
                     Beschrijving = "Some example text some ...",
                     Categorie = "Cursus",
                     LangeBeschrijving = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
@@ -154,9 +161,16 @@ namespace UnitTestDotNET
                 // Arrange - We're mocking our dbSet & dbContext
                 // in-memory implementations of you context and sets
                 var mockSet = new Mock<DbSet<Traject>>();
+                var mockSetCursus = new Mock<DbSet<Cursus>>();
+                mockSetCursus.As<IQueryable<Cursus>>().Setup(m => m.Provider).Returns(cursussen.Provider);
+                mockSetCursus.As<IQueryable<Cursus>>().Setup(m => m.Expression).Returns(cursussen.Expression);
+                mockSetCursus.As<IQueryable<Cursus>>().Setup(m => m.ElementType).Returns(cursussen.ElementType);
+                mockSetCursus.As<IQueryable<Cursus>>().Setup(m => m.GetEnumerator()).Returns(cursussen.GetEnumerator());
+
 
                 var mockContext = new Mock<DatabaseContext>();
                 mockContext.Setup(m => m.Trajecten).Returns(mockSet.Object);
+                mockContext.Setup(m => m.Cursussen).Returns(mockSetCursus.Object);
 
                 var repo = new TrajectRepository(mockContext.Object, contextFilter);
                 repo.AddTraject(traject);
@@ -164,6 +178,6 @@ namespace UnitTestDotNET
                 // Assert
                 mockSet.Verify(m => m.Add(It.IsAny<Traject>()), Times.Once);
             }
-        }
     }
+    
 }

@@ -14,8 +14,8 @@ namespace Data_layer.Repositories
 
         public CursusRepository(DatabaseContext context, IContextFilter sortFilter)
         {
-            this._context = context;
-            this._sortFilter = sortFilter;
+            _context = context;
+            _sortFilter = sortFilter;
         }
         public List<Cursus> GetCursussen(CursusFilter filter)
         {
@@ -27,6 +27,25 @@ namespace Data_layer.Repositories
                 Categorie = cursus.Categorie,
                 FotoURLCard = cursus.FotoURLCard,
                 ID = cursus.ID,
+                IsBuyable = cursus.IsBuyable,
+                LangeBeschrijving = cursus.LangeBeschrijving,
+                Prijs = cursus.Prijs,
+                Titel = cursus.Titel,
+                Type = cursus.Type
+            }).ToList();
+        }
+
+        public List<Cursus> GetBuyableCursussen(CursusFilter filter)
+        {
+            IQueryable<Product> query = _context.Cursussen.Where(a => a.IsBuyable == true);
+            query = _sortFilter.Filter(filter, query);
+            return query.Select(cursus => new Cursus
+            {
+                Beschrijving = cursus.Beschrijving,
+                Categorie = cursus.Categorie,
+                FotoURLCard = cursus.FotoURLCard,
+                ID = cursus.ID,
+                IsBuyable = cursus.IsBuyable,
                 LangeBeschrijving = cursus.LangeBeschrijving,
                 Prijs = cursus.Prijs,
                 Titel = cursus.Titel,
@@ -52,9 +71,17 @@ namespace Data_layer.Repositories
 
         public void SaveChanges()
         {
-            if (_context.SaveChanges() != 0)
+            try
             {
-                _context.SaveChanges();
+                var changes = _context.SaveChanges();
+                if (changes == 0)
+                {
+                    throw new Exception();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
             }
         }
 
@@ -64,7 +91,7 @@ namespace Data_layer.Repositories
             var deletedCursus = _context.Cursussen.FirstOrDefault(a => a.ID == id);
             try
             {
-                _context.Cursussen.Remove(deletedCursus);
+                deletedCursus.IsBuyable = !deletedCursus.IsBuyable;
             }
             catch (ArgumentNullException)
             {

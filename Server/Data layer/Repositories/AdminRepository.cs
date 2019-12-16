@@ -10,7 +10,7 @@ namespace Data_layer.Repositories
         private readonly DatabaseContext _context;
         public AdminRepository(DatabaseContext context)
         {
-            this._context = context;
+            _context = context;
         }
 
         public Admin GetAdminByID(string adminId)
@@ -52,9 +52,17 @@ namespace Data_layer.Repositories
 
         public void SaveChanges()
         {
-            if (_context.SaveChanges() > 0)
+            try
             {
-                _context.SaveChanges();
+                var changes = _context.SaveChanges();
+                if (changes == 0)
+                {
+                    throw new Exception();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
             }
         }
     }

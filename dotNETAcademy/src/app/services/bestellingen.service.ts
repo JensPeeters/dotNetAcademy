@@ -14,12 +14,17 @@ export class BestellingenService {
 
   GetBestellingen(UserId: string) {
     return this.http
-    .get<IBestelling[]>(`${this.domain}/bestelling/${UserId}`)
+    .get<IBestelling[]>(`${this.domain}/bestelling/klant/${UserId}`)
     .toPromise();
+  }
+
+  GetBestellingById(bestellingId: number){
+    return this.http
+    .get<IBestelling>(`${this.domain}/bestelling/${bestellingId}`);
   }
 
   PostBestelling(UserId: string){
     return this.http
-    .post<IBestelling>(`${this.domain}/bestelling/${UserId}`,"");
+    .post<IBestelling>(`${this.domain}/bestelling/klant/${UserId}`,"");
   }
 }

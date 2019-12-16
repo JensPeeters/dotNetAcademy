@@ -1,6 +1,8 @@
 ﻿using Business_layer;
 using Business_layer.DTO;
 using Business_layer.Interfaces;
+using Business_layer.Interfaces.Mapping;
+using Business_layer.Mapping;
 using Data_layer;
 using Data_layer.Filter;
 using Data_layer.Filter.ProductenFilters;
@@ -24,10 +26,12 @@ namespace UnitTestDotNET
     {
         CursusFilter cursusFilter;
         IContextFilter contextFilter;
+        ICursusMapper cursusMapper;
         [SetUp]
         public void SetUp()
         {
             cursusFilter = new CursusFilter();
+            cursusMapper = new CursusMapper();
             contextFilter = new ContextFilter();
         }
 
@@ -44,6 +48,7 @@ namespace UnitTestDotNET
                     Type = ".NET",
                     Prijs = 15.45,
                     Categorie = "Cursus",
+                     IsBuyable = true,
                     Beschrijving = "Some example text some ...",
                     LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                     FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg"
@@ -53,6 +58,7 @@ namespace UnitTestDotNET
                     Titel = "dotNET cursus 2",
                     Type = ".NET",
                     Prijs = 18.45,
+                     IsBuyable = true,
                     Beschrijving = "Some example text some ...",
                     Categorie = "Cursus",
                     LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
@@ -67,12 +73,14 @@ namespace UnitTestDotNET
             mockSet.As<IQueryable<Cursus>>().Setup(m => m.ElementType).Returns(cursussen.ElementType);
             mockSet.As<IQueryable<Cursus>>().Setup(m => m.GetEnumerator()).Returns(cursussen.GetEnumerator());
 
-            var mockContext = new Mock<ICursusRepository>();
-            mockContext.Setup(c => c.GetCursussen(cursusFilter)).Returns(cursussen.ToList());
+            var mockContext = new Mock<DatabaseContext>();
+            mockContext.Setup(c => c.Cursussen).Returns(mockSet.Object);
 
+            var mockRepo = new Mock<ICursusRepository>();
+            mockRepo.Setup(a => a.GetCursussen(cursusFilter)).Returns(mockContext.Object.Cursussen.ToList());
             // Act
-            ICursusFacade facade = new CursusFacade(mockContext.Object);
-            var actual = facade.GetCursussen(cursusFilter);
+            //ICursusRepository repo = new CursusRepository(mockContext.Object, contextFilter);
+            var actual = mockRepo.Object.GetCursussen(cursusFilter);
 
             // Assert
             Assert.AreEqual(2, actual.Count());
@@ -89,6 +97,7 @@ namespace UnitTestDotNET
                 Titel = "dotNET cursus 2",
                 Type = ".NET",
                 Prijs = 18.45,
+                IsBuyable = true,
                 Beschrijving = "Some example text some ...",
                 Categorie = "Cursus",
                 LangeBeschrijving = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",

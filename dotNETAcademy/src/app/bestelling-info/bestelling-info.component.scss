@@ -1,0 +1,41 @@
+.btn-secondary{
+    width: fit-content;
+    margin-left: 15px;
+    margin-top: 15px;
+}
+.card{
+    
+    margin: auto;
+    margin-top: 25px;
+}
+.card-title{
+    margin-top: 15px;
+    margin-left: 15px;
+}
+.details{
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+.imageScaler{
+    max-width: 125px;
+    margin-bottom: 10px;
+    margin-right: 10px !important;
+}
+img{
+    max-width: 100%;
+    max-height: 100%;
+}
+@media only screen and (max-width: 550px){
+    h5{
+       font-size: 15px;
+    }
+    .fullWidth{
+        width: 100%;
+    }
+    .d-flex{
+        flex-wrap: wrap;
+    }
+    .imageScaler{
+        max-width: 75px;
+    }
+}

@@ -35,6 +35,7 @@ namespace Business_layer
         public WinkelwagenDTO GetBagForCustomer(string custId)
         {
             var klant = _repositoryKlant.GetKlantByID(custId);
+            var isCraeted = false;
             if (klant == null)
             {
                 _repositoryKlant.CreateKlant(new Klant()
@@ -42,15 +43,18 @@ namespace Business_layer
                     AzureId = custId,
                     Winkelwagens = new List<Winkelwagen>()
                 });
+                isCraeted = true;
             }
             if (klant.Winkelwagens == null || klant.Winkelwagens.Count == 0)
             {
                 _repositoryWinkelwagen.CreateWinkelwagen(klant);
+                isCraeted = true;
             }
             var winkelwagen = _repositoryWinkelwagen.GetWinkelwagenByKlantId(custId);
             try
             {
-                _repositoryWinkelwagen.SaveChanges();
+                if (isCraeted == true)
+                    _repositoryWinkelwagen.SaveChanges();
             }
             catch (Exception e)
             {

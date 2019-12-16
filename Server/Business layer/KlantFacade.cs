@@ -10,12 +10,14 @@ namespace Business_layer
     public class KlantFacade : IKlantFacade
     {
         private readonly IKlantRepository _repositoryKlant;
+        private readonly IAdminFacade _facadeAdmin;
         private readonly IKlantMapper _klantMapper;
 
-        public KlantFacade(IKlantRepository repositoryKlant,
+        public KlantFacade(IKlantRepository repositoryKlant, IAdminFacade facadeAdmin,
                         IKlantMapper klantMapper)
         {
             _repositoryKlant = repositoryKlant;
+            _facadeAdmin = facadeAdmin;
             _klantMapper = klantMapper;
         }
 
@@ -66,10 +68,19 @@ namespace Business_layer
             var klant = _repositoryKlant.GetKlantByID(klantId);
             if (klant == null)
                 return null;
+            _repositoryKlant.DeleteKlant(klantId);
 
-
-
-            return ConvertKlantToDTO(klant);
+            _facadeAdmin.CreateAdmin(klantId);
+            
+            try
+            {
+                _repositoryKlant.SaveChanges();
+            }
+            catch (DbUpdateException)
+            {
+                return null;
+            }
+            return _klantMapper.MapToDTO(klant);
         }
 
         public KlantDTO GetKlant(string klantId)

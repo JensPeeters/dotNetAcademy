@@ -17,7 +17,8 @@ namespace Data_layer.Repositories
 
         public Klant GetKlantByID(string klantId)
         {
-            var klant = _context.Klanten.FirstOrDefault(d => d.AzureId == klantId);
+            var klant = _context.Klanten.Include(a => a.Winkelwagens)
+                                        .FirstOrDefault(d => d.AzureId == klantId);
 
             if (klant == null)
                 return null;
@@ -33,8 +34,6 @@ namespace Data_layer.Repositories
 
             _context.Klanten.Add(klant);
 
-            SaveChanges();
-
             var newKlant = CreateNewWinkelwagenForKlant(klant);
 
             return newKlant;
@@ -42,18 +41,15 @@ namespace Data_layer.Repositories
 
         public Klant CreateNewWinkelwagenForKlant(Klant klant)
         {
-            var newKlant = _context.Klanten.Include(d => d.Winkelwagens)
-                                        .FirstOrDefault(d => d.AzureId == klant.AzureId);
-
             var winkelwagen = new Winkelwagen()
             {
                 Datum = DateTime.Now,
                 Producten = new List<WinkelwagenItem>()
             };
+            klant.Winkelwagens = new List<Winkelwagen>();
+            klant.Winkelwagens.Add(winkelwagen);
 
-            newKlant.Winkelwagens.Add(winkelwagen);
-
-            return newKlant;
+            return klant;
         }
 
         public Klant DeleteKlant(string klantId)
@@ -64,6 +60,10 @@ namespace Data_layer.Repositories
             var deletedWinkelmand = _context.Winkelwagens.FirstOrDefault(a => a.Klant == deletedKlant);
             try
             {
+                _context.Winkelwagens.Select(winkelwagen =>
+                {
+                    winkelwagen.Producten = new List<WinkelwagenItem>();
+                });
                 _context.Winkelwagens.Remove(deletedWinkelmand);
                 _context.Klanten.Remove(deletedKlant);
             }

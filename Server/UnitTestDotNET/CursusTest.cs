@@ -36,7 +36,7 @@ namespace UnitTestDotNET
         }
 
         [DataTestMethod()]
-        public void OphalenCursussen()
+        public void OphalenCursussenTest()
         {
             // Arrange - We're mocking our dbSet & dbContext
             // in-memory data
@@ -66,7 +66,7 @@ namespace UnitTestDotNET
                 }
 
             }.AsQueryable();
- 
+
             var mockSet = new Mock<DbSet<Cursus>>();
             mockSet.As<IQueryable<Cursus>>().Setup(m => m.Provider).Returns(cursussen.Provider);
             mockSet.As<IQueryable<Cursus>>().Setup(m => m.Expression).Returns(cursussen.Expression);
@@ -82,10 +82,178 @@ namespace UnitTestDotNET
             var actual = mockRepo.Object.GetCursussen(cursusFilter);
 
             // Assert
+            mockRepo.Verify(a => a.GetCursussen(It.IsAny<CursusFilter>()), Times.Once);
             Assert.AreEqual(2, actual.Count());
             Assert.AreEqual("Cursus", actual.First().Categorie);
             Assert.AreEqual("Some example text some ...", actual.First().Beschrijving);
             Assert.AreEqual(15.45, actual.First().Prijs);
+        }
+
+        [DataTestMethod()]
+        public void OphalenBuyableCursussenTest()
+        {
+            // Arrange - We're mocking our dbSet & dbContext
+            // in-memory data
+            IQueryable<Cursus> cursussen = new List<Cursus>()
+            {
+                new Cursus()
+                {
+                    Titel = "dotNET cursus",
+                    Type = ".NET",
+                    Prijs = 15.45,
+                    Categorie = "Cursus",
+                     IsBuyable = false,
+                    Beschrijving = "Some example text some ...",
+                    LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                    FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg"
+                },
+                new Cursus()
+                {
+                    Titel = "dotNET cursus 2",
+                    Type = ".NET",
+                    Prijs = 18.45,
+                     IsBuyable = true,
+                    Beschrijving = "Some example text some ...",
+                    Categorie = "Cursus",
+                    LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                    FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg"
+                }
+
+            }.AsQueryable();
+
+            var mockSet = new Mock<DbSet<Cursus>>();
+            mockSet.As<IQueryable<Cursus>>().Setup(m => m.Provider).Returns(cursussen.Provider);
+            mockSet.As<IQueryable<Cursus>>().Setup(m => m.Expression).Returns(cursussen.Expression);
+            mockSet.As<IQueryable<Cursus>>().Setup(m => m.ElementType).Returns(cursussen.ElementType);
+            mockSet.As<IQueryable<Cursus>>().Setup(m => m.GetEnumerator()).Returns(cursussen.GetEnumerator());
+
+            var mockContext = new Mock<DatabaseContext>();
+            mockContext.Setup(c => c.Cursussen).Returns(mockSet.Object);
+
+            var mockRepo = new Mock<ICursusRepository>();
+            mockRepo.Setup(a => a.GetBuyableCursussen(cursusFilter)).Returns(mockContext.Object.Cursussen.Where(a => a.IsBuyable == true).ToList());
+
+            var actual = mockRepo.Object.GetBuyableCursussen(cursusFilter);
+
+            // Assert
+            mockRepo.Verify(a => a.GetBuyableCursussen(It.IsAny<CursusFilter>()), Times.Once);
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(actual.Count(), 1);
+            Assert.IsTrue(actual.First().IsBuyable);
+            Assert.AreEqual(18.45, actual.First().Prijs);
+            Assert.AreEqual("Cursus", actual.First().Categorie);
+            Assert.AreEqual(".NET", actual.First().Type);
+        }
+
+        [DataTestMethod()]
+        public void OphalenCursusByIdTest()
+        {
+            // Arrange - We're mocking our dbSet & dbContext
+            // in-memory data
+            IQueryable<Cursus> cursussen = new List<Cursus>()
+            {
+                new Cursus()
+                {
+                    ID = 1,
+                    Titel = "PHP cursus",
+                    Type = "PHP",
+                    Prijs = 15.45,
+                    Categorie = "Cursus",
+                     IsBuyable = true,
+                    Beschrijving = "Some example text some ...",
+                    LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                    FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg"
+                },
+                new Cursus()
+                {
+                    ID = 2,
+                    Titel = "dotNET cursus 2",
+                    Type = ".NET",
+                    Prijs = 18.45,
+                     IsBuyable = true,
+                    Beschrijving = "Some example text some ...",
+                    Categorie = "Cursus",
+                    LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                    FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg"
+                }
+
+            }.AsQueryable();
+
+            var mockSet = new Mock<DbSet<Cursus>>();
+            mockSet.As<IQueryable<Cursus>>().Setup(m => m.Provider).Returns(cursussen.Provider);
+            mockSet.As<IQueryable<Cursus>>().Setup(m => m.Expression).Returns(cursussen.Expression);
+            mockSet.As<IQueryable<Cursus>>().Setup(m => m.ElementType).Returns(cursussen.ElementType);
+            mockSet.As<IQueryable<Cursus>>().Setup(m => m.GetEnumerator()).Returns(cursussen.GetEnumerator());
+
+            var mockContext = new Mock<DatabaseContext>();
+            mockContext.Setup(c => c.Cursussen).Returns(mockSet.Object);
+
+            var mockRepo = new Mock<ICursusRepository>();
+            mockRepo.Setup(a => a.GetCursusById(It.IsAny<int>())).Returns(mockContext.Object.Cursussen.Where(a => a.ID == 2).FirstOrDefault());
+
+            var actual = mockRepo.Object.GetCursusById(2);
+
+            // Assert
+            mockRepo.Verify(a => a.GetCursusById(It.IsAny<int>()), Times.Once);
+            Assert.AreEqual(18.45, actual.Prijs);
+            Assert.AreEqual("Cursus", actual.Categorie);
+            Assert.AreEqual(".NET", actual.Type);
+        }
+
+        [DataTestMethod()]
+        public void OphalenCursusByTitelTest()
+        {
+            // Arrange - We're mocking our dbSet & dbContext
+            // in-memory data
+            IQueryable<Cursus> cursussen = new List<Cursus>()
+            {
+                new Cursus()
+                {
+                    ID = 1,
+                    Titel = "PHP cursus",
+                    Type = "PHP",
+                    Prijs = 15.45,
+                    Categorie = "Cursus",
+                     IsBuyable = true,
+                    Beschrijving = "Some example text some ...",
+                    LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                    FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg"
+                },
+                new Cursus()
+                {
+                    ID = 2,
+                    Titel = "dotNET cursus 2",
+                    Type = ".NET",
+                    Prijs = 18.45,
+                     IsBuyable = true,
+                    Beschrijving = "Some example text some ...",
+                    Categorie = "Cursus",
+                    LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                    FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg"
+                }
+
+            }.AsQueryable();
+
+            var mockSet = new Mock<DbSet<Cursus>>();
+            mockSet.As<IQueryable<Cursus>>().Setup(m => m.Provider).Returns(cursussen.Provider);
+            mockSet.As<IQueryable<Cursus>>().Setup(m => m.Expression).Returns(cursussen.Expression);
+            mockSet.As<IQueryable<Cursus>>().Setup(m => m.ElementType).Returns(cursussen.ElementType);
+            mockSet.As<IQueryable<Cursus>>().Setup(m => m.GetEnumerator()).Returns(cursussen.GetEnumerator());
+
+            var mockContext = new Mock<DatabaseContext>();
+            mockContext.Setup(c => c.Cursussen).Returns(mockSet.Object);
+
+            var mockRepo = new Mock<ICursusRepository>();
+            mockRepo.Setup(a => a.GetCursusByTitel(It.IsAny<string>())).Returns(mockContext.Object.Cursussen.Where(a => a.Titel == "dotNET cursus 2").FirstOrDefault());
+
+            var actual = mockRepo.Object.GetCursusByTitel("dotNET cursus 2");
+
+            // Assert
+            mockRepo.Verify(a => a.GetCursusByTitel(It.IsAny<string>()), Times.Once);
+            Assert.AreEqual(18.45, actual.Prijs);
+            Assert.AreEqual("Cursus", actual.Categorie);
+            Assert.AreEqual(".NET", actual.Type);
+            Assert.AreEqual("dotNET cursus 2", actual.Titel);
         }
 
         [DataTestMethod()]

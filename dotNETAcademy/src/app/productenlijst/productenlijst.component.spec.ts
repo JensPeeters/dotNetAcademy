@@ -15,8 +15,7 @@ describe('ProductenlijstComponent', () => {
   let fixture: ComponentFixture<ProductenlijstComponent>;
   let params: Subject<Params>;
   let testProductservice: ProductenService = new ProductenService(null);
-  let cursussen;
-  let trajecten;
+  
   beforeEach(async(() => {
     params = new Subject<Params>();
     TestBed.configureTestingModule({
@@ -34,10 +33,10 @@ describe('ProductenlijstComponent', () => {
     fixture = TestBed.createComponent(ProductenlijstComponent);
     component = fixture.componentInstance;
     let types = new Observable<string[]>();
-    cursussen = new Promise<IProduct[]>((resolve, reject) => {
+    let cursussen = new Promise<IProduct[]>((resolve, reject) => {
       return testCursussen;
     });
-    trajecten = new Promise<IProduct[]>((resolve, reject) => {
+    let trajecten = new Promise<IProduct[]>((resolve, reject) => {
       return testTrajecten;
     });
     spyOn(testProductservice, 'GetCursusTypes').and.returnValue(types)

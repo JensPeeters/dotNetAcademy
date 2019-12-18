@@ -12,13 +12,17 @@ namespace Business_layer
     public class AdminFacade : IAdminFacade
     {
         private readonly IAdminRepository _repositoryAdmin;
+        private readonly IKlantRepository _repositoryKlant;
         private readonly IAdminMapper _adminMapper;
+        private readonly IKlantMapper _klantMapper;
 
-        public AdminFacade(IAdminRepository repositoryAdmin,
-                            IAdminMapper adminMapper)
+        public AdminFacade(IAdminRepository repositoryAdmin, IKlantRepository repositoryKlant,
+                            IAdminMapper adminMapper, IKlantMapper klantMapper)
         {
             _repositoryAdmin = repositoryAdmin;
+            _repositoryKlant = repositoryKlant;
             _adminMapper = adminMapper;
+            _klantMapper = klantMapper;
         }
 
         public AdminDTO CreateAdmin(string adminId)
@@ -43,9 +47,9 @@ namespace Business_layer
             return _adminMapper.MapToDTO(createdAdmin);
         }
 
-        public AdminDTO DeleteAdmin(string AdminId)
+        public AdminDTO DeleteAdmin(string adminId)
         {
-            var deletedAdmin = _repositoryAdmin.DeleteAdmin(AdminId);
+            var deletedAdmin = _repositoryAdmin.DeleteAdmin(adminId);
             if (deletedAdmin == null)
                 return null;
             try
@@ -61,6 +65,34 @@ namespace Business_layer
                 throw new Exception(e.Message);
             }
             return _adminMapper.MapToDTO(deletedAdmin);
+        }
+
+        public KlantDTO MakeAdminKlant(string adminId)
+        {
+            var admin = _repositoryAdmin.GetAdminByID(adminId);
+            if (admin == null)
+                return null;
+            _repositoryAdmin.DeleteAdmin(adminId);
+
+            var klant = _repositoryKlant.GetKlantByID(adminId);
+            if (klant != null)
+                return null;
+            var newKlant = _klantMapper.MapToModel(adminId);
+            var createdKlant = _repositoryKlant.CreateKlant(newKlant);
+            try
+            {
+                _repositoryKlant.SaveChanges();
+            }
+            catch (DbUpdateException)
+            {
+                return null;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+
+            return _klantMapper.MapToDTO(createdKlant);
         }
 
         public AdminDTO GetAdmin(string adminId)

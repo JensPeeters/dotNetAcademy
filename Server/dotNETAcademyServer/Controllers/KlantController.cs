@@ -38,8 +38,8 @@ namespace dotNETAcademyServer.Controllers
         [HttpPut]
         public ActionResult MakeKlantAdmin(string klantId)
         {
-            var changedKlant = _klantFacade.MakeKlantAdmin(klantId);
-            if (changedKlant == null)
+            var changedKlantAdmin = _klantFacade.MakeKlantAdmin(klantId);
+            if (changedKlantAdmin == null)
                 return NotFound("Klant bestaat niet.");
             return Ok("Klant succesvol aangepast naar admin.");
         }

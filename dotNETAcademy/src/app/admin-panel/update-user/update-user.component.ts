@@ -68,9 +68,12 @@ export class UpdateUserComponent implements OnInit {
       this.confirmNotChecked = true;
     } else {
       this.confirmNotChecked = false;
+      console.log('Knop gedrukt');
       if (this.userType === 'klant') {
+        console.log('naarklantadmin');
         this.MakeKlantAdmin();
       } else if (this.userType === 'admin') {
+        console.log('naaradminklant');
         this.MakeAdminKlant();
       }
     }
@@ -79,6 +82,7 @@ export class UpdateUserComponent implements OnInit {
   MakeAdminKlant() {
     this.userService.updateAdminToKlant(this.azureIdParam).subscribe(res => {
       this.updateUserSucces = true;
+      console.log("admintoklant");
       this.userDoesntExists = false;
     },
       err => {
@@ -92,6 +96,7 @@ export class UpdateUserComponent implements OnInit {
   MakeKlantAdmin() {
     this.userService.updateKlantToAdmin(this.azureIdParam).subscribe(res => {
       this.updateUserSucces = true;
+      console.log("klanttoadmin");
       this.userDoesntExists = false;
     },
       err => {

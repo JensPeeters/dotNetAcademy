@@ -57,13 +57,11 @@ namespace Data_layer.Repositories
             var deletedKlant = _context.Klanten.FirstOrDefault(a => a.AzureId == klantId);
             if (deletedKlant == null)
                 return null;
-            var deletedWinkelmand = _context.Winkelwagens.FirstOrDefault(a => a.Klant == deletedKlant);
+            var deletedWinkelmand = _context.Winkelwagens.Include(a => a.Producten)
+                                                         .FirstOrDefault(a => a.Klant == deletedKlant);
             try
             {
-                _context.Winkelwagens.Select(winkelwagen =>
-                {
-                    winkelwagen.Producten = new List<WinkelwagenItem>();
-                });
+                deletedWinkelmand.Producten = new List<WinkelwagenItem>();
                 _context.Winkelwagens.Remove(deletedWinkelmand);
                 _context.Klanten.Remove(deletedKlant);
             }

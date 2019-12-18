@@ -26,16 +26,22 @@
                         <button (click)="SearchUser()" class="btn btn-warning my-2 my-sm-0 mb-2">User Zoeken</button>
                         <br>
                         <div *ngIf="userType != ''">
+                            <br>
+                            <p>Usertype: {{userType}}</p>
                             <div class="warnings" *ngIf="confirmNotChecked">
                                 <p>Bevestig dat u zeker bent!</p>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" value="true" id="confirmCheck"
                                     [(ngModel)]="confirmUpdate">
-                                <label class="form-check-label" for="confirmCheck">
-                                    Weet u zeker dat u deze user wilt Wijzigen?
+                                <label class="form-check-label" for="confirmCheck" *ngIf="userType == 'admin'">
+                                    Weet u zeker dat u deze admin wilt wijzigen naar een klant?
+                                </label>
+                                <label class="form-check-label" for="confirmCheck" *ngIf="userType == 'klant'">
+                                    Weet u zeker dat u deze klant wilt wijzigen naar een admin?
                                 </label>
                             </div>
+                            <br>
                             <button (click)="UpdateUser()" class="btn btn-warning my-2 my-sm-0"
                                 type="submit">Wijzig</button>
                         </div>

@@ -17,7 +17,7 @@
                         <span>{{bestelling.datum | date: 'd MMMM yyyy'}} om {{bestelling.datum | date: 'HH:mm'}}</span>
                     </p>
                 </div>
-                <div>
+                <div *ngIf = "bestelling.producten">
                     <p>
                         <strong>Kostenoverzicht</strong>
                         <br>

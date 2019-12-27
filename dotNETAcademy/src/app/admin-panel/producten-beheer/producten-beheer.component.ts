@@ -59,20 +59,7 @@ export class ProductenBeheerComponent implements OnInit {
   }
 
   ChooseProduct(product: IProduct) {
-    if (product.categorie == "Traject"){
-      this.productUpdate.cursussen = product.cursussen;
-    }
-    else{
-      this.productUpdate.cursussen = null;
-    }
-    this.productUpdate.id = product.id;
-    this.productUpdate.beschrijving = product.beschrijving;
-    this.productUpdate.categorie = product.categorie;
-    this.productUpdate.fotoURLCard = product.fotoURLCard;
-    this.productUpdate.langeBeschrijving = product.langeBeschrijving;
-    this.productUpdate.titel = product.titel;
-    this.productUpdate.prijs = product.prijs;
-    this.productUpdate.type = product.type;
+    this.productUpdate = product;
   }
 
   UpdateProduct() {

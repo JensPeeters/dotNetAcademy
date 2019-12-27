@@ -21,6 +21,11 @@ describe('ProfielComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProfielComponent);
     component = fixture.componentInstance;
+    spyOn(testMsalService, 'isLoggedIn').and.returnValue(true);
+    spyOn(testMsalService, 'getUserFirstName').and.returnValue("John");
+    spyOn(testMsalService, 'getUserFamilyName').and.returnValue("Dev");
+    spyOn(testMsalService, 'getUserEmail').and.returnValue("john.dev@hotmail.com");
+    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -28,11 +33,6 @@ describe('ProfielComponent', () => {
   });
 
   it('should get and show the correct userFirstName', () => {
-    spyOn(testMsalService, 'isLoggedIn').and.returnValue(true);
-    spyOn(testMsalService, 'getUserFirstName').and.returnValue("John");
-    spyOn(testMsalService, 'getUserFamilyName').and.returnValue("Dev");
-    spyOn(testMsalService, 'getUserEmail').and.returnValue("john.dev@hotmail.com");
-    fixture.detectChanges();
     const htmlElement : HTMLElement = fixture.nativeElement;
     const text = htmlElement.querySelectorAll('.info');
     fixture.detectChanges();
@@ -40,10 +40,6 @@ describe('ProfielComponent', () => {
   });
 
   it('should get and show the correct userFamilyName', () => {
-    spyOn(testMsalService, 'isLoggedIn').and.returnValue(true);
-    spyOn(testMsalService, 'getUserFirstName').and.returnValue("John");
-    spyOn(testMsalService, 'getUserFamilyName').and.returnValue("Dev");
-    spyOn(testMsalService, 'getUserEmail').and.returnValue("john.dev@hotmail.com");
     fixture.detectChanges();
     const htmlElement : HTMLElement = fixture.nativeElement;
     const text = htmlElement.querySelectorAll('.info');
@@ -52,10 +48,6 @@ describe('ProfielComponent', () => {
   });
 
   it('should get and show the correct userEmail', () => {
-    spyOn(testMsalService, 'isLoggedIn').and.returnValue(true);
-    spyOn(testMsalService, 'getUserFirstName').and.returnValue("John");
-    spyOn(testMsalService, 'getUserFamilyName').and.returnValue("Dev");
-    spyOn(testMsalService, 'getUserEmail').and.returnValue("john.dev@hotmail.com");
     fixture.detectChanges();
     const htmlElement : HTMLElement = fixture.nativeElement;
     const text = htmlElement.querySelectorAll('.info');

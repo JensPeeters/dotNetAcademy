@@ -51,7 +51,8 @@ namespace UnitTestDotNET
                         IsBuyable = true,
                         Beschrijving = "Some example text some ...",
                         LangeBeschrijving = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                        FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg"
+                        FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg",
+                        OrderNumber = 1
                     },
                     new Cursus()
                     {
@@ -62,7 +63,8 @@ namespace UnitTestDotNET
                         Beschrijving = "Some example text some ...",
                         Categorie = "Cursus",
                         LangeBeschrijving = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                        FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg"
+                        FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg",
+                        OrderNumber = 2
                     }
                 };
             IQueryable<Traject> trajecten = new List<Traject>()
@@ -77,7 +79,8 @@ namespace UnitTestDotNET
                         Cursussen = cursussen,
                         Beschrijving = "Some example text some ...",
                         LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                        FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg"
+                        FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg",
+                        OrderNumber = 1
                     },
                     new Traject()
                     {
@@ -89,7 +92,8 @@ namespace UnitTestDotNET
                         Beschrijving = "Some example text some ...",
                         Categorie = "Cursus",
                         LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                        FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg"
+                        FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg",
+                        OrderNumber = 2
                     }
 
                 }.AsQueryable();
@@ -132,7 +136,8 @@ namespace UnitTestDotNET
                      IsBuyable = false,
                     Beschrijving = "Some example text some ...",
                     LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                    FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg"
+                    FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg",
+                    OrderNumber = 1
                 },
                 new Traject()
                 {
@@ -143,7 +148,8 @@ namespace UnitTestDotNET
                     Beschrijving = "Some example text some ...",
                     Categorie = "Traject",
                     LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                    FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg"
+                    FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg",
+                    OrderNumber = 2
                 }
 
             }.AsQueryable();
@@ -189,7 +195,8 @@ namespace UnitTestDotNET
                      IsBuyable = false,
                     Beschrijving = "Some example text some ...",
                     LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                    FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg"
+                    FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg",
+                    OrderNumber = 1
                 },
                 new Traject()
                 {
@@ -201,7 +208,8 @@ namespace UnitTestDotNET
                     Beschrijving = "Some example text some ...",
                     Categorie = "Traject",
                     LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                    FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg"
+                    FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg",
+                    OrderNumber = 2
                 }
 
             }.AsQueryable();
@@ -244,7 +252,8 @@ namespace UnitTestDotNET
                      IsBuyable = false,
                     Beschrijving = "Some example text some ...",
                     LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                    FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg"
+                    FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg",
+                    OrderNumber = 1
                 },
                 new Traject()
                 {
@@ -255,7 +264,8 @@ namespace UnitTestDotNET
                     Beschrijving = "Some example text some ...",
                     Categorie = "Traject",
                     LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                    FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg"
+                    FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg",
+                    OrderNumber = 2
                 }
 
             }.AsQueryable();
@@ -296,7 +306,8 @@ namespace UnitTestDotNET
                         IsBuyable = true,
                         Beschrijving = "Some example text some ...",
                         LangeBeschrijving = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                        FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg"
+                        FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg",
+                        OrderNumber = 1
                     },
                     new Cursus()
                     {
@@ -307,7 +318,8 @@ namespace UnitTestDotNET
                         Beschrijving = "Some example text some ...",
                         Categorie = "Cursus",
                         LangeBeschrijving = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                        FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg"
+                        FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg",
+                        OrderNumber = 2
                     }
                 }.AsQueryable();
             var traject = new Traject()
@@ -324,8 +336,42 @@ namespace UnitTestDotNET
 
             };
             // Arrange - We're mocking our dbSet & dbContext
-            // in-memory implementations of you context and sets
-            var mockSet = new Mock<DbSet<Traject>>();
+            // in-memory data
+            IQueryable<Traject> trajecten = new List<Traject>()
+            {
+                new Traject()
+                {
+                    Titel = "dotNET traject",
+                    Type = ".NET",
+                    Prijs = 15.45,
+                    Categorie = "Traject",
+                     IsBuyable = false,
+                    Beschrijving = "Some example text some ...",
+                    LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                    FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg",
+                    OrderNumber = 1
+                },
+                new Traject()
+                {
+                    Titel = "dotNET traject 2",
+                    Type = ".NET",
+                    Prijs = 18.45,
+                     IsBuyable = true,
+                    Beschrijving = "Some example text some ...",
+                    Categorie = "Traject",
+                    LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                    FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg",
+                    OrderNumber = 2
+                }
+
+            }.AsQueryable();
+
+            var mockSetTraject = new Mock<DbSet<Traject>>();
+            mockSetTraject.As<IQueryable<Traject>>().Setup(m => m.Provider).Returns(trajecten.Provider);
+            mockSetTraject.As<IQueryable<Traject>>().Setup(m => m.Expression).Returns(trajecten.Expression);
+            mockSetTraject.As<IQueryable<Traject>>().Setup(m => m.ElementType).Returns(trajecten.ElementType);
+            mockSetTraject.As<IQueryable<Traject>>().Setup(m => m.GetEnumerator()).Returns(trajecten.GetEnumerator());
+
             var mockSetCursus = new Mock<DbSet<Cursus>>();
             mockSetCursus.As<IQueryable<Cursus>>().Setup(m => m.Provider).Returns(cursussen.Provider);
             mockSetCursus.As<IQueryable<Cursus>>().Setup(m => m.Expression).Returns(cursussen.Expression);
@@ -334,14 +380,14 @@ namespace UnitTestDotNET
 
 
             var mockContext = new Mock<DatabaseContext>();
-            mockContext.Setup(m => m.Trajecten).Returns(mockSet.Object);
+            mockContext.Setup(m => m.Trajecten).Returns(mockSetTraject.Object);
             mockContext.Setup(m => m.Cursussen).Returns(mockSetCursus.Object);
 
             var repo = new TrajectRepository(mockContext.Object, contextFilter);
             repo.AddTraject(traject);
 
             // Assert
-            mockSet.Verify(m => m.Add(It.IsAny<Traject>()), Times.Once);
+            mockSetTraject.Verify(m => m.Add(It.IsAny<Traject>()), Times.Once);
         }
         [DataTestMethod()]
         public void DeleteTrajectTest()
@@ -359,7 +405,8 @@ namespace UnitTestDotNET
                     Beschrijving = "Some example text some ...",
                     Categorie = "Cursus",
                     LangeBeschrijving = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                    FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg"
+                    FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg",
+                    OrderNumber = 1
                 }
             }.AsQueryable();
 
@@ -396,7 +443,8 @@ namespace UnitTestDotNET
                     Beschrijving = "Some example text some ...",
                     Categorie = "Cursus",
                     LangeBeschrijving = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                    FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg"
+                    FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg",
+                    OrderNumber = 1
                 }
             }.AsQueryable();
 
@@ -411,7 +459,8 @@ namespace UnitTestDotNET
                 Beschrijving = "Some example text some ...",
                 Categorie = "Cursus",
                 LangeBeschrijving = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg"
+                FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg",
+                OrderNumber = 2
             };
 
             var mockSet = new Mock<DbSet<Traject>>();

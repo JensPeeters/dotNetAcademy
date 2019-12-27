@@ -32,7 +32,8 @@ namespace Data_layer.Repositories
                 LangeBeschrijving = traject.LangeBeschrijving,
                 Prijs = traject.Prijs,
                 Titel = traject.Titel,
-                Type = traject.Type
+                Type = traject.Type,
+                OrderNumber = traject.OrderNumber
             }).ToList();
         }
 
@@ -53,7 +54,8 @@ namespace Data_layer.Repositories
                 LangeBeschrijving = traject.LangeBeschrijving,
                 Prijs = traject.Prijs,
                 Titel = traject.Titel,
-                Type = traject.Type
+                Type = traject.Type,
+                OrderNumber = traject.OrderNumber
             }).ToList();
         }
 
@@ -77,6 +79,7 @@ namespace Data_layer.Repositories
                 traject.Cursussen.Add(_context.Cursussen.Where(a => a.ID == cursus.ID).FirstOrDefault());
             }
             _context.Trajecten.Add(traject);
+            traject.OrderNumber = _context.Trajecten.Count() + 1;
             return traject;
         }
 
@@ -114,6 +117,7 @@ namespace Data_layer.Repositories
         public Traject UpdateTraject(Traject traject)
         {
             var existingTraject = _context.Trajecten.FirstOrDefault(a => a.ID == traject.ID);
+            var existingOrderNumber = existingTraject.OrderNumber;
             if (existingTraject == null)
                 return null;
             var tempList = traject.Cursussen;
@@ -129,6 +133,31 @@ namespace Data_layer.Repositories
             existingTraject.Prijs = traject.Prijs;
             existingTraject.Titel = traject.Titel;
             existingTraject.Type = traject.Type;
+            if (existingTraject.OrderNumber != traject.OrderNumber)
+            {
+                IQueryable<Product> query = _context.Trajecten;
+                foreach (Traject _traject in query)
+                {
+                    if (_traject == existingTraject)
+                    {
+                        existingTraject.OrderNumber = traject.OrderNumber;
+                    }
+                    else if (traject.OrderNumber > existingOrderNumber)
+                    {
+                        if (_traject.OrderNumber <= traject.OrderNumber && _traject.OrderNumber > existingOrderNumber)
+                        {
+                            _traject.OrderNumber--;
+                        }
+                    }
+                    else if (traject.OrderNumber < existingOrderNumber)
+                    {
+                        if (_traject.OrderNumber >= traject.OrderNumber && _traject.OrderNumber < existingOrderNumber)
+                        {
+                            _traject.OrderNumber++;
+                        }
+                    }
+                }
+            }
             return traject;
         }
     }

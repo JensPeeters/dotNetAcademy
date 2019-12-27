@@ -78,7 +78,8 @@ export const testProduct: IProduct = {
   beschrijving: "Dit is de korte beschrijving.",
   langeBeschrijving: "Dit is de lange beschrijving.",
   fotoURLCard: "https://via.placeholder.com/450x350.png/09f/fff?text=Foto van een product",
-  cursussen: null
+  cursussen: null,
+  orderNumber: 1
 }
 export const testBestellingProducten: IProducten[] = [
   {

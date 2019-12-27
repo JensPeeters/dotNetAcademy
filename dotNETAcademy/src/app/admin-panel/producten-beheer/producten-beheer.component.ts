@@ -21,6 +21,7 @@ export class ProductenBeheerComponent implements OnInit {
     beschrijving: null,
     langeBeschrijving: null,
     titel: null,
+    orderNumber: null,
   }
 
   productUpdate: IProduct = {
@@ -34,6 +35,7 @@ export class ProductenBeheerComponent implements OnInit {
     beschrijving: null,
     langeBeschrijving: null,
     titel: null,
+    orderNumber: null,
   }
   RadioSelected: string = "Cursus";
   CursusTitel: string = "";
@@ -42,7 +44,7 @@ export class ProductenBeheerComponent implements OnInit {
   Cursussen: IProduct[] = [];
   ToeTeVoegenCursussen: IProduct[] = [];
 
-  LangeBeschrijving: string;
+  errorMessage: string;
 
   constructor(private router: Router, private productenService: ProductenService) { }
 
@@ -63,9 +65,16 @@ export class ProductenBeheerComponent implements OnInit {
   }
 
   UpdateProduct() {
+    this.errorMessage = null;
     this.productenService.UpdateProduct(this.productUpdate).subscribe(res => {
       this.GetProducten();
-    })
+    },
+    err => {
+      if(err.status == 400){
+        this.errorMessage = err.error;
+        window.scrollTo(0,0);
+      }
+    });
   }
 
   AddProductToDb() {
@@ -83,6 +92,9 @@ export class ProductenBeheerComponent implements OnInit {
       this.productAdd.prijs = null;
       this.productAdd.type = null;
       this.GetProducten();
+    },
+    err => {
+      
     })
   }
 

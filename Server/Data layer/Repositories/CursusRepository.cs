@@ -31,7 +31,8 @@ namespace Data_layer.Repositories
                 LangeBeschrijving = cursus.LangeBeschrijving,
                 Prijs = cursus.Prijs,
                 Titel = cursus.Titel,
-                Type = cursus.Type
+                Type = cursus.Type,
+                OrderNumber = cursus.OrderNumber
             }).ToList();
         }
 
@@ -49,7 +50,8 @@ namespace Data_layer.Repositories
                 LangeBeschrijving = cursus.LangeBeschrijving,
                 Prijs = cursus.Prijs,
                 Titel = cursus.Titel,
-                Type = cursus.Type
+                Type = cursus.Type,
+                OrderNumber = cursus.OrderNumber
             }).ToList();
         }
 
@@ -66,6 +68,7 @@ namespace Data_layer.Repositories
         public Cursus AddCursus(Cursus cursus)
         {
             _context.Cursussen.Add(cursus);
+            cursus.OrderNumber = _context.Cursussen.Count() + 1;
             return cursus;
         }
 
@@ -103,6 +106,7 @@ namespace Data_layer.Repositories
         public Cursus UpdateCursus(Cursus cursus)
         {
             var existingCursus = _context.Cursussen.FirstOrDefault(a => a.ID == cursus.ID);
+            var existingOrderNumber = existingCursus.OrderNumber;
             if (existingCursus == null)
                 return null;
             existingCursus.Beschrijving = cursus.Beschrijving;
@@ -112,6 +116,31 @@ namespace Data_layer.Repositories
             existingCursus.Prijs = cursus.Prijs;
             existingCursus.Titel = cursus.Titel;
             existingCursus.Type = cursus.Type;
+            if (existingCursus.OrderNumber != cursus.OrderNumber)
+            {
+                IQueryable<Product> query = _context.Cursussen;
+                foreach(Cursus _cursus in query)
+                {
+                    if (_cursus == existingCursus)
+                    {
+                        existingCursus.OrderNumber = cursus.OrderNumber;
+                    }
+                    else if (cursus.OrderNumber > existingOrderNumber)
+                    {
+                        if (_cursus.OrderNumber <= cursus.OrderNumber && _cursus.OrderNumber > existingOrderNumber)
+                        {
+                            _cursus.OrderNumber--;
+                        }
+                    }
+                    else if (cursus.OrderNumber < existingOrderNumber)
+                    {
+                        if (_cursus.OrderNumber >= cursus.OrderNumber && _cursus.OrderNumber < existingOrderNumber)
+                        {
+                            _cursus.OrderNumber++;
+                        }
+                    }
+                }
+            }
             return cursus;
         }
     }

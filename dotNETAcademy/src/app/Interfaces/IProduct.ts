@@ -11,4 +11,5 @@ export interface IProduct {
     beschrijving: string;
     langeBeschrijving: string;
     titel: string;
+    orderNumber: number;
 }

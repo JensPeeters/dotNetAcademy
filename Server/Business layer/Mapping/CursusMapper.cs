@@ -21,7 +21,8 @@ namespace Business_layer.Mapping
                 LangeBeschrijving = model.LangeBeschrijving,
                 Prijs = model.Prijs,
                 Titel = model.Titel,
-                Type = model.Type
+                Type = model.Type,
+                OrderNumber = model.OrderNumber
             };
         }
 
@@ -36,7 +37,8 @@ namespace Business_layer.Mapping
                 IsBuyable = dto.IsBuyable,
                 Prijs = dto.Prijs,
                 Titel = dto.Titel,
-                Type = dto.Type
+                Type = dto.Type,
+                OrderNumber = dto.OrderNumber
             };
         }
     }

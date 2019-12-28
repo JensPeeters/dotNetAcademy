@@ -23,6 +23,11 @@ namespace Business_layer
             _repositoryCursus = repositoryCursus;
         }
 
+        public List<string> GetCursusTypes()
+        {
+            return _repositoryCursus.GetCursusTypes();
+        }
+
         public List<CursusDTO> GetCursussen(CursusFilter filter)
         {
             return _repositoryCursus.GetCursussen(filter)

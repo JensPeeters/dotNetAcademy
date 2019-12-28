@@ -11,21 +11,17 @@ namespace dotNETAcademyServer.Controllers
     public class TrajectController : ControllerBase
     {
         private readonly ITrajectFacade _trajectFacade;
-        private List<string> trajectTypes;
 
         public TrajectController(ITrajectFacade trajectFacade)
         {
             _trajectFacade = trajectFacade;
-            trajectTypes = new List<string>() {
-                "Aanbevolen", "Full Stack", "Visual Studio", "Angular"
-            };
         }
 
         [Route("types")]
         [HttpGet]
         public List<string> GetTrajectTypes()
         {
-            return trajectTypes;
+            return _trajectFacade.GetTrajectTypes();
         }
 
         [HttpGet]

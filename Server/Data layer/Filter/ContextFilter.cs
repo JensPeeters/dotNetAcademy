@@ -20,7 +20,10 @@ namespace Data_layer.Filter
             switch (filter.SortBy.ToLower())
             {
                 case "ordernumber":
-                    query = query.OrderBy(b => b.OrderNumber);
+                    if (filter.Direction == "asc")
+                        query = query.OrderBy(b => b.OrderNumber);
+                    else if (filter.Direction == "desc")
+                        query = query.OrderByDescending(b => b.OrderNumber);
                     break;
                 case "id":
                     if (filter.Direction == "asc")

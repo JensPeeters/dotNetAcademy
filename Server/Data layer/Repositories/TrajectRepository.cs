@@ -18,6 +18,22 @@ namespace Data_layer.Repositories
             _context = context;
             _sortFilter = sortFilter;
         }
+
+        public List<string> GetTrajectTypes()
+        {
+            List<string> typesList = new List<string>();
+            typesList.Add("Aanbevolen");
+            IQueryable<Product> query = _context.Trajecten;
+            foreach (Traject traject in query)
+            {
+                if (!typesList.Contains(traject.Type))
+                {
+                    typesList.Add(traject.Type);
+                }
+            }
+            return typesList;
+        }
+
         public List<Traject> GetTrajecten(TrajectFilter filter)
         {
             IQueryable<Product> query = _context.Trajecten.Include(a => a.Cursussen);

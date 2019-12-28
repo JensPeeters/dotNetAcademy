@@ -17,6 +17,22 @@ namespace Data_layer.Repositories
             _context = context;
             _sortFilter = sortFilter;
         }
+
+        public List<string> GetCursusTypes()
+        {
+            List<string> typesList = new List<string>();
+            typesList.Add("Aanbevolen");
+            IQueryable<Product> query = _context.Cursussen;
+            foreach (Cursus cursus in query)
+            {
+                if (!typesList.Contains(cursus.Type))
+                {
+                    typesList.Add(cursus.Type);
+                }
+            }
+            return typesList;
+        }
+
         public List<Cursus> GetCursussen(CursusFilter filter)
         {
             IQueryable<Product> query = _context.Cursussen;

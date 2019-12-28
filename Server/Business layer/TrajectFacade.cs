@@ -23,6 +23,11 @@ namespace Business_layer
             _trajectMapper = trajectMapper;
         }
 
+        public List<string> GetTrajectTypes()
+        {
+            return _repositoryTraject.GetTrajectTypes();
+        }
+
         public List<TrajectDTO> GetTrajecten(TrajectFilter filter)
         {
             return _repositoryTraject.GetTrajecten(filter)

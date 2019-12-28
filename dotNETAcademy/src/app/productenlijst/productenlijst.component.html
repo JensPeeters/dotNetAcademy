@@ -23,22 +23,22 @@
     </div>
     <section *ngIf="cursussen">
         <div class="listview row" *ngIf="currentRoute!='zoekresultaten'"><app-product class="col" *ngFor="let product of cursussen" [product]="product"></app-product></div>
-        <div *ngIf="currentRoute=='zoekresultaten'">
+        <div *ngIf="currentRoute=='zoekresultaten'" (click)="ChangeBoolCursussen()">
             <button class="btn btnResults" data-toggle="collapse" data-target="#collapseCursussen">
                 <h4>Cursusresultaten voor "{{productFilter.searchParam}}": <i *ngIf="collapsedCursussen" class="fas fa-caret-square-up"></i> <i *ngIf="!collapsedCursussen" class="fas fa-caret-square-down"></i></h4>
             </button>
-            <div *ngIf="!collapsedCursussen" class="collapse show listview row" id="collapseCursussen">
+            <div class="collapse show listview row" id="collapseCursussen">
                 <app-product class="col" *ngFor="let product of cursussen" [product]="product"></app-product>
             </div>
         </div>
     </section>
     <section *ngIf="trajecten">
         <div class="listview row" *ngIf="currentRoute!='zoekresultaten'"><app-product class="col" *ngFor="let product of trajecten" [product]="product"></app-product></div>
-        <div *ngIf="currentRoute=='zoekresultaten'">
+        <div *ngIf="currentRoute=='zoekresultaten'" (click)="ChangeBoolTrajecten()">
             <button class="btn btnResults" type="button" data-toggle="collapse" data-target="#collapseTrajecten">
                 <h4>Trajectresultaten voor "{{productFilter.searchParam}}": <i *ngIf="collapsedTrajecten" class="fas fa-caret-square-up"></i> <i *ngIf="!collapsedTrajecten" class="fas fa-caret-square-down"></i></h4>
             </button>
-            <div *ngIf="!collapsedTrajecten" class="collapse show listview row" id="collapseTrajecten">
+            <div class="collapse show listview row" id="collapseTrajecten">
                 <app-product class="col" *ngFor="let product of trajecten" [product]="product"></app-product>
             </div>
         </div>

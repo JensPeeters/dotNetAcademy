@@ -17,5 +17,7 @@ namespace Data_layer.Model
         public string LangeBeschrijving { get; set; }
         [Required]
         public string Titel { get; set; }
+        [Required]
+        public int OrderNumber { get; set; }
     }
 }

@@ -4,7 +4,7 @@
     {
         public Cursus()
         {
-            this.Categorie = "Cursus";
+            Categorie = "Cursus";
         }
 
     }

@@ -72,6 +72,9 @@ namespace dotNETAcademyServer.Controllers
         [HttpPut("{id}")]
         public ActionResult<CursusCreateUpdateDTO> UpdateCursus([FromBody]CursusCreateUpdateDTO cursus, int id)
         {
+            if (cursus.OrderNumber <= 0)
+                return BadRequest("OrderNumber mag niet kleiner of gelijk zijn aan 0.");
+            
             var updatedCursus = _cursusFacade.UpdateCursus(cursus, id);
             if (updatedCursus == null)
                 return Conflict($"Cursus met id:{id} bestaat niet.");

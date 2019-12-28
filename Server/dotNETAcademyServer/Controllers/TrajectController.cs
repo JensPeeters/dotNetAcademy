@@ -72,6 +72,8 @@ namespace dotNETAcademyServer.Controllers
         [HttpPut("{id}")]
         public ActionResult<TrajectDTO> UpdateTraject([FromBody]TrajectCreateUpdateDTO traject, int id)
         {
+            if (traject.OrderNumber <= 0)
+                return BadRequest("OrderNumber mag niet kleiner of gelijk zijn aan 0.");
             var updatedTraject = _trajectFacade.UpdateTraject(traject, id);
             if (updatedTraject == null)
                 return Conflict($"Traject met id:{id} bestaat niet.");

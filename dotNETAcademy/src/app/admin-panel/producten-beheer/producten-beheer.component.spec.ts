@@ -65,7 +65,8 @@ export const testCursus1: IProduct = {
   beschrijving: "Dit is de korte beschrijving.",
   langeBeschrijving: "Dit is de lange beschrijving.",
   fotoURLCard: "https://via.placeholder.com/450x350.png/09f/fff?text=Foto van een product",
-  cursussen: null
+  cursussen: null,
+  orderNumber: 1
 };
 export const testCursus2: IProduct = {
   id: 16,
@@ -77,7 +78,8 @@ export const testCursus2: IProduct = {
   beschrijving: "Dit is de korte beschrijving van cursus 2.",
   langeBeschrijving: "Dit is de lange beschrijving van cursus 2.",
   fotoURLCard: "https://via.placeholder.com/450x350.png/09f/fff?text=Foto van een product",
-  cursussen: null
+  cursussen: null,
+  orderNumber: 2
 };
 export const testTraject1 : IProduct = {
   id: 15,
@@ -89,7 +91,8 @@ export const testTraject1 : IProduct = {
   beschrijving: "Dit is de korte beschrijving.",
   langeBeschrijving: "Dit is de lange beschrijving.",
   fotoURLCard: "https://via.placeholder.com/450x350.png/09f/fff?text=Foto van een product",
-  cursussen: [testCursus1, testCursus2]
+  cursussen: [testCursus1, testCursus2],
+  orderNumber: 1
 };
 export const testTraject2 : IProduct = {
   id: 16,
@@ -101,7 +104,8 @@ export const testTraject2 : IProduct = {
   beschrijving: "Dit is de korte beschrijving van het 2de traject.",
   langeBeschrijving: "Dit is de lange beschrijving van het 2de traject.",
   fotoURLCard: "https://via.placeholder.com/450x350.png/09f/fff?text=Foto van een product",
-  cursussen: [testCursus1, testCursus2]
+  cursussen: [testCursus1, testCursus2],
+  orderNumber: 2
 };
 export const testCursussen : IProduct[] = [testCursus1, testCursus2];
 export const testTrajecten : IProduct[] = [testTraject1, testTraject2]

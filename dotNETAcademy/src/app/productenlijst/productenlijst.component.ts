@@ -46,10 +46,14 @@ export class ProductenlijstComponent implements OnInit, OnDestroy {
       else if (this.currentRoute == "zoekresultaten"){
         this.productFilter.searchParam = routeParams.searchParam;
         var tempCursusTypes =[];
-        this.productService.GetCursusTypes().subscribe(res =>{tempCursusTypes = res;});
         var tempTrajectTypes = [];
-        this.productService.GetTrajectTypes().subscribe(res =>{tempTrajectTypes = res;});
-        this.productFilter.types = tempCursusTypes.concat(tempTrajectTypes);
+        this.productService.GetCursusTypes().subscribe(res => {
+          tempCursusTypes = res;
+          this.productService.GetTrajectTypes().subscribe(res => {
+            tempTrajectTypes = res;
+            this.productFilter.types = tempCursusTypes.concat(tempTrajectTypes);
+          });
+        });
       }
       this.GetProducts();
     });

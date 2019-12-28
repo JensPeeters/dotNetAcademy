@@ -51,26 +51,18 @@ input{
     border-radius: 5px;
     border: 1px solid grey;
     width: 165px;
+    background-color: white;
 }
 .fa-search{
     cursor: pointer;
-}
-.searchIcon{
-    display: none;
 }
 @media only screen and (max-width: 900px){
     .searchButton{
         display: none;
     }
-    .searchIcon{
-        display: inline-block;
-    }
 }
-@media only screen and (max-width: 768px){
+@media only screen and (max-width: 767px){
     .searchButton{
         display: inline-block;
-    }
-    .searchIcon{
-        display: none;
     }
 }

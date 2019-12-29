@@ -23,12 +23,16 @@ namespace Data_layer.Repositories
                 .ThenInclude(i => i.Product)
                 .ThenInclude(d => (d as Traject).Cursussen)
                 .SingleOrDefault(d => d.AzureId == custId);
+
+            if (klant.Winkelwagens == null || klant.Winkelwagens.Count == 0)
+                return null;
+
             return klant.Winkelwagens
                 .OrderByDescending(d => d.Datum)
                 .FirstOrDefault();
         }
 
-        public void CreateWinkelwagen(Klant klant)
+        public Winkelwagen CreateWinkelwagen(Klant klant)
         {
              var winkelwagen = new Winkelwagen()
              {
@@ -36,6 +40,9 @@ namespace Data_layer.Repositories
                  Producten = new List<WinkelwagenItem>()
              };
              klant.Winkelwagens.Add(winkelwagen);
+            return klant.Winkelwagens
+                .OrderByDescending(d => d.Datum)
+                .FirstOrDefault();
         }
 
         public Winkelwagen AddProduct(string userId, int prodId, int count, string type)

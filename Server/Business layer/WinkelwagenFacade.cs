@@ -34,28 +34,8 @@ namespace Business_layer
         /// <returns></returns>
         public WinkelwagenDTO GetBagForCustomer(string custId)
         {
-            var klant = _repositoryKlant.GetKlantByID(custId);
-            if (klant == null)
-            {
-                _repositoryKlant.CreateKlant(new Klant()
-                {
-                    AzureId = custId,
-                    Winkelwagens = new List<Winkelwagen>()
-                });
-            }
-            if (klant.Winkelwagens == null || klant.Winkelwagens.Count == 0)
-            {
-                _repositoryWinkelwagen.CreateWinkelwagen(klant);
-            }
-            var winkelwagen = _repositoryWinkelwagen.GetWinkelwagenByKlantId(custId);
-            try
-            {
-                _repositoryWinkelwagen.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
+            var klant = CheckIfKlantExists(custId);
+            var winkelwagen = CheckIfKlantHasWinkelwagen(klant);
             return _winkelwagenMapper.MapToDTO(winkelwagen);
         }
 
@@ -132,21 +112,49 @@ namespace Business_layer
             return _winkelwagenMapper.MapToDTO(winkelwagen);
         }
 
-        private void CheckIfKlantExists(string userId)
+        private Klant CheckIfKlantExists(string userId)
         {
+            bool newKlant = false;
             var klant = _repositoryKlant.GetKlantByID(userId);
             if (klant == null)
             {
-                _repositoryKlant.CreateKlant(new Klant()
+                klant = _repositoryKlant.CreateKlant(new Klant()
                 {
                     AzureId = userId,
                     Winkelwagens = new List<Winkelwagen>()
                 });
+                newKlant = true;
             }
-            if (klant.Winkelwagens == null || klant.Winkelwagens.Count == 0)
+            try
             {
-                _repositoryWinkelwagen.CreateWinkelwagen(klant);
+                if (newKlant)
+                    _repositoryKlant.SaveChanges();
             }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            return klant;
+        }
+        private Winkelwagen CheckIfKlantHasWinkelwagen(Klant klant) 
+        {
+            bool newWinkelwagen = false;
+            var winkelwagen = _repositoryWinkelwagen.GetWinkelwagenByKlantId(klant.AzureId);
+            if (winkelwagen == null)
+            {
+                winkelwagen = _repositoryWinkelwagen.CreateWinkelwagen(klant);
+                newWinkelwagen = true;
+            }
+            try
+            {
+                if (newWinkelwagen)
+                    _repositoryWinkelwagen.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            return winkelwagen;
         }
 
         

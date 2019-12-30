@@ -19,7 +19,7 @@
             <form class="form-inline my-2 my-lg-0">
               <div class="mr-sm-2 input-search">
                   <input placeholder="Zoek een product" aria-label="Search" [(ngModel)]="searchParam" name="Search" (keydown.enter)="Search()">
-                  <a class="searchIcon" (click)="Search()"><i class="fas fa-search"></i></a>
+                  <a (click)="Search()"><i class="fas fa-search"></i></a>
               </div>
               <button (click)="Search()" class="btn btn-warning my-2 my-sm-0 searchButton" type="submit">Zoeken</button>
             </form>

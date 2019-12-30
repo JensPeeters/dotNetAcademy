@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ICursus } from '../Interfaces/ICursus';
 import { ITraject } from '../Interfaces/ITraject';
+import { IProduct } from '../Interfaces/IProduct';
 
 @Component({
   selector: 'app-productenlijst',
@@ -15,8 +16,8 @@ export class ProductenlijstComponent implements OnInit, OnDestroy {
   constructor(private productService: ProductenService, private route: ActivatedRoute) { }
   
   currentRoute: string;
-  cursussen: ICursus[] = [];
-  trajecten: ITraject[] = [];
+  cursussen: IProduct[] = [];
+  trajecten: IProduct[] = [];
   productFilter: Filter = new Filter();
 
   collapsedCursussen: boolean = false;
@@ -45,10 +46,14 @@ export class ProductenlijstComponent implements OnInit, OnDestroy {
       else if (this.currentRoute == "zoekresultaten"){
         this.productFilter.searchParam = routeParams.searchParam;
         var tempCursusTypes =[];
-        this.productService.GetCursusTypes().subscribe(res =>{tempCursusTypes = res;});
         var tempTrajectTypes = [];
-        this.productService.GetTrajectTypes().subscribe(res =>{tempTrajectTypes = res;});
-        this.productFilter.types = tempCursusTypes.concat(tempTrajectTypes);
+        this.productService.GetCursusTypes().subscribe(res => {
+          tempCursusTypes = res;
+          this.productService.GetTrajectTypes().subscribe(res => {
+            tempTrajectTypes = res;
+            this.productFilter.types = tempCursusTypes.concat(tempTrajectTypes);
+          });
+        });
       }
       this.GetProducts();
     });
@@ -60,23 +65,23 @@ export class ProductenlijstComponent implements OnInit, OnDestroy {
 
   async GetProducts(){
     if(this.currentRoute == "cursussen"){
-      this.GetCursussen();
+      this.GetBuyableCursussen();
     }
     else if (this.currentRoute == "trajecten"){
-      this.GetTrajecten();
+      this.GetBuyableTrajecten();
     }
     else if (this.currentRoute == "zoekresultaten"){
-      this.GetCursussen();
-      this.GetTrajecten();
+      this.GetBuyableCursussen();
+      this.GetBuyableTrajecten();
     }
   }
 
-  async GetCursussen(){
-    this.cursussen = await this.productService.GetCursussen(`${this.productFilter.currentType}&titel=${this.productFilter.searchParam}`);
+  async GetBuyableCursussen(){
+    this.cursussen = await this.productService.GetBuyableCursussen(`${this.productFilter.currentType}&titel=${this.productFilter.searchParam}`);
   }
 
-  async GetTrajecten(){
-    this.trajecten = await this.productService.GetTrajecten(`${this.productFilter.currentType}&titel=${this.productFilter.searchParam}`);
+  async GetBuyableTrajecten(){
+    this.trajecten = await this.productService.GetBuyableTrajecten(`${this.productFilter.currentType}&titel=${this.productFilter.searchParam}`);
   }
 
   Sort(){
@@ -99,6 +104,12 @@ export class ProductenlijstComponent implements OnInit, OnDestroy {
       this.productFilter.direction = "asc";
     this.productService.apiPageFilter.direction = this.productFilter.direction;
     this.GetProducts();
+  }
+  ChangeBoolCursussen(){
+    this.collapsedCursussen = !this.collapsedCursussen;
+  }
+  ChangeBoolTrajecten(){
+    this.collapsedTrajecten = !this.collapsedTrajecten;
   }
 }
 export class Filter{

@@ -24,7 +24,8 @@ namespace Data_layer
                         Prijs = 15.45,
                         Beschrijving = "Some example text some ...",
                         LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                        FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg"
+                        FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg",
+                        OrderNumber = 1
                     },
                     new Cursus()
                     {
@@ -33,7 +34,8 @@ namespace Data_layer
                         Prijs = 45.45,
                         Beschrijving = "Some example text some ...",
                         LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                        FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg"
+                        FotoURLCard = "https://52bec9fb483231ac1c712343-jebebgcvzf.stackpathdns.com/wp-content/uploads/2016/05/dotnet.jpg",
+                        OrderNumber = 2
                     },
                     new Cursus()
                     {
@@ -42,7 +44,8 @@ namespace Data_layer
                         Prijs = 19.35,
                         Beschrijving = "Some example text some ...",
                         LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                        FotoURLCard = "https://ionicframework.com/blog/wp-content/uploads/2019/02/react-beta.png"
+                        FotoURLCard = "https://ionicframework.com/blog/wp-content/uploads/2019/02/react-beta.png",
+                        OrderNumber = 3
                     },
                     new Cursus()
                     {
@@ -51,7 +54,8 @@ namespace Data_layer
                         Prijs = 21.45,
                         Beschrijving = "Some example text some ...",
                         LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                        FotoURLCard = "https://miro.medium.com/max/750/1*8hD4eYuELoWAbQLNnjQ4mA.jpeg"
+                        FotoURLCard = "https://miro.medium.com/max/750/1*8hD4eYuELoWAbQLNnjQ4mA.jpeg",
+                        OrderNumber = 4
                     },
                     new Cursus()
                     {
@@ -60,7 +64,8 @@ namespace Data_layer
                         Prijs = 36.50,
                         Beschrijving = "Some example text some ...",
                         LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                        FotoURLCard = "https://ionicframework.com/blog/wp-content/uploads/2019/02/react-beta.png"
+                        FotoURLCard = "https://ionicframework.com/blog/wp-content/uploads/2019/02/react-beta.png",
+                        OrderNumber = 5
                     },
                     new Cursus()
                     {
@@ -69,7 +74,8 @@ namespace Data_layer
                         Prijs = 10.25,
                         Beschrijving = "Some example text some ...",
                         LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                        FotoURLCard = "https://miro.medium.com/max/1200/1*-PlqbnwqjqJi_EVmrhmuDQ.jpeg"
+                        FotoURLCard = "https://miro.medium.com/max/1200/1*-PlqbnwqjqJi_EVmrhmuDQ.jpeg",
+                        OrderNumber = 6
                     }
                 };
                 Traject[] trajecten =
@@ -86,7 +92,8 @@ namespace Data_layer
                         LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                         Prijs = 50,
                         Beschrijving = "Some example text some example text.",
-                        FotoURLCard = "https://via.placeholder.com/450x350.png/09f/fff?text=Foto van een product"
+                        FotoURLCard = "https://via.placeholder.com/450x350.png/09f/fff?text=Foto van een product",
+                        OrderNumber = 1
                     },
                     new Traject()
                     {
@@ -100,7 +107,8 @@ namespace Data_layer
                         LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                         Prijs = 50,
                         Beschrijving = "Some example text some example text.",
-                        FotoURLCard = "https://via.placeholder.com/450x350.png/09f/fff?text=Foto van een product"
+                        FotoURLCard = "https://via.placeholder.com/450x350.png/09f/fff?text=Foto van een product",
+                        OrderNumber = 2
                     },
                     new Traject()
                     {
@@ -114,7 +122,8 @@ namespace Data_layer
                         LangeBeschrijving ="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                         Prijs = 50,
                         Beschrijving = "Some example text some example text.",
-                        FotoURLCard = "https://via.placeholder.com/450x350.png/09f/fff?text=Foto van een product"
+                        FotoURLCard = "https://via.placeholder.com/450x350.png/09f/fff?text=Foto van een product",
+                        OrderNumber = 3
                     }
                 };
 

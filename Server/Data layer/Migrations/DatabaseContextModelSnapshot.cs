@@ -95,7 +95,11 @@ namespace Data_layer.Migrations
 
                     b.Property<string>("FotoURLCard");
 
+                    b.Property<bool>("IsBuyable");
+
                     b.Property<string>("LangeBeschrijving");
+
+                    b.Property<int>("OrderNumber");
 
                     b.Property<double>("Prijs");
 
@@ -185,7 +189,7 @@ namespace Data_layer.Migrations
 
             modelBuilder.Entity("Data_layer.Model.BestellingItem", b =>
                 {
-                    b.HasOne("Data_layer.Model.Bestelling")
+                    b.HasOne("Data_layer.Model.Bestelling", "Bestelling")
                         .WithMany("Producten")
                         .HasForeignKey("BestellingId");
 

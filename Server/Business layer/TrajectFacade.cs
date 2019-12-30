@@ -1,5 +1,6 @@
 ﻿using Business_layer.DTO;
 using Business_layer.Interfaces;
+using Business_layer.Interfaces.Mapping;
 using Data_layer.Filter.ProductenFilters;
 using Data_layer.Interfaces;
 using Data_layer.Model;
@@ -13,33 +14,32 @@ namespace Business_layer
     public class TrajectFacade : ITrajectFacade
     {
         private readonly ITrajectRepository _repositoryTraject;
+        private readonly ITrajectMapper _trajectMapper;
 
-        public TrajectFacade(ITrajectRepository repositoryTraject)
+        public TrajectFacade(ITrajectRepository repositoryTraject,
+                        ITrajectMapper trajectMapper)
         {
-            this._repositoryTraject = repositoryTraject;
+            _repositoryTraject = repositoryTraject;
+            _trajectMapper = trajectMapper;
+        }
+
+        public List<string> GetTrajectTypes()
+        {
+            return _repositoryTraject.GetTrajectTypes();
         }
 
         public List<TrajectDTO> GetTrajecten(TrajectFilter filter)
         {
             return _repositoryTraject.GetTrajecten(filter)
-                        .Select(traject => ConvertTrajectToDTO(traject))
+                        .Select(traject => _trajectMapper.MapToDTO(traject))
                         .ToList();
         }
 
-        private static TrajectDTO ConvertTrajectToDTO(Traject traject)
+        public List<TrajectDTO> GetBuyableTrajecten(TrajectFilter filter)
         {
-            return new TrajectDTO()
-            {
-                Beschrijving = traject.Beschrijving,
-                Categorie = traject.Categorie,
-                FotoURLCard = traject.FotoURLCard,
-                ID = traject.ID,
-                LangeBeschrijving = traject.LangeBeschrijving,
-                Prijs = traject.Prijs,
-                Titel = traject.Titel,
-                Type = traject.Type,
-                Cursussen = traject.Cursussen
-            };
+            return _repositoryTraject.GetBuyableTrajecten(filter)
+                        .Select(traject => _trajectMapper.MapToDTO(traject))
+                        .ToList();
         }
 
         public TrajectDTO GetTraject(int id)
@@ -47,12 +47,12 @@ namespace Business_layer
             var traject = _repositoryTraject.GetTrajectById(id);
             if (traject == null)
                 return null;
-            return ConvertTrajectToDTO(traject);
+            return _trajectMapper.MapToDTO(traject);
         }
 
         public TrajectDTO AddTraject(TrajectCreateUpdateDTO traject)
         {
-            var newTraject = ConvertCreateUpdateDTOToTraject(traject);
+            var newTraject = _trajectMapper.MapToModel(traject);
             var createdTraject = _repositoryTraject.AddTraject(newTraject);
             try
             {
@@ -66,22 +66,7 @@ namespace Business_layer
             {
                 throw new Exception(e.Message);
             }
-            return ConvertTrajectToDTO(createdTraject);
-        }
-
-        private static Traject ConvertCreateUpdateDTOToTraject(TrajectCreateUpdateDTO traject)
-        {
-            return new Traject()
-            {
-                Beschrijving = traject.Beschrijving,
-                Categorie = traject.Categorie,
-                FotoURLCard = traject.FotoURLCard,
-                LangeBeschrijving = traject.LangeBeschrijving,
-                Prijs = traject.Prijs,
-                Titel = traject.Titel,
-                Cursussen = traject.Cursussen,
-                Type = traject.Type
-            };
+            return _trajectMapper.MapToDTO(createdTraject);
         }
 
         public TrajectDTO DeleteTraject(int id)
@@ -97,12 +82,12 @@ namespace Business_layer
             {
                 throw new Exception(e.Message);
             }
-            return ConvertTrajectToDTO(deletedTraject);
+            return _trajectMapper.MapToDTO(deletedTraject);
         }
 
         public TrajectDTO UpdateTraject(TrajectCreateUpdateDTO traject, int id)
         {
-            var newTraject = ConvertCreateUpdateDTOToTraject(traject);
+            var newTraject = _trajectMapper.MapToModel(traject);
             newTraject.ID = id;
             var updatedTraject = _repositoryTraject.UpdateTraject(newTraject);
             if (updatedTraject == null)
@@ -115,7 +100,7 @@ namespace Business_layer
             {
                 throw new Exception(e.Message);
             }
-            return ConvertTrajectToDTO(updatedTraject);
+            return _trajectMapper.MapToDTO(updatedTraject);
         }
     }
 }

@@ -1,0 +1,46 @@
+<div *ngIf="bestelling" class="container mb-5">
+    <div class="card">
+        <button class="btn btn-secondary" (click)="goBack()"><i class="fas fa-arrow-alt-circle-left"></i> Terug</button>
+        <h2 class="card-title">Bestelling {{bestelling.id}}</h2>
+        <div class="card-body">
+            <h4>Details</h4>
+            <div class="details">
+                <div>
+                    <p>
+                        <strong>Bestelnummer</strong>
+                        <br>
+                        <span>{{bestelling.id}}</span>
+                    </p>
+                    <p>
+                        <strong>Besteld op</strong>
+                        <br>
+                        <span>{{bestelling.datum | date: 'd MMMM yyyy'}} om {{bestelling.datum | date: 'HH:mm'}}</span>
+                    </p>
+                </div>
+                <div *ngIf = "bestelling.producten">
+                    <p>
+                        <strong>Kostenoverzicht</strong>
+                        <br>
+                        <span>Aantal artikelen: </span> 
+                        <span>{{bestelling.producten.length}}</span>
+                        <br>
+                        <span>Totale prijs:</span>
+                        <span>{{bestelling.totaalPrijs | currency:' € '}}</span>
+                    </p>
+                </div>
+            </div>
+            <hr>
+            <h4 class="mb-3">Producten</h4>
+            <div *ngFor="let product of bestelling.producten">
+                <div class="d-flex" >
+                    <div class="imageScaler">
+                        <img class="mr-4" [src]="product.product.fotoURLCard" alt="productFoto">
+                    </div>
+                    <h5 class="d-flex align-content-around flex-wrap mr-2">{{product.aantal}} x {{product.product.titel}}</h5>
+                    <a [routerLink]="['/product',product.product.categorie,product.product.id,product.product.titel]" class="d-flex ml-auto align-content-around flex-wrap mr-4">Meer info >></a>
+                </div>
+                <hr/>
+            </div>
+        </div>
+    </div>
+</div>

@@ -7,4 +7,5 @@ export interface ICursussen {
     beschrijving: string;
     langeBeschrijving: string;
     titel: string;
+    orderNumber: number;
 }

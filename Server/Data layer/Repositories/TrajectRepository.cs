@@ -15,9 +15,25 @@ namespace Data_layer.Repositories
 
         public TrajectRepository(DatabaseContext context, IContextFilter sortFilter)
         {
-            this._context = context;
-            this._sortFilter = sortFilter;
+            _context = context;
+            _sortFilter = sortFilter;
         }
+
+        public List<string> GetTrajectTypes()
+        {
+            List<string> typesList = new List<string>();
+            typesList.Add("Aanbevolen");
+            IQueryable<Product> query = _context.Trajecten;
+            foreach (Traject traject in query)
+            {
+                if (!typesList.Contains(traject.Type))
+                {
+                    typesList.Add(traject.Type);
+                }
+            }
+            return typesList;
+        }
+
         public List<Traject> GetTrajecten(TrajectFilter filter)
         {
             IQueryable<Product> query = _context.Trajecten.Include(a => a.Cursussen);
@@ -26,12 +42,36 @@ namespace Data_layer.Repositories
                 Beschrijving = traject.Beschrijving,
                 Categorie = traject.Categorie,
                 FotoURLCard = traject.FotoURLCard,
+                IsBuyable = traject.IsBuyable,
                 Cursussen = (traject as Traject).Cursussen,
                 ID = traject.ID,
                 LangeBeschrijving = traject.LangeBeschrijving,
                 Prijs = traject.Prijs,
                 Titel = traject.Titel,
-                Type = traject.Type
+                Type = traject.Type,
+                OrderNumber = traject.OrderNumber
+            }).ToList();
+        }
+
+        public List<Traject> GetBuyableTrajecten(TrajectFilter filter)
+        {
+            IQueryable<Product> query = _context.Trajecten
+                                                .Where(a => a.IsBuyable == true)
+                                                .Include(a => a.Cursussen);
+            query = _sortFilter.Filter(filter, query);
+            return query.Select(traject => new Traject
+            {
+                Beschrijving = traject.Beschrijving,
+                Categorie = traject.Categorie,
+                FotoURLCard = traject.FotoURLCard,
+                IsBuyable = traject.IsBuyable,
+                Cursussen = (traject as Traject).Cursussen,
+                ID = traject.ID,
+                LangeBeschrijving = traject.LangeBeschrijving,
+                Prijs = traject.Prijs,
+                Titel = traject.Titel,
+                Type = traject.Type,
+                OrderNumber = traject.OrderNumber
             }).ToList();
         }
 
@@ -48,15 +88,30 @@ namespace Data_layer.Repositories
 
         public Traject AddTraject(Traject traject)
         {
+            var tempList = traject.Cursussen;
+            traject.Cursussen = new List<Cursus>();
+            foreach (var cursus in tempList)
+            {
+                traject.Cursussen.Add(_context.Cursussen.Where(a => a.ID == cursus.ID).FirstOrDefault());
+            }
             _context.Trajecten.Add(traject);
+            traject.OrderNumber = _context.Trajecten.Count() + 1;
             return traject;
         }
 
         public void SaveChanges()
         {
-            if (_context.SaveChanges() > 0)
+            try
             {
-                _context.SaveChanges();
+                var changes = _context.SaveChanges();
+                if (changes == 0)
+                {
+                    throw new Exception();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
             }
         }
 
@@ -66,7 +121,7 @@ namespace Data_layer.Repositories
             var deletedTraject = _context.Trajecten.FirstOrDefault(a => a.ID == id);
             try
             {
-                _context.Trajecten.Remove(deletedTraject);
+                deletedTraject.IsBuyable = !deletedTraject.IsBuyable;
             }
             catch (ArgumentNullException)
             {
@@ -78,16 +133,47 @@ namespace Data_layer.Repositories
         public Traject UpdateTraject(Traject traject)
         {
             var existingTraject = _context.Trajecten.FirstOrDefault(a => a.ID == traject.ID);
+            var existingOrderNumber = existingTraject.OrderNumber;
             if (existingTraject == null)
                 return null;
+            var tempList = traject.Cursussen;
+            existingTraject.Cursussen = new List<Cursus>();
+            foreach (var cursus in tempList)
+            {
+                existingTraject.Cursussen.Add(_context.Cursussen.Where(a => a.ID == cursus.ID).FirstOrDefault());
+            }
             existingTraject.Beschrijving = traject.Beschrijving;
             existingTraject.Categorie = traject.Categorie;
             existingTraject.FotoURLCard = traject.FotoURLCard;
-            existingTraject.Cursussen = traject.Cursussen;
             existingTraject.LangeBeschrijving = traject.LangeBeschrijving;
             existingTraject.Prijs = traject.Prijs;
             existingTraject.Titel = traject.Titel;
             existingTraject.Type = traject.Type;
+            if (existingTraject.OrderNumber != traject.OrderNumber)
+            {
+                IQueryable<Product> query = _context.Trajecten;
+                foreach (Traject _traject in query)
+                {
+                    if (_traject == existingTraject)
+                    {
+                        existingTraject.OrderNumber = traject.OrderNumber;
+                    }
+                    else if (traject.OrderNumber > existingOrderNumber)
+                    {
+                        if (_traject.OrderNumber <= traject.OrderNumber && _traject.OrderNumber > existingOrderNumber)
+                        {
+                            _traject.OrderNumber--;
+                        }
+                    }
+                    else if (traject.OrderNumber < existingOrderNumber)
+                    {
+                        if (_traject.OrderNumber >= traject.OrderNumber && _traject.OrderNumber < existingOrderNumber)
+                        {
+                            _traject.OrderNumber++;
+                        }
+                    }
+                }
+            }
             return traject;
         }
     }

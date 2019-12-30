@@ -12,7 +12,7 @@ namespace Data_layer.Repositories
         private readonly DatabaseContext _context;
         public WinkelwagenRepository(DatabaseContext context)
         {
-            this._context = context;
+            _context = context;
         }
 
         public Winkelwagen GetWinkelwagenByKlantId(string custId)
@@ -24,38 +24,25 @@ namespace Data_layer.Repositories
                 .ThenInclude(d => (d as Traject).Cursussen)
                 .SingleOrDefault(d => d.AzureId == custId);
 
-            klant = CheckIfKlantExists(custId, klant);
-            CreateWinkelwagenIfNull(klant);
+            if (klant.Winkelwagens == null || klant.Winkelwagens.Count == 0)
+                return null;
+
             return klant.Winkelwagens
                 .OrderByDescending(d => d.Datum)
                 .FirstOrDefault();
         }
 
-        private void CreateWinkelwagenIfNull(Klant klant)
+        public Winkelwagen CreateWinkelwagen(Klant klant)
         {
-            if (klant.Winkelwagens == null || klant.Winkelwagens.Count == 0)
-            {
-                var winkelwagen = new Winkelwagen()
-                {
-                    Datum = DateTime.Now,
-                    Producten = new List<WinkelwagenItem>()
-                };
-                klant.Winkelwagens.Add(winkelwagen);
-            }
-        }
-
-        private Klant CheckIfKlantExists(string custId, Klant klant)
-        {
-            if (klant == null)
-            {
-                klant = new Klant()
-                {
-                    AzureId = custId,
-                    Winkelwagens = new List<Winkelwagen>()
-                };
-                _context.Klanten.Add(klant);
-            }
-            return klant;
+             var winkelwagen = new Winkelwagen()
+             {
+                 Datum = DateTime.Now,
+                 Producten = new List<WinkelwagenItem>()
+             };
+             klant.Winkelwagens.Add(winkelwagen);
+            return klant.Winkelwagens
+                .OrderByDescending(d => d.Datum)
+                .FirstOrDefault();
         }
 
         public Winkelwagen AddProduct(string userId, int prodId, int count, string type)
@@ -64,7 +51,6 @@ namespace Data_layer.Repositories
                 .Include(a => a.Producten)
                 .ThenInclude(a => a.Product)
                 .FirstOrDefault(d => d.Klant.AzureId == userId);
-            winkelwagen = CheckIfWinkelwagenExists(userId, winkelwagen);
             try
             {
                 foreach (var product in winkelwagen.Producten)
@@ -96,30 +82,12 @@ namespace Data_layer.Repositories
             }
         }
 
-        private Winkelwagen CheckIfWinkelwagenExists(string userId, Winkelwagen winkelwagen)
-        {
-            if (winkelwagen == null)
-            {
-                var klant = _context.Klanten
-                    .Include(a => a.Winkelwagens)
-                    .FirstOrDefault(a => a.AzureId == userId);
-                winkelwagen = new Winkelwagen()
-                {
-                    Datum = new DateTime(),
-                    Producten = new List<WinkelwagenItem>()
-                };
-                klant.Winkelwagens.Add(winkelwagen);
-            }
-            return winkelwagen;
-        }
-
         public Winkelwagen DeleteProduct(string userId, int prodId)
         {
             var winkelwagen = _context.Winkelwagens
                 .Include(a => a.Producten)
                 .ThenInclude(a => a.Product)
                 .FirstOrDefault(d => d.Klant.AzureId == userId);
-            winkelwagen = CheckIfWinkelwagenExists(userId, winkelwagen);
             try
             {
                 var winkelwagenItem = winkelwagen.Producten.FirstOrDefault(a => a.Id == prodId);
@@ -138,7 +106,6 @@ namespace Data_layer.Repositories
                 .Include(a => a.Producten)
                 .ThenInclude(a => a.Product)
                 .FirstOrDefault(d => d.Klant.AzureId == userId);
-            winkelwagen = CheckIfWinkelwagenExists(userId, winkelwagen);
             try
             {
                 foreach (var product in winkelwagen.Producten)
@@ -158,10 +125,19 @@ namespace Data_layer.Repositories
         }
         public void SaveChanges()
         {
-            if (_context.SaveChanges() > 0)
+            try
             {
-                _context.SaveChanges();
+                var changes = _context.SaveChanges();
+                if (changes == 0)
+                {
+                    throw new Exception();
+                }
             }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+           
         }
     }
 }

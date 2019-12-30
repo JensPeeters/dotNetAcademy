@@ -11,26 +11,29 @@ namespace dotNETAcademyServer.Controllers
     public class CursusController : ControllerBase
     {
         private readonly ICursusFacade _cursusFacade;
-        private List<string> cursusTypes;
         public CursusController(ICursusFacade cursusFacade)
         {
-            this._cursusFacade = cursusFacade;
-            this.cursusTypes = new List<string>() {
-                "Aanbevolen", ".NET", "Web"
-            };
+            _cursusFacade = cursusFacade;
         }
 
         [Route("types")]
         [HttpGet]
         public List<string> GetCursusTypes()
         {
-            return this.cursusTypes;
+            return _cursusFacade.GetCursusTypes();
         }
 
         [HttpGet]
         public List<CursusDTO> GetCursussen([FromQuery]CursusFilter filter)
         {
             return _cursusFacade.GetCursussen(filter);
+        }
+
+        [Route("buyable")]
+        [HttpGet]
+        public List<CursusDTO> GetBuyableCursussen([FromQuery]CursusFilter filter)
+        {
+            return _cursusFacade.GetBuyableCursussen(filter);
         }
 
         [Route("{id}")]
@@ -65,6 +68,9 @@ namespace dotNETAcademyServer.Controllers
         [HttpPut("{id}")]
         public ActionResult<CursusCreateUpdateDTO> UpdateCursus([FromBody]CursusCreateUpdateDTO cursus, int id)
         {
+            if (cursus.OrderNumber <= 0)
+                return BadRequest("OrderNumber mag niet kleiner of gelijk zijn aan 0.");
+            
             var updatedCursus = _cursusFacade.UpdateCursus(cursus, id);
             if (updatedCursus == null)
                 return Conflict($"Cursus met id:{id} bestaat niet.");

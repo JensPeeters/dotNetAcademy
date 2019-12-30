@@ -15,10 +15,16 @@ namespace Data_layer.Filter
                 query = query.Where(b => b.Titel.ToLower().Contains(filter.Titel.ToLower().Trim()));
 
             if (string.IsNullOrEmpty(filter.SortBy))
-                filter.SortBy = "id";
+                filter.SortBy = "ordernumber";
 
             switch (filter.SortBy.ToLower())
             {
+                case "ordernumber":
+                    if (filter.Direction == "asc")
+                        query = query.OrderBy(b => b.OrderNumber);
+                    else if (filter.Direction == "desc")
+                        query = query.OrderByDescending(b => b.OrderNumber);
+                    break;
                 case "id":
                     if (filter.Direction == "asc")
                         query = query.OrderBy(b => b.ID);

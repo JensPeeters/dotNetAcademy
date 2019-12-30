@@ -6,7 +6,9 @@ namespace Data_layer.Interfaces
 {
     public interface ITrajectRepository
     {
+        List<string> GetTrajectTypes();
         List<Traject> GetTrajecten(TrajectFilter filter);
+        List<Traject> GetBuyableTrajecten(TrajectFilter filter);
         Traject GetTrajectByTitel(string titel);
         Traject GetTrajectById(int id);
         void SaveChanges();

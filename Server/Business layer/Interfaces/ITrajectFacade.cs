@@ -6,7 +6,11 @@ namespace Business_layer.Interfaces
 {
     public interface ITrajectFacade
     {
+        List<string> GetTrajectTypes();
+
         List<TrajectDTO> GetTrajecten(TrajectFilter filter);
+
+        List<TrajectDTO> GetBuyableTrajecten(TrajectFilter filter);
 
         TrajectDTO GetTraject(int id);
 

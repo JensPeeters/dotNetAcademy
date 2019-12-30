@@ -14,9 +14,25 @@ namespace Data_layer.Repositories
 
         public CursusRepository(DatabaseContext context, IContextFilter sortFilter)
         {
-            this._context = context;
-            this._sortFilter = sortFilter;
+            _context = context;
+            _sortFilter = sortFilter;
         }
+
+        public List<string> GetCursusTypes()
+        {
+            List<string> typesList = new List<string>();
+            typesList.Add("Aanbevolen");
+            IQueryable<Product> query = _context.Cursussen;
+            foreach (Cursus cursus in query)
+            {
+                if (!typesList.Contains(cursus.Type))
+                {
+                    typesList.Add(cursus.Type);
+                }
+            }
+            return typesList;
+        }
+
         public List<Cursus> GetCursussen(CursusFilter filter)
         {
             IQueryable<Product> query = _context.Cursussen;
@@ -27,10 +43,31 @@ namespace Data_layer.Repositories
                 Categorie = cursus.Categorie,
                 FotoURLCard = cursus.FotoURLCard,
                 ID = cursus.ID,
+                IsBuyable = cursus.IsBuyable,
                 LangeBeschrijving = cursus.LangeBeschrijving,
                 Prijs = cursus.Prijs,
                 Titel = cursus.Titel,
-                Type = cursus.Type
+                Type = cursus.Type,
+                OrderNumber = cursus.OrderNumber
+            }).ToList();
+        }
+
+        public List<Cursus> GetBuyableCursussen(CursusFilter filter)
+        {
+            IQueryable<Product> query = _context.Cursussen.Where(a => a.IsBuyable == true);
+            query = _sortFilter.Filter(filter, query);
+            return query.Select(cursus => new Cursus
+            {
+                Beschrijving = cursus.Beschrijving,
+                Categorie = cursus.Categorie,
+                FotoURLCard = cursus.FotoURLCard,
+                ID = cursus.ID,
+                IsBuyable = cursus.IsBuyable,
+                LangeBeschrijving = cursus.LangeBeschrijving,
+                Prijs = cursus.Prijs,
+                Titel = cursus.Titel,
+                Type = cursus.Type,
+                OrderNumber = cursus.OrderNumber
             }).ToList();
         }
 
@@ -47,14 +84,23 @@ namespace Data_layer.Repositories
         public Cursus AddCursus(Cursus cursus)
         {
             _context.Cursussen.Add(cursus);
+            cursus.OrderNumber = _context.Cursussen.Count() + 1;
             return cursus;
         }
 
         public void SaveChanges()
         {
-            if (_context.SaveChanges() != 0)
+            try
             {
-                _context.SaveChanges();
+                var changes = _context.SaveChanges();
+                if (changes == 0)
+                {
+                    throw new Exception();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
             }
         }
 
@@ -64,7 +110,7 @@ namespace Data_layer.Repositories
             var deletedCursus = _context.Cursussen.FirstOrDefault(a => a.ID == id);
             try
             {
-                _context.Cursussen.Remove(deletedCursus);
+                deletedCursus.IsBuyable = !deletedCursus.IsBuyable;
             }
             catch (ArgumentNullException)
             {
@@ -76,6 +122,7 @@ namespace Data_layer.Repositories
         public Cursus UpdateCursus(Cursus cursus)
         {
             var existingCursus = _context.Cursussen.FirstOrDefault(a => a.ID == cursus.ID);
+            var existingOrderNumber = existingCursus.OrderNumber;
             if (existingCursus == null)
                 return null;
             existingCursus.Beschrijving = cursus.Beschrijving;
@@ -85,6 +132,31 @@ namespace Data_layer.Repositories
             existingCursus.Prijs = cursus.Prijs;
             existingCursus.Titel = cursus.Titel;
             existingCursus.Type = cursus.Type;
+            if (existingCursus.OrderNumber != cursus.OrderNumber)
+            {
+                IQueryable<Product> query = _context.Cursussen;
+                foreach(Cursus _cursus in query)
+                {
+                    if (_cursus == existingCursus)
+                    {
+                        existingCursus.OrderNumber = cursus.OrderNumber;
+                    }
+                    else if (cursus.OrderNumber > existingOrderNumber)
+                    {
+                        if (_cursus.OrderNumber <= cursus.OrderNumber && _cursus.OrderNumber > existingOrderNumber)
+                        {
+                            _cursus.OrderNumber--;
+                        }
+                    }
+                    else if (cursus.OrderNumber < existingOrderNumber)
+                    {
+                        if (_cursus.OrderNumber >= cursus.OrderNumber && _cursus.OrderNumber < existingOrderNumber)
+                        {
+                            _cursus.OrderNumber++;
+                        }
+                    }
+                }
+            }
             return cursus;
         }
     }

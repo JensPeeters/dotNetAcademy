@@ -11,21 +11,17 @@ namespace dotNETAcademyServer.Controllers
     public class TrajectController : ControllerBase
     {
         private readonly ITrajectFacade _trajectFacade;
-        private List<string> trajectTypes;
 
         public TrajectController(ITrajectFacade trajectFacade)
         {
             _trajectFacade = trajectFacade;
-            trajectTypes = new List<string>() {
-                "Aanbevolen", "Full Stack", "Visual Studio", "Angular"
-            };
         }
 
         [Route("types")]
         [HttpGet]
         public List<string> GetTrajectTypes()
         {
-            return trajectTypes;
+            return _trajectFacade.GetTrajectTypes();
         }
 
         [HttpGet]
@@ -72,6 +68,8 @@ namespace dotNETAcademyServer.Controllers
         [HttpPut("{id}")]
         public ActionResult<TrajectDTO> UpdateTraject([FromBody]TrajectCreateUpdateDTO traject, int id)
         {
+            if (traject.OrderNumber <= 0)
+                return BadRequest("OrderNumber mag niet kleiner of gelijk zijn aan 0.");
             var updatedTraject = _trajectFacade.UpdateTraject(traject, id);
             if (updatedTraject == null)
                 return Conflict($"Traject met id:{id} bestaat niet.");

@@ -10,4 +10,5 @@ export interface ITraject {
     cursussen: ICursus[];
     prijs: number;
     categorie: string;
+    orderNumber: number;
 }

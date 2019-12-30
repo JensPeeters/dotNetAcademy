@@ -15,5 +15,6 @@ namespace Business_layer.DTO
         public string LangeBeschrijving { get; set; }
         [Required]
         public string Titel { get; set; }
+        public int OrderNumber { get; set; }
     }
 }

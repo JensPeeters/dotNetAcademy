@@ -21,6 +21,7 @@ export class ProductenBeheerComponent implements OnInit {
     beschrijving: null,
     langeBeschrijving: null,
     titel: null,
+    orderNumber: null,
   }
 
   productUpdate: IProduct = {
@@ -34,6 +35,7 @@ export class ProductenBeheerComponent implements OnInit {
     beschrijving: null,
     langeBeschrijving: null,
     titel: null,
+    orderNumber: null,
   }
   RadioSelected: string = "Cursus";
   CursusTitel: string = "";
@@ -42,7 +44,7 @@ export class ProductenBeheerComponent implements OnInit {
   Cursussen: IProduct[] = [];
   ToeTeVoegenCursussen: IProduct[] = [];
 
-  LangeBeschrijving: string;
+  errorMessage: string;
 
   constructor(private router: Router, private productenService: ProductenService) { }
 
@@ -59,26 +61,20 @@ export class ProductenBeheerComponent implements OnInit {
   }
 
   ChooseProduct(product: IProduct) {
-    if (product.categorie == "Traject"){
-      this.productUpdate.cursussen = product.cursussen;
-    }
-    else{
-      this.productUpdate.cursussen = null;
-    }
-    this.productUpdate.id = product.id;
-    this.productUpdate.beschrijving = product.beschrijving;
-    this.productUpdate.categorie = product.categorie;
-    this.productUpdate.fotoURLCard = product.fotoURLCard;
-    this.productUpdate.langeBeschrijving = product.langeBeschrijving;
-    this.productUpdate.titel = product.titel;
-    this.productUpdate.prijs = product.prijs;
-    this.productUpdate.type = product.type;
+    this.productUpdate = product;
   }
 
   UpdateProduct() {
+    this.errorMessage = null;
     this.productenService.UpdateProduct(this.productUpdate).subscribe(res => {
       this.GetProducten();
-    })
+    },
+    err => {
+      if(err.status == 400){
+        this.errorMessage = err.error;
+        window.scrollTo(0,0);
+      }
+    });
   }
 
   AddProductToDb() {
@@ -96,6 +92,9 @@ export class ProductenBeheerComponent implements OnInit {
       this.productAdd.prijs = null;
       this.productAdd.type = null;
       this.GetProducten();
+    },
+    err => {
+      
     })
   }
 

@@ -22,7 +22,8 @@ namespace Business_layer.Mapping
                 Prijs = model.Prijs,
                 Titel = model.Titel,
                 Type = model.Type,
-                Cursussen = model.Cursussen
+                Cursussen = model.Cursussen,
+                OrderNumber = model.OrderNumber
             };
         }
 
@@ -38,7 +39,8 @@ namespace Business_layer.Mapping
                 Prijs = dto.Prijs,
                 Titel = dto.Titel,
                 Cursussen = dto.Cursussen,
-                Type = dto.Type
+                Type = dto.Type,
+                OrderNumber = dto.OrderNumber
             };
         }
     }

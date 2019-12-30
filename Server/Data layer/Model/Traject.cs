@@ -7,7 +7,7 @@ namespace Data_layer.Model
     {
         public Traject()
         {
-            this.Categorie = "Traject";
+            Categorie = "Traject";
         }
         
         public ICollection<Cursus> Cursussen { get; set; }

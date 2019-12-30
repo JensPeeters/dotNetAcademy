@@ -34,6 +34,16 @@ namespace dotNETAcademyServer.Controllers
             return Ok("Klant succesvol verwijderd.");
         }
 
+        [Route("toadmin/{klantId}")]
+        [HttpPut]
+        public ActionResult MakeKlantAdmin(string klantId)
+        {
+            var changedKlantAdmin = _klantFacade.MakeKlantAdmin(klantId);
+            if (changedKlantAdmin == null)
+                return NotFound("Klant bestaat niet.");
+            return Ok("Klant succesvol aangepast naar admin.");
+        }
+
         [Route("{klantId}")]
         [HttpGet]
         public ActionResult<KlantDTO> GetKlant(string klantId)

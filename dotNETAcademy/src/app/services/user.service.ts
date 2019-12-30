@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { IKlant } from '../Interfaces/IKlant';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,18 @@ export class UserService {
 
   deleteAdminInDb(UserId) {
     return this.http.delete(`${this.domain}/admin/${UserId}`);
+  }
+
+  updateAdminToKlant(UserId) {
+    return this.http.put(`${this.domain}/admin/toklant/${UserId}`, null);
+  }
+
+  updateKlantToAdmin(UserId) {
+    return this.http.put(`${this.domain}/klant/toadmin/${UserId}`, null);
+  }
+
+  isklant(UserId) {
+    return this.http.get<IKlant>(`${this.domain}/klant/${UserId}`);
   }
 
   isadmin(UserId) {

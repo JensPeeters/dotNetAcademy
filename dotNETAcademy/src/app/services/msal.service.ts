@@ -107,11 +107,14 @@ export class MsalService {
         if (this.isLoggedIn()) {
             this.userService.isadmin(this.getUserObjectId()).subscribe(res => {
                 this.admin = true;
+                return true;
             },
                 err => {
                     this.admin = false;
+                    return false;
                 });
         }
+        return false;
     }
 
     getUserObjectId() {

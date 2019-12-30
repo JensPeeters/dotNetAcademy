@@ -9,7 +9,7 @@
             </div>
             <div>
                 <p class="price">€ {{product.prijs | number:'.2'}}</p>
-                <button class="btn-warning btn" (click)="AddToCart(product)"><i class="fas fa-cart-plus"></i> Toevoegen aan winkelwagen</button>
+                <button *ngIf="!isAdmin()" class="btn-warning btn" (click)="AddToCart(product)"><i class="fas fa-cart-plus"></i> Toevoegen aan winkelwagen</button>
                 <div *ngIf="currentRoute=='Traject'">
                     <h5>Cursussen in dit traject:</h5>
                     <ul>

@@ -14,7 +14,7 @@ export class WinkelmandItemComponent implements OnInit {
   UserId: string;
 
   constructor(private winkelmandService: WinkelmandService,
-    private msalService: MsalService) { }
+              private msalService: MsalService) { }
 
   ngOnInit() {
     if (this.msalService.isLoggedIn()) {
@@ -29,14 +29,18 @@ export class WinkelmandItemComponent implements OnInit {
     this.childEvent.emit();
   }
   VoegToe() {
-    this.product.aantal++;
-    this.winkelmandService.AddToWinkelmand(this.UserId, this.product.product.categorie, this.product.product.id, 1).subscribe();
-    this.Herbereken();
+    if (!this.msalService.isAdmin()) {
+      this.product.aantal++;
+      this.winkelmandService.AddToWinkelmand(this.UserId, this.product.product.categorie, this.product.product.id, 1).subscribe();
+      this.Herbereken();
+    }
   }
   VerwijderProduct() {
-    this.winkelmandService.DeleteFromWinkelmand(this.UserId, this.product.id).subscribe(winkelmand => {
-      this.HerlaadWinkelmand();
-    });
+    if (!this.msalService.isAdmin()) {
+      this.winkelmandService.DeleteFromWinkelmand(this.UserId, this.product.id).subscribe(winkelmand => {
+        this.HerlaadWinkelmand();
+      });
+    }
   }
 
   HerlaadWinkelmand() {
@@ -44,17 +48,25 @@ export class WinkelmandItemComponent implements OnInit {
   }
 
   UpdateAantal() {
-    this.winkelmandService.UpdateAantalProduct(this.UserId, this.product.product.id, this.product.aantal).subscribe(res => {
-      this.Herbereken();
-    });
+    if (!this.msalService.isAdmin()) {
+      this.winkelmandService.UpdateAantalProduct(this.UserId, this.product.product.id, this.product.aantal).subscribe(res => {
+        this.Herbereken();
+      });
+    }
   }
 
   NeemAf() {
-    if (this.product.aantal > 0) {
-      this.product.aantal--;
-      this.winkelmandService.AddToWinkelmand(this.UserId, this.product.product.categorie, this.product.product.id, -1).subscribe();
-      this.Herbereken();
+    if (!this.msalService.isAdmin()) {
+      if (this.product.aantal > 0) {
+        this.product.aantal--;
+        this.winkelmandService.AddToWinkelmand(this.UserId, this.product.product.categorie, this.product.product.id, -1).subscribe();
+        this.Herbereken();
+      }
     }
+  }
+
+  isAdmin() {
+    return this.msalService.admin;
   }
 
 }

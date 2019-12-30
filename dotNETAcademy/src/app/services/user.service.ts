@@ -29,11 +29,11 @@ export class UserService {
   }
 
   updateAdminToKlant(UserId) {
-    return this.http.put<IAdmin>(`${this.domain}/admin/toklant/${UserId}`, null);
+    return this.http.put(`${this.domain}/admin/toklant/${UserId}`, null);
   }
 
   updateKlantToAdmin(UserId) {
-    return this.http.put<IKlant>(`${this.domain}/klant/toadmin/${UserId}`, null);
+    return this.http.put(`${this.domain}/klant/toadmin/${UserId}`, null);
   }
 
   isklant(UserId) {

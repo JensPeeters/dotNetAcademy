@@ -14,15 +14,15 @@ import { IProduct } from '../Interfaces/IProduct';
 export class ProductInfoComponent implements OnInit {
 
   constructor(private productService: ProductenService, private route: ActivatedRoute,
-     private location: Location, private msalService : MsalService,
-     private winkelmandService : WinkelmandService) { }
+              private location: Location, private msalService: MsalService,
+              private winkelmandService: WinkelmandService) { }
   currentRoute: string;
   productId: number;
   UserId: string;
   product;
 
   ngOnInit() {
-    this.route.params.subscribe(routeParams =>{
+    this.route.params.subscribe(routeParams => {
       window.scrollTo(0, 0);
       this.currentRoute = routeParams.currentRoute;
       this.productId = +routeParams.productId
@@ -35,25 +35,31 @@ export class ProductInfoComponent implements OnInit {
       this.GetUserId();
 
   }
-  GetUserId(){
+  GetUserId() {
     this.UserId = this.msalService.getUserObjectId();
   }
 
-  async GetCursus(){
+  async GetCursus() {
     this.product = await this.productService.GetCursusById(this.productId);
   }
 
-  async GetTraject(){
+  async GetTraject() {
     this.product = await this.productService.GetTrajectById(this.productId);
   }
-  
-  AddToCart(product : IProduct){
-    this.winkelmandService.AddToWinkelmand(this.UserId,product.categorie,product.id,1).subscribe( res => {
-      this.winkelmandService.ChangeAantal(res.producten.length.toString());
-    });
+
+  AddToCart(product: IProduct) {
+    if (!this.msalService.isAdmin()) {
+      this.winkelmandService.AddToWinkelmand(this.UserId, product.categorie, product.id, 1).subscribe( res => {
+        this.winkelmandService.ChangeAantal(res.producten.length.toString());
+      });
+    }
   }
 
-  goBack(){
+  goBack() {
     this.location.back();
+  }
+
+  isAdmin() {
+    return this.msalService.admin;
   }
 }

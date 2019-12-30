@@ -10,23 +10,30 @@ import { IProduct } from 'src/app/Interfaces/IProduct';
 })
 export class ProductComponent implements OnInit {
   @Input() product;
-  UserId : string;
+  UserId: string;
 
-  constructor(private winkelmandService : WinkelmandService,
-    private msalServ : MsalService) {
+  constructor(private winkelmandService: WinkelmandService,
+              private msalServ: MsalService) {
      }
 
   ngOnInit() {
-    if(this.msalServ.isLoggedIn())
+    if (this.msalServ.isLoggedIn()) {
       this.GetUserId();
+    }
   }
-  GetUserId(){
+  GetUserId() {
     this.UserId = this.msalServ.getUserObjectId();
   }
-  AddToCart(product : IProduct){
-    this.winkelmandService.AddToWinkelmand(this.UserId,product.categorie,product.id,1).subscribe( res => {
-      this.winkelmandService.ChangeAantal(res.producten.length.toString());
-    });
+  AddToCart(product: IProduct) {
+    if (!this.msalServ.isAdmin()) {
+      this.winkelmandService.AddToWinkelmand(this.UserId, product.categorie, product.id, 1).subscribe( res => {
+        this.winkelmandService.ChangeAantal(res.producten.length.toString());
+      });
+    }
+  }
+
+  isAdmin() {
+    return this.msalServ.admin;
   }
 
 }

@@ -18,7 +18,7 @@ export class UpdateUserComponent implements OnInit {
   userDoesntExists: boolean;
 
   constructor(private userService: UserService,
-    private router: Router) { }
+              private router: Router) { }
 
   ngOnInit() {
     this.ResetParameters();

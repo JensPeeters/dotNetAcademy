@@ -14,14 +14,15 @@ export class BestellingenComponent implements OnInit {
   UserId: string;
   constructor(private bestService: BestellingenService, private msalService: MsalService) { }
 
-  async ngOnInit() {
-    if(this.msalService.isLoggedIn()){
+  ngOnInit() {
+    if (this.msalService.isLoggedIn()) {
       this.GetUserObjectId();
     }
-    this.Bestellingen = await this.bestService.GetBestellingen(this.UserId);
+    this.bestService.GetBestellingen(this.UserId).subscribe( res => {
+      this.Bestellingen = res;
+    });
   }
-  GetUserObjectId(){
+  GetUserObjectId() {
     this.UserId = this.msalService.getUserObjectId();
   }
-
 }

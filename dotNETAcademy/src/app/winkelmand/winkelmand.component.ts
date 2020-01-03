@@ -13,12 +13,11 @@ export class WinkelmandComponent implements OnInit {
   Winkelmand: IWinkelmand;
   UserId: string;
   constructor(private winkelmandService: WinkelmandService,
-    private msalService: MsalService, private bestellingService: BestellingenService) { }
+              private msalService: MsalService,
+              private bestellingService: BestellingenService) { }
 
   ngOnInit() {
-    if (this.msalService.isLoggedIn()) {
-      this.GetUserObjectId();
-    }
+    this.GetId();
     this.GetWinkelmandUser();
   }
   Login() {
@@ -34,14 +33,14 @@ export class WinkelmandComponent implements OnInit {
 
   BerekenTotaalprijs() {
     let Totaalprijs = 0;
-     if(this.Winkelmand){
-       this.Winkelmand.producten.map(product =>{
+    if (this.Winkelmand) {
+       this.Winkelmand.producten.map(product => {
          Totaalprijs += product.aantal * product.product.prijs;
        });
        this.Winkelmand.totaalPrijs = Totaalprijs;
      }
   }
-  HerlaadWinkelmand(event){
+  HerlaadWinkelmand(event) {
     this.GetWinkelmandUser();
   }
   Herbereken(event) {
@@ -49,11 +48,13 @@ export class WinkelmandComponent implements OnInit {
   }
 
   private GetWinkelmandUser() {
-    this.winkelmandService.GetWinkelmand(this.UserId).subscribe(res => {
-      this.Winkelmand = res;
-      this.winkelmandService.ChangeAantal(res.producten.length.toString());
-      this.BerekenTotaalprijs();
-    });
+    if (!this.msalService.isAdmin()) {
+      this.winkelmandService.GetWinkelmand(this.UserId).subscribe(res => {
+        this.Winkelmand = res;
+        this.winkelmandService.ChangeAantal(res.producten.length.toString());
+        this.BerekenTotaalprijs();
+      });
+    }
   }
   GetId() {
     if (this.msalService.isLoggedIn()) {
@@ -62,8 +63,14 @@ export class WinkelmandComponent implements OnInit {
   }
   CreateBestelling() {
     this.GetId();
-    this.bestellingService.PostBestelling(this.UserId).subscribe(res => {
-      this.GetWinkelmandUser();
-    });
+    if (!this.msalService.isAdmin()) {
+      this.bestellingService.PostBestelling(this.UserId).subscribe(res => {
+        this.GetWinkelmandUser();
+      });
+    }
+  }
+
+  isAdmin() {
+    return this.msalService.admin;
   }
 }

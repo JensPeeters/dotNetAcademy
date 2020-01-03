@@ -10,11 +10,12 @@ import { WinkelmandService } from '../services/winkelmand.service';
 })
 export class ToolbarComponent implements OnInit {
 
-  constructor(private router: Router, private msalService: MsalService,
+  constructor(private router: Router,
+              private msalService: MsalService,
               private winkelmandService: WinkelmandService) {
-    this.winkelmandService.aantalItems.subscribe(aantal => {
-        this.aantalItems = Number(aantal);
-    });
+              this.winkelmandService.aantalItems.subscribe(aantal => {
+              this.aantalItems = Number(aantal);
+              });
   }
 
   searchParam: string = '';
@@ -24,9 +25,11 @@ export class ToolbarComponent implements OnInit {
   ngOnInit() {
     if (this.msalService.isLoggedIn()) {
       this.GetUserObjectId();
-      this.winkelmandService.GetWinkelmand(this.UserId).subscribe( mand => {
-        this.winkelmandService.ChangeAantal(mand.producten.length.toString());
-      })
+      if (!this.msalService.isAdmin()) {
+        this.winkelmandService.GetWinkelmand(this.UserId).subscribe( mand => {
+          this.winkelmandService.ChangeAantal(mand.producten.length.toString());
+        });
+      }
     }
   }
   GetUserObjectId() {

@@ -14,8 +14,7 @@ export class BestellingenService {
 
   GetBestellingen(UserId: string) {
     return this.http
-    .get<IBestelling[]>(`${this.domain}/bestelling/klant/${UserId}`)
-    .toPromise();
+    .get<IBestelling[]>(`${this.domain}/bestelling/klant/${UserId}`);
   }
 
   GetBestellingById(bestellingId: number){

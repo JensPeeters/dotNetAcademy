@@ -22,6 +22,10 @@
               [routerLink]="[{outlets:{'admin': ['delete-user']}}]">Delete User</a>
             </li>
             <li class="nav-item">
+              <a class="nav-link" [routerLinkActive]="['active']"
+              [routerLink]="[{outlets:{'admin': ['user-report']}}]">User Rapport</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" [routerLinkActive]="['active']" 
               [routerLink]="[{outlets:{'admin': ['producten-beheer']}}]">Beheer
                 producten</a>

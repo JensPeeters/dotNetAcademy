@@ -29,7 +29,8 @@ import { UpdateUserComponent } from './admin-panel/update-user/update-user.compo
 import { DeleteUserComponent } from './admin-panel/delete-user/delete-user.component';
 import { ProductenBeheerComponent } from './admin-panel/producten-beheer/producten-beheer.component';
 import { BestellingInfoComponent } from './bestelling-info/bestelling-info.component';
-
+import { UserReportComponent } from './admin-panel/user-report/user-report.component';
+import { ReportBestellingComponent } from './admin-panel/user-report/report-bestelling/report-bestelling.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,9 @@ import { BestellingInfoComponent } from './bestelling-info/bestelling-info.compo
     ProductenBeheerComponent,
     ProfielComponent,
     NoAdminComponent,
-    BestellingInfoComponent
+    BestellingInfoComponent,
+    UserReportComponent,
+    ReportBestellingComponent
   ],
   imports: [
     BrowserModule,

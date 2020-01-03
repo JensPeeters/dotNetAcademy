@@ -1,0 +1,22 @@
+<div class="card" *ngIf="bestelling">
+    <div class="card-body">
+        <h4 class="card-title"></h4>
+        <p class="card-text">
+            <span>{{ bestelling.datum | date: 'd MMMM yyyy' }} </span>
+            <span class="mr-1 verticalLine"></span>
+            <span>Bestellingsnummer: {{bestelling.id}}</span>
+        </p>
+        <div *ngFor="let product of bestelling.producten">
+            <div class="d-flex" >
+                <div class="imageScaler">
+                    <img class="mr-4" [src]="product.product.fotoURLCard" alt="productFoto">
+                </div>
+                <h5 class="d-flex align-content-around flex-wrap">{{product.aantal}} x {{product.product.titel}}</h5>
+                <a [routerLink]="['/product',product.product.categorie,product.product.id,product.product.titel]" class="d-flex ml-auto align-content-around flex-wrap mr-4">Meer info >></a>
+            </div>
+            <hr/>
+        </div>
+        <p class="float-right fullWidth">Totaalprijs: {{bestelling.totaalPrijs | currency:' € '}}</p>
+        <a [routerLink]="['/bestelling',bestelling.id]" class="fullWidth">Bekijk bestelling >></a>
+    </div>
+</div>

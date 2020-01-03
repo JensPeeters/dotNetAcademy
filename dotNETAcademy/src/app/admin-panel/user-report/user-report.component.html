@@ -1,0 +1,49 @@
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-title">User Rapport</h1>
+                    <div>
+                        <ol>
+                            <li>Kopieer het Object ID van de user vanuit Azure.</li>
+                            <li>Plak het Object ID hieronder.</li>
+                            <li>Klik op zoek.</li>
+                        </ol>
+                        <br>
+                        <div class="warnings" *ngIf="userDoesntExists">
+                            <p>User bestaat niet!</p>
+                        </div>
+                        <div class="warnings" *ngIf="azureIdEmpty">
+                            <p>Azure Object ID mag niet leeg zijn!</p>
+                        </div>
+                        <div class="mr-sm-2 input-search">
+                            <input class="azureId" placeholder="Azure Object ID" aria-label="AzureId"
+                                [(ngModel)]="azureIdParam" name="UserReport">
+                        </div>
+                        <br>
+                        <button (click)="SearchUser()" class="btn btn-warning my-2 my-sm-0 mb-2">User Zoeken</button>
+                        <br>
+                        <div class="center" *ngIf="userType == 'admin'">
+                            <br>
+                            <h2>User is een admin en heeft geen bestellingen.</h2>
+                        </div>
+                        <div *ngIf="userType == 'klant'">
+                            <div class="center" *ngIf="!Bestellingen">
+                                <br>
+                                <h2>Klant heeft geen bestellingen.</h2>
+                            </div>
+                            <div *ngIf="Bestellingen" class="container mb-5">
+                                <div class="card-body">
+                                    <h1 class="card-title">Bestellingen</h1>
+                                    <app-report-bestelling class="col" *ngFor="let bestelling of Bestellingen"
+                                        [bestelling]="bestelling"></app-report-bestelling>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

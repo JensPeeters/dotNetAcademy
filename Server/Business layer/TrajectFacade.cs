@@ -102,5 +102,11 @@ namespace Business_layer
             }
             return _trajectMapper.MapToDTO(updatedTraject);
         }
+        public int GetAmountSold(int id)
+        {
+            var amountSold = _repositoryTraject.GetAmountSold(id);
+
+            return amountSold;
+        }
     }
 }

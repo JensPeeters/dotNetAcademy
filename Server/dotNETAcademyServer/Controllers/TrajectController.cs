@@ -75,5 +75,12 @@ namespace dotNETAcademyServer.Controllers
                 return Conflict($"Traject met id:{id} bestaat niet.");
             return Ok(updatedTraject);
         }
+
+        [HttpGet("amount/{id}")]
+        public ActionResult<int> GetAmountSold(int id)
+        {
+            var amount = _trajectFacade.GetAmountSold(id);
+            return Ok(amount);
+        }
     }
 }

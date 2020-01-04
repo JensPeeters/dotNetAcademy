@@ -102,5 +102,12 @@ namespace Business_layer
             }
             return _cursusMapper.MapToDTO(updatedCursus);
         }
+
+        public int GetAmountSold(int id)
+        {
+            var amountSold = _repositoryCursus.GetAmountSold(id);
+
+            return amountSold;
+        }
     }
 }

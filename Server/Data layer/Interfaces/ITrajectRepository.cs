@@ -15,5 +15,6 @@ namespace Data_layer.Interfaces
         Traject AddTraject(Traject traject);
         Traject DeleteTraject(int id);
         Traject UpdateTraject(Traject traject);
+        int GetAmountSold(int id);
     }
 }

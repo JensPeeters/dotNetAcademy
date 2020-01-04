@@ -76,6 +76,10 @@ export class ProductenService {
   GetTrajectTypes(){
     return this.http.get<string[]>(`${this.domain}/traject/types`);
   }
+
+  GetAmountSold(product: IProduct) {
+    return this.http.get<number>(`${this.domain}/${product.categorie}/amount/${product.id}`);
+  }
 }
 export class APIPageFilter{
   pageSize: number = 16;

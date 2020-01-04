@@ -18,6 +18,7 @@
           <th>Titel</th>
           <th>Categorie</th>
           <th>Prijs</th>
+          <th>Aantal</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -25,7 +26,8 @@
         <tr *ngFor="let product of Producten; let id = index">
           <td>{{product.titel}}</td>
           <td>{{product.categorie}}</td>
-          <td>{{product.prijs | currency:' € '}} </td>
+          <td>{{product.prijs | currency:' € '}}</td>
+          <td><a class="btn btn-success" (click)="GetAmountSold(product)" [attr.href]="'#amountModal'+id" class="checkAmount" data-toggle="modal">Check</a></td>
           <td>
             <div class="flex">
               <a [attr.href]="'#editProductModal'+id" (click)="ChooseProduct(product)" class="edit" data-toggle="modal"><i class="material-icons"
@@ -173,6 +175,27 @@
                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
                     <input type="submit" class="btn btn-danger" data-dismiss="modal" value="Update"
                       (click)="DeleteProduct(product)">
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <!-- Amount Modal HTML -->
+          <div [attr.id]="'amountModal'+id" class="modal fade">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <form>
+                  <div class="modal-header">
+                    <h4 class="modal-title">Aantal verkocht</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  </div>
+                  <div class="modal-body">
+                    <h2 class="center">{{product.titel}}</h2>
+                    <h2 class="center">Aantal: {{amountSold}}</h2>
+                  </div>
+                  <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                    
                   </div>
                 </form>
               </div>

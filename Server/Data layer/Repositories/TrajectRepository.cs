@@ -176,5 +176,23 @@ namespace Data_layer.Repositories
             }
             return traject;
         }
+        public int GetAmountSold(int id)
+        {
+            int amount = 0;
+            var bestellingen = _context.Bestellingen.Include(a => a.Producten)
+                                                    .ThenInclude(i => i.Product)
+                                                    .ToList();
+            foreach (var bestelling in bestellingen)
+            {
+                foreach (var product in bestelling.Producten)
+                {
+                    if (product.Product.ID == id)
+                    {
+                        amount++;
+                    }
+                }
+            }
+            return amount;
+        }
     }
 }

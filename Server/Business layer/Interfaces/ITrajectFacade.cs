@@ -19,5 +19,6 @@ namespace Business_layer.Interfaces
         TrajectDTO DeleteTraject(int id);
 
         TrajectDTO UpdateTraject(TrajectCreateUpdateDTO traject, int id);
+        int GetAmountSold(int id);
     }
 }

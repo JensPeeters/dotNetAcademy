@@ -19,5 +19,7 @@ namespace Business_layer.Interfaces
         CursusDTO DeleteCursus(int id);
 
         CursusDTO UpdateCursus(CursusCreateUpdateDTO cursus, int id);
+
+        int GetAmountSold(int id);
     }
 }

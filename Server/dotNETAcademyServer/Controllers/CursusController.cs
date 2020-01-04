@@ -76,5 +76,12 @@ namespace dotNETAcademyServer.Controllers
                 return Conflict($"Cursus met id:{id} bestaat niet.");
             return Ok(updatedCursus);
         }
+
+        [HttpGet("amount/{id}")]
+        public ActionResult<int> GetAmountSold(int id)
+        {
+            var amount = _cursusFacade.GetAmountSold(id);
+            return Ok(amount);
+        }
     }
 }

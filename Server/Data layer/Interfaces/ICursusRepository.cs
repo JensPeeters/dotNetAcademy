@@ -15,5 +15,6 @@ namespace Data_layer.Interfaces
         Cursus AddCursus(Cursus cursus);
         Cursus DeleteCursus(int id);
         Cursus UpdateCursus(Cursus cursus);
+        int GetAmountSold(int id);
     }
 }

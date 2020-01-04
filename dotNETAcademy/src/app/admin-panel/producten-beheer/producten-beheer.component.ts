@@ -43,6 +43,7 @@ export class ProductenBeheerComponent implements OnInit {
   Producten: IProduct[] = [];
   Cursussen: IProduct[] = [];
   ToeTeVoegenCursussen: IProduct[] = [];
+  amountSold: number;
 
   errorMessage: string;
 
@@ -94,8 +95,7 @@ export class ProductenBeheerComponent implements OnInit {
       this.GetProducten();
     },
     err => {
-      
-    })
+    });
   }
 
   VoegCursusToe() {
@@ -111,6 +111,12 @@ export class ProductenBeheerComponent implements OnInit {
   DeleteProduct(product: IProduct) {
     this.productenService.DeleteProduct(product).subscribe(res => {
       this.GetProducten();
+    });
+  }
+
+  GetAmountSold(product: IProduct) {
+    this.productenService.GetAmountSold(product).subscribe(res => {
+      this.amountSold = res;
     });
   }
 

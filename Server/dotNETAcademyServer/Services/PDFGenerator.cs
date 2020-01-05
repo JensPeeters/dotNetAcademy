@@ -48,7 +48,7 @@ namespace dotNETAcademyServer.Services
         private void CreateDocument()
         {
             this.document = new Document();
-            this.document.Info.Title = "Bestellingen";
+            this.document.Info.Title = "Bestelling";
             this.document.Info.Subject = "Alle informatie van de bestelling";
             this.document.Info.Author = "dotNetAcadamy";
         }
@@ -110,7 +110,7 @@ namespace dotNETAcademyServer.Services
             paragraph = section.AddParagraph();
             paragraph.Format.SpaceBefore = "3cm";
             paragraph.Style = "Reference";
-            paragraph.AddFormattedText("Bestellingen", TextFormat.Bold);
+            paragraph.AddFormattedText("Bestelling", TextFormat.Bold);
 
             // Create the bestelling table
             this.table = section.AddTable();
@@ -178,8 +178,8 @@ namespace dotNETAcademyServer.Services
         {
             // Fill general info in the general info text frame
             Paragraph paragraph = this.generalFrame.AddParagraph();
-            paragraph.AddText("Naam: " + "Iemand");
-            paragraph.AddLineBreak();
+            //paragraph.AddText("Naam: " + "Iemand");
+            //paragraph.AddLineBreak();
             paragraph.AddText("Factuurdatum: ");
             paragraph.AddDateField("dd.MM.yyyy");
             paragraph.AddLineBreak();

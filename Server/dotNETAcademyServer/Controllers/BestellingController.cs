@@ -36,7 +36,7 @@ namespace dotNETAcademyServer.Controllers
             var createdBestelling = _bestellingFacade.AddBestellingToCustomer(custId);
             if (createdBestelling == null)
                 return Conflict("Bestelling met die id bestaat al.");
-            
+            /*
             SendGridEmailSender email = new SendGridEmailSender();
             PDFGenerator pdfgenerator = new PDFGenerator();
             pdfgenerator.GeneratePDF(createdBestelling);
@@ -44,7 +44,7 @@ namespace dotNETAcademyServer.Controllers
             string msg = "Bedankt voor het plaatsen van je bestelling. In de bijlage vindt u de factuur van u bestelling.";
             email.SendEmailAsync("davy.cools123@gmail.com", "Bedankt voor je bestelling met bestelnummer " + createdBestelling.Id,
                 msg, createdBestelling.Id, pdfgenerator.GetStream()).Wait();
-            
+            */
             return Created($"api/bestelling/{createdBestelling.Klant.AzureId}", createdBestelling);
         }
     }

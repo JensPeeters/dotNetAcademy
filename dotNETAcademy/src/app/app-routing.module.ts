@@ -33,11 +33,13 @@ const routes: Routes = [
     { path: 'update-user', component: UpdateUserComponent, canActivate: [AdminGuard], outlet: 'admin' },
     { path: 'delete-user', component: DeleteUserComponent, canActivate: [AdminGuard], outlet: 'admin' },
     { path: 'user-report', component: UserReportComponent, canActivate: [AdminGuard], outlet: 'admin' },
-    { path: 'producten-beheer', component: ProductenBeheerComponent, canActivate: [AdminGuard], outlet: 'admin' }
+    { path: 'producten-beheer', component: ProductenBeheerComponent, canActivate: [AdminGuard], outlet: 'admin' },
+    { path: '**', redirectTo: 'not-found', pathMatch: 'full' }
   ]},
   { path: 'no-admin', component: NoAdminComponent },
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: '**', component: NotFoundComponent }
+  { path: 'not-found', component: NotFoundComponent},
+  { path: '', redirectTo: 'producten/cursussen', pathMatch: 'full' },
+  { path: '**', redirectTo: 'not-found', pathMatch: 'full' }
 ];
 
 

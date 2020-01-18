@@ -2,6 +2,7 @@
 using Business_layer.DTO;
 using Business_layer.Interfaces;
 using Data_layer.Filter.ProductenFilters;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace dotNETAcademyServer.Controllers
@@ -46,6 +47,7 @@ namespace dotNETAcademyServer.Controllers
             return cursus;
         }
 
+        [Authorize]
         [HttpPost]
         public ActionResult<CursusDTO> AddCursus([FromBody] CursusCreateUpdateDTO cursus)
         {
@@ -55,6 +57,7 @@ namespace dotNETAcademyServer.Controllers
             return Created($"api/cursus/{createdCursus.ID}", createdCursus);
         }
 
+        [Authorize]
         [Route("{id}")]
         [HttpDelete]
         public ActionResult<CursusDTO> DeleteCursus(int id)
@@ -65,6 +68,7 @@ namespace dotNETAcademyServer.Controllers
             return NoContent();
         }
 
+        [Authorize]
         [HttpPut("{id}")]
         public ActionResult<CursusCreateUpdateDTO> UpdateCursus([FromBody]CursusCreateUpdateDTO cursus, int id)
         {
@@ -77,6 +81,7 @@ namespace dotNETAcademyServer.Controllers
             return Ok(updatedCursus);
         }
 
+        [Authorize]
         [HttpGet("amount/{id}")]
         public ActionResult<int> GetAmountSold(int id)
         {

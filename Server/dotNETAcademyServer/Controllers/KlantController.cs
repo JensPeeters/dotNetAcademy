@@ -1,5 +1,6 @@
 ﻿using Business_layer.DTO;
 using Business_layer.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace dotNETAcademyServer.Controllers
@@ -24,6 +25,7 @@ namespace dotNETAcademyServer.Controllers
             return Created("", createdKlant);
         }
 
+        [Authorize]
         [Route("{klantId}")]
         [HttpDelete]
         public ActionResult DeleteKlant(string klantId)
@@ -34,6 +36,7 @@ namespace dotNETAcademyServer.Controllers
             return Ok("Klant succesvol verwijderd.");
         }
 
+        [Authorize]
         [Route("toadmin/{klantId}")]
         [HttpPut]
         public ActionResult MakeKlantAdmin(string klantId)

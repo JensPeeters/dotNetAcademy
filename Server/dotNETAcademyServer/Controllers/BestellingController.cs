@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Business_layer.DTO;
 using Business_layer.Interfaces;
 using dotNETAcademyServer.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace dotNETAcademyServer.Controllers
 {
@@ -16,12 +17,15 @@ namespace dotNETAcademyServer.Controllers
             _bestellingFacade = bestellingFacade;
         }
 
+        [Authorize]
         [Route("klant/{custId}")]
         [HttpGet]
         public List<BestellingDTO> GetBestellingenByCustomerId(string custId)
         {
             return _bestellingFacade.GetBestellingenByCustomerId(custId);
         }
+
+        [Authorize]
         [Route("{bestellingId}")]
         [HttpGet]
         public BestellingDTO GetBestellingenById(int bestellingId)
@@ -29,6 +33,7 @@ namespace dotNETAcademyServer.Controllers
             return _bestellingFacade.GetBestellingById(bestellingId);
         }
 
+        [Authorize]
         [Route("klant/{custId}")]
         [HttpPost]
         public ActionResult<BestellingDTO> AddBestellingToCustomer(string custId)

@@ -1,17 +1,12 @@
-﻿using Business_layer;
-using Business_layer.Interfaces;
-using Data_layer;
-using Data_layer.Interfaces;
-using Data_layer.Repositories;
+﻿using Data_layer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.AzureADB2C.UI;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Data_layer.Filter;
-using Business_layer.Mapping;
-using Business_layer.Interfaces.Mapping;
 using ExtensionMethods;
 
 namespace dotNETAcademyServer
@@ -36,6 +31,8 @@ namespace dotNETAcademyServer
                     Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("Data layer")
                 )
             );
+            services.AddAuthentication(AzureADB2CDefaults.BearerAuthenticationScheme)
+                .AddAzureADB2CBearer(options => Configuration.Bind("AzureAdB2C", options));
             //Dependency injection configuration
             services.AddConfig();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -60,6 +57,7 @@ namespace dotNETAcademyServer
                         .AllowAnyHeader()
                          .AllowAnyMethod());
             app.UseHttpsRedirection();
+            app.UseAuthentication();
             app.UseMvc();
         }
     }

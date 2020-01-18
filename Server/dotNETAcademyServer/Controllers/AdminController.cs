@@ -1,5 +1,6 @@
 ﻿using Business_layer.DTO;
 using Business_layer.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace dotNETAcademyServer.Controllers
@@ -14,6 +15,7 @@ namespace dotNETAcademyServer.Controllers
             _adminFacade = adminFacade;
         }
 
+        [Authorize]
         [Route("{adminId}")]
         [HttpPost]
         public ActionResult<AdminDTO> CreateAdmin(string adminId)
@@ -24,6 +26,7 @@ namespace dotNETAcademyServer.Controllers
             return Created("", createdAdmin);
         }
 
+        [Authorize]
         [Route("{adminId}")]
         [HttpDelete]
         public ActionResult DeleteAdmin(string adminId)
@@ -34,6 +37,7 @@ namespace dotNETAcademyServer.Controllers
             return Ok("Admin succesvol verwijderd.");
         }
 
+        [Authorize]
         [Route("toklant/{adminId}")]
         [HttpPut]
         public ActionResult MakeAdminKlant(string adminId)
@@ -44,6 +48,7 @@ namespace dotNETAcademyServer.Controllers
             return Ok("Admin succesvol aangepast naar klant.");
         }
 
+        [Authorize]
         [Route("{adminId}")]
         [HttpGet]
         public ActionResult<AdminDTO> GetAdmin(string adminId)

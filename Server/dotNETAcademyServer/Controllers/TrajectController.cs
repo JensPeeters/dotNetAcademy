@@ -2,6 +2,7 @@
 using Business_layer.DTO;
 using Business_layer.Interfaces;
 using Data_layer.Filter.ProductenFilters;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace dotNETAcademyServer.Controllers
@@ -24,6 +25,7 @@ namespace dotNETAcademyServer.Controllers
             return _trajectFacade.GetTrajectTypes();
         }
 
+        [Authorize]
         [HttpGet]
         public List<TrajectDTO> GetTrajecten([FromQuery]TrajectFilter filter)
         {
@@ -46,6 +48,7 @@ namespace dotNETAcademyServer.Controllers
             return traject;
         }
 
+        [Authorize]
         [HttpPost]
         public ActionResult<TrajectDTO> AddTraject([FromBody] TrajectCreateUpdateDTO traject)
         {
@@ -55,6 +58,7 @@ namespace dotNETAcademyServer.Controllers
             return Created($"api/traject/{createdTraject.ID}", createdTraject);
         }
 
+        [Authorize]
         [Route("{id}")]
         [HttpDelete]
         public ActionResult<TrajectDTO> DeleteTraject(int id)
@@ -65,6 +69,7 @@ namespace dotNETAcademyServer.Controllers
             return NoContent();
         }
 
+        [Authorize]
         [HttpPut("{id}")]
         public ActionResult<TrajectDTO> UpdateTraject([FromBody]TrajectCreateUpdateDTO traject, int id)
         {
@@ -76,6 +81,7 @@ namespace dotNETAcademyServer.Controllers
             return Ok(updatedTraject);
         }
 
+        [Authorize]
         [HttpGet("amount/{id}")]
         public ActionResult<int> GetAmountSold(int id)
         {

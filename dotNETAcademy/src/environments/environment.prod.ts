@@ -10,6 +10,6 @@ export const environment = {
     resetPasswordPolicy: 'B2C_1_resetpassword',
     editProfilePolicy: 'B2C_1_editprofile',
     redirectUri: 'https://dotnetacademy.azurewebsites.net',
-    b2cScopes: ['https://dotnetacademy.onmicrosoft.com/access-api/user_impersonation']
+    b2cScopes: ['https://dotnetacademy.onmicrosoft.com/api/user_impersonation']
   }
 };

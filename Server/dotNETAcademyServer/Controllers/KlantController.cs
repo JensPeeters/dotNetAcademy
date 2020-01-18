@@ -15,6 +15,7 @@ namespace dotNETAcademyServer.Controllers
             _klantFacade = klantFacade;
         }
 
+        [Authorize]
         [Route("{klantId}")]
         [HttpPost]
         public ActionResult<KlantDTO> CreateKlant(string klantId)
@@ -47,6 +48,7 @@ namespace dotNETAcademyServer.Controllers
             return Ok("Klant succesvol aangepast naar admin.");
         }
 
+        [Authorize]
         [Route("{klantId}")]
         [HttpGet]
         public ActionResult<KlantDTO> GetKlant(string klantId)

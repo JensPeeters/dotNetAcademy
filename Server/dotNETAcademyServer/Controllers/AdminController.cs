@@ -48,6 +48,7 @@ namespace dotNETAcademyServer.Controllers
             return Ok("Admin succesvol aangepast naar klant.");
         }
 
+        [Authorize]
         [Route("{adminId}")]
         [HttpGet]
         public ActionResult<AdminDTO> GetAdmin(string adminId)

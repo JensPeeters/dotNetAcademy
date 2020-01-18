@@ -25,6 +25,7 @@ namespace dotNETAcademyServer.Controllers
             return _trajectFacade.GetTrajectTypes();
         }
 
+        [Authorize]
         [HttpGet]
         public List<TrajectDTO> GetTrajecten([FromQuery]TrajectFilter filter)
         {

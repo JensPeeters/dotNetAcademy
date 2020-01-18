@@ -18,54 +18,34 @@ export class UserService {
     })};
 
   saveKlantInDb(UserId) {
-    this.httpOptions.headers =
-    this.httpOptions.headers.set('Authorization', 'Bearer ' + sessionStorage.getItem('b2c.access.token'));
-    return this.http.post(`${this.domain}/klant/${UserId}`, null);
+    return this.http.post(`${this.domain}/klant/${UserId}`, null, this.httpOptions);
   }
 
   saveAdminInDb(UserId) {
-    this.httpOptions.headers =
-    this.httpOptions.headers.set('Authorization', 'Bearer ' + sessionStorage.getItem('b2c.access.token'));
-    return this.http.post(`${this.domain}/admin/${UserId}`, null);
+    return this.http.post(`${this.domain}/admin/${UserId}`, null, this.httpOptions);
   }
 
   deleteKlantInDb(UserId) {
-    this.httpOptions.headers =
-    this.httpOptions.headers.set('Authorization', 'Bearer ' + sessionStorage.getItem('b2c.access.token'));
-    return this.http.delete(`${this.domain}/klant/${UserId}`);
+    return this.http.delete(`${this.domain}/klant/${UserId}`, this.httpOptions);
   }
 
   deleteAdminInDb(UserId) {
-    this.httpOptions.headers =
-    this.httpOptions.headers.set('Authorization', 'Bearer ' + sessionStorage.getItem('b2c.access.token'));
-    return this.http.delete(`${this.domain}/admin/${UserId}`);
+    return this.http.delete(`${this.domain}/admin/${UserId}`, this.httpOptions);
   }
 
   updateAdminToKlant(UserId) {
-    this.httpOptions.headers =
-    this.httpOptions.headers.set('Authorization', 'Bearer ' + sessionStorage.getItem('b2c.access.token'));
-    return this.http.put(`${this.domain}/admin/toklant/${UserId}`, null);
+    return this.http.put(`${this.domain}/admin/toklant/${UserId}`, null, this.httpOptions);
   }
 
   updateKlantToAdmin(UserId) {
-    this.httpOptions.headers =
-    this.httpOptions.headers.set('Authorization', 'Bearer ' + sessionStorage.getItem('b2c.access.token'));
-    return this.http.put(`${this.domain}/klant/toadmin/${UserId}`, null);
+    return this.http.put(`${this.domain}/klant/toadmin/${UserId}`, null, this.httpOptions);
   }
 
   isklant(UserId) {
-    this.httpOptions.headers =
-    this.httpOptions.headers.set('Authorization', 'Bearer ' + sessionStorage.getItem('b2c.access.token'));
     return this.http.get<IKlant>(`${this.domain}/klant/${UserId}`, this.httpOptions);
   }
 
   isadmin(UserId) {
-    /*console.log(sessionStorage.getItem('b2c.access.token'));
-    const token = 'Bearer ' + sessionStorage.getItem('b2c.access.token');
-    console.log(token);
-    this.httpOptions.headers =
-    this.httpOptions.headers.set('Authorization', token);*/
-    console.log(this.httpOptions.headers);
     return this.http.get<IAdmin>(`${this.domain}/admin/${UserId}`, this.httpOptions);
   }
 }

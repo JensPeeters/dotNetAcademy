@@ -18,22 +18,22 @@ export class WinkelmandService {
   }
 
   ChangeAantal(aantal: string) {
-    this.messageSource.next(aantal)
+    this.messageSource.next(aantal);
   }
 
   GetWinkelmand(UserId: string) {
     return this.http.get<IWinkelmand>(`${this.domain}/winkelwagen/${UserId}`);
   }
 
-  DeleteFromWinkelmand(UserId: string, ProdId: number){
+  DeleteFromWinkelmand(UserId: string, ProdId: number) {
     return this.http.delete<IWinkelmand>(`${this.domain}/winkelwagen/${UserId}/product/${ProdId}`);
   }
 
-  UpdateAantalProduct(UserId: string, ProdId: number, Aantal: number){
-    return this.http.put<IWinkelmand>(`${this.domain}/winkelwagen/${UserId}/product/${ProdId}/${Aantal}`,null);
+  UpdateAantalProduct(UserId: string, ProdId: number, Aantal: number) {
+    return this.http.put<IWinkelmand>(`${this.domain}/winkelwagen/${UserId}/product/${ProdId}/${Aantal}`, null);
   }
 
-  AddToWinkelmand(UserId: string, Type: string, ProdId: number, Aantal: number){
-    return this.http.post<IWinkelmand>(`${this.domain}/winkelwagen/${UserId}/product/${Type}/${ProdId}/${Aantal}`,null);
+  AddToWinkelmand(UserId: string, Type: string, ProdId: number, Aantal: number) {
+    return this.http.post<IWinkelmand>(`${this.domain}/winkelwagen/${UserId}/product/${Type}/${ProdId}/${Aantal}`, null);
   }
 }

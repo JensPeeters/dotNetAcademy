@@ -24,6 +24,7 @@ namespace dotNETAcademyServer.Controllers
             return _cursusFacade.GetCursusTypes();
         }
 
+        [Authorize]
         [HttpGet]
         public List<CursusDTO> GetCursussen([FromQuery]CursusFilter filter)
         {

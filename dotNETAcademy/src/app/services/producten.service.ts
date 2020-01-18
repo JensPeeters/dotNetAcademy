@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { ICursus } from '../Interfaces/ICursus';
 import { ITraject } from '../Interfaces/ITraject';
@@ -15,6 +15,11 @@ export class ProductenService {
   domain: string = environment.domain;
   apiPageFilter: APIPageFilter = new APIPageFilter();
 
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Authorization': 'Bearer ' + sessionStorage.getItem('b2c.access.token')
+    })};
+
   public GetBuyableCursussen(filter?: string) {
     return this.http
     .get<IProduct[]>(`${this.domain}/cursus/buyable?${filter}&pageSize=${this.apiPageFilter.pageSize}&sortBy=${this.apiPageFilter.sortBy}&direction=${this.apiPageFilter.direction}&pageNumber=${this.apiPageFilter.pageNumber}`)
@@ -25,33 +30,30 @@ export class ProductenService {
     .get<IProduct[]>(`${this.domain}/traject/buyable?${filter}&pageSize=${this.apiPageFilter.pageSize}&sortBy=${this.apiPageFilter.sortBy}&direction=${this.apiPageFilter.direction}&pageNumber=${this.apiPageFilter.pageNumber}`)
     .toPromise();
   }
-  public UpdateProduct(product : IProduct){
-    if(product.categorie == "Cursus"){
-      return this.http.put<IProduct>(`${this.domain}/cursus/${product.id}`, product);
-    }
-    else {
-      return this.http.put<IProduct>(`${this.domain}/traject/${product.id}`, product);
+  public UpdateProduct(product: IProduct) {
+    if (product.categorie == 'Cursus') {
+      return this.http.put<IProduct>(`${this.domain}/cursus/${product.id}`, product, this.httpOptions);
+    } else {
+      return this.http.put<IProduct>(`${this.domain}/traject/${product.id}`, product, this.httpOptions);
     }
   }
 
-  public AddProduct(product : IProduct){
-    if(product.categorie == "Cursus"){
-      return this.http.post<IProduct>(`${this.domain}/cursus`, product);
+  public AddProduct(product: IProduct) {
+    if (product.categorie == 'Cursus') {
+      return this.http.post<IProduct>(`${this.domain}/cursus`, product, this.httpOptions);
+    } else {
+      return this.http.post<IProduct>(`${this.domain}/traject`, product, this.httpOptions);
     }
-    else {
-      return this.http.post<IProduct>(`${this.domain}/traject`, product);
-    }
-
   }
 
   public GetCursussenAdmin(filter?: string) {
     return this.http
-    .get<IProduct[]>(`${this.domain}/cursus?${filter}&pageSize=${this.apiPageFilter.pageSize}&sortBy=${this.apiPageFilter.sortBy}&direction=${this.apiPageFilter.direction}&pageNumber=${this.apiPageFilter.pageNumber}`)
+    .get<IProduct[]>(`${this.domain}/cursus?${filter}&pageSize=${this.apiPageFilter.pageSize}&sortBy=${this.apiPageFilter.sortBy}&direction=${this.apiPageFilter.direction}&pageNumber=${this.apiPageFilter.pageNumber}`, this.httpOptions)
     .toPromise();
   }
   public GetTrajectenAdmin(filter?: string) {
     return this.http
-    .get<IProduct[]>(`${this.domain}/traject?${filter}&pageSize=${this.apiPageFilter.pageSize}&sortBy=${this.apiPageFilter.sortBy}&direction=${this.apiPageFilter.direction}&pageNumber=${this.apiPageFilter.pageNumber}`)
+    .get<IProduct[]>(`${this.domain}/traject?${filter}&pageSize=${this.apiPageFilter.pageSize}&sortBy=${this.apiPageFilter.sortBy}&direction=${this.apiPageFilter.direction}&pageNumber=${this.apiPageFilter.pageNumber}`, this.httpOptions)
     .toPromise();
   }
 
@@ -66,22 +68,22 @@ export class ProductenService {
     .toPromise();
   }
 
-  DeleteProduct(product : IProduct){
-    return this.http.delete(`${this.domain}/${product.categorie}/${product.id}`);
+  DeleteProduct(product: IProduct) {
+    return this.http.delete(`${this.domain}/${product.categorie}/${product.id}`, this.httpOptions);
   }
 
-  GetCursusTypes(){
+  GetCursusTypes() {
     return this.http.get<string[]>(`${this.domain}/cursus/types`);
   }
-  GetTrajectTypes(){
+  GetTrajectTypes() {
     return this.http.get<string[]>(`${this.domain}/traject/types`);
   }
 
   GetAmountSold(product: IProduct) {
-    return this.http.get<number>(`${this.domain}/${product.categorie}/amount/${product.id}`);
+    return this.http.get<number>(`${this.domain}/${product.categorie}/amount/${product.id}`, this.httpOptions);
   }
 }
-export class APIPageFilter{
+export class APIPageFilter {
   pageSize: number = 16;
   pageNumber: number = 0;
   sortBy: string = '';

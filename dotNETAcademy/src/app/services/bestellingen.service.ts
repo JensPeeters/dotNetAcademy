@@ -11,28 +11,24 @@ export class BestellingenService {
   domain: string = environment.domain;
 
   httpOptions = {
-    headers: new HttpHeaders()};
+    headers: new HttpHeaders({
+      'Authorization': 'Bearer ' + sessionStorage.getItem('b2c.access.token')
+    })};
 
   constructor(private http: HttpClient) { }
 
   GetBestellingen(UserId: string) {
-    this.httpOptions.headers =
-    this.httpOptions.headers.set('Authorization', 'Bearer ' + sessionStorage.getItem('b2c.access.token'));
     return this.http
-    .get<IBestelling[]>(`${this.domain}/bestelling/klant/${UserId}`);
+    .get<IBestelling[]>(`${this.domain}/bestelling/klant/${UserId}`, this.httpOptions);
   }
 
   GetBestellingById(bestellingId: number) {
-    this.httpOptions.headers =
-    this.httpOptions.headers.set('Authorization', 'Bearer ' + sessionStorage.getItem('b2c.access.token'));
     return this.http
-    .get<IBestelling>(`${this.domain}/bestelling/${bestellingId}`);
+    .get<IBestelling>(`${this.domain}/bestelling/${bestellingId}`, this.httpOptions);
   }
 
   PostBestelling(UserId: string) {
-    this.httpOptions.headers =
-    this.httpOptions.headers.set('Authorization', 'Bearer ' + sessionStorage.getItem('b2c.access.token'));
     return this.http
-    .post<IBestelling>(`${this.domain}/bestelling/klant/${UserId}`,"");
+    .post<IBestelling>(`${this.domain}/bestelling/klant/${UserId}`, '', this.httpOptions);
   }
 }

@@ -1,2 +1,4 @@
-command to update the script
-dotnet ef migrations script -i -o sql/update_to_latest.sql
+# Migratie uitvoeren van de DB na aanpassen van het model
+Commando's in de map data layer:
+dotnet ef migrations add {variabele} -s ..\dotNETAcademyServer\ --context DatabaseContext
+dotnet ef database update -s ..\dotNETAcademyServer\ --context DatabaseContext
